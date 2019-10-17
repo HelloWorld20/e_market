@@ -1,0 +1,30 @@
+{
+  "name": "liuzhou_market",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "files": [
+    "server",
+    "static"
+  ],
+  "scripts": {
+    "postinstall": "cd server && npm install && cd ../static && npm install",
+    "dev-static": "cd static && npm run serve",
+    "dev-server": "cd server && npm run serve",
+    "build-static": "cd static && npm run build",
+    "build-server": "cd server && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/HelloWorld20/liuzhou_market.git"
+  },
+  "keywords": [
+    "market"
+  ],
+  "author": "weijianghong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HelloWorld20/liuzhou_market/issues"
+  },
+  "homepage": "https://github.com/HelloWorld20/liuzhou_market#readme"
+}
