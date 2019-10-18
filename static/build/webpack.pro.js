@@ -3,7 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
@@ -55,20 +55,22 @@ const webpackConfig = {
 					// 做处理，很多功能、插件
 					{
 						// 引入css、@import、url，可以设置别名
-						loader: 'css-loader',
-						options: {
-							minimize: true
-						}
+						loader: 'css-loader'
+						// options: {
+						// 	minimize: true
+						// }
 					},
 					'postcss-loader'
 				]
 			},
-			{test: /\.scss$/, use: [
-				MiniCssExtractPlugin.loader,
-				"css-loader", // 将 CSS 转化成 CommonJS 模块
-				// "postcss-loader",	// postcss-loader 应该在css-loader下面
-				"sass-loader" // 将 Sass 编译成 CSS，默认使用 Node Sass
-			]},
+			{
+				test: /\.scss$/, use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader', // 将 CSS 转化成 CommonJS 模块
+					// "postcss-loader",	// postcss-loader 应该在css-loader下面
+					'sass-loader' // 将 Sass 编译成 CSS，默认使用 Node Sass
+				]
+			},
 			{
 				test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
 				loader: 'url-loader',
@@ -139,15 +141,15 @@ const webpackConfig = {
 			new OptimizeCssAssetsPlugin({
 				// cssProcessor: require('cssnano'),	// 默认
 				cssProcessorOptions: {
-				  safe: true,
-				  autoprefixer: { disable: true }, // 这里是个大坑，稍后会提到
-				  mergeLonghand: false,
-				  discardComments: {
-					removeAll: true // 移除注释
-				  }
+					safe: true,
+					autoprefixer: { disable: true }, // 这里是个大坑，稍后会提到
+					mergeLonghand: false,
+					discardComments: {
+						removeAll: true // 移除注释
+					}
 				},
 				canPrint: true
-			  })
+			})
 		],
 		splitChunks: {
 			cacheGroups: {
@@ -156,17 +158,17 @@ const webpackConfig = {
 					chunks: 'initial',	// 关键在这个吊毛，设置为initial才会按预期分包
 					test: /[\\/]node_modules[\\/]/,
 					priority: -10
-				},
+				}
 			}
 		}
 	}
-}
+};
 
 // 打包分析
 if (process.argv.includes('--analyze')) {
 	webpackConfig.plugins.push(
 		new BundleAnalyzerPlugin()
-	)
+	);
 }
 
 module.exports = webpackConfig;

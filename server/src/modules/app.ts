@@ -5,6 +5,8 @@ import config from './config'
 import _404 from './middlewares/404'
 import _error from './middlewares/error'
 
+const path = require('path');
+
 const NODE_ENV = config.get('NODE_ENV');
 const RUNTIME_ENV = config.get('RUNTIME_ENV');
 const host = 'http://localhost'
@@ -34,6 +36,9 @@ export function createApp(settings: any) {
 
     if (middlewareStartHook)
         middlewareStartHook(app);
+    
+    // 加载静态文件，加载前端页面，只有线上生效
+    app.use('/pages', express.static(path.resolve(__dirname, '../static')))
     // use all middlewares
     for (const middleware of middlewares) {
         if (typeof middleware !== 'function')
