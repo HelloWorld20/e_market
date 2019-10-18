@@ -1,7 +1,5 @@
 import { createRouter, response, catchError } from '../modules'
 
-console.log(createRouter)
-
 const router = createRouter();
 
 router.get(

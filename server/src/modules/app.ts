@@ -1,7 +1,7 @@
-import express from 'express';
-import bodyParser from "body-parser";
-import cookieParser from "cookie-parser";
-import config from '../modules/config'
+import * as express from 'express';
+import * as bodyParser from "body-parser";
+import * as cookieParser from "cookie-parser";
+import config from './config'
 import _404 from './middlewares/404'
 import _error from './middlewares/error'
 
@@ -10,7 +10,7 @@ const RUNTIME_ENV = config.get('RUNTIME_ENV');
 const host = 'http://localhost'
 const port = '4000'
 
-function createApp(settings) {
+export function createApp(settings: any) {
     const app = express();
     const { routes = {}, middlewares = [], premiddlewares, views = './views', middlewareStartHook, middlewareEndHook, } = settings;
 
@@ -51,11 +51,9 @@ function createApp(settings) {
         middlewareEndHook(app);
 
 
-    app.use(_404.default);
+    app.use(_404);
 
     // app.use(_error(settings.errorHandler));
 
     return app;
 }
-
-exports.createApp = createApp;
