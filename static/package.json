@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "webpack-dev-server --config build/webpack.dev.js",
+    "dev": "webpack-dev-server --config build/webpack.dev.js",
     "build": "webpack --config build/webpack.pro.js",
     "analyze": "webpack --config build/webpack.pro.js --analyze"
   },

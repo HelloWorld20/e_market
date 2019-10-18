@@ -9,8 +9,8 @@
   ],
   "scripts": {
     "postinstall": "cd server && npm install && cd ../static && npm install",
-    "dev-static": "cd static && npm run serve",
-    "dev-server": "cd server && npm run serve",
+    "dev-static": "cd static && npm run dev",
+    "dev-server": "nodemon",
     "build-static": "cd static && npm run build",
     "build-server": "cd server && npm run build"
   },
@@ -26,5 +26,11 @@
   "bugs": {
     "url": "https://github.com/HelloWorld20/liuzhou_market/issues"
   },
-  "homepage": "https://github.com/HelloWorld20/liuzhou_market#readme"
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-1": "^6.24.1"
+  }
 }
