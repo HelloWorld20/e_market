@@ -7,4 +7,16 @@ ENV PROJECT_ENV production
 WORKDIR /app
 
 # 全局安装pm2模块
-RUN npm i -g pm2
+# RUN npm install -g yarn \
+#     && yarn global add pm2
+
+# 复制源码
+COPY /var /app/server
+
+# 镜像内的服务使用 3000 端口
+EXPOSE 3000
+
+# 传递环境变量
+ENV NODE_ENV=production PORT=3000
+
+CMD ["pm2", 'start', 'server/index.js']

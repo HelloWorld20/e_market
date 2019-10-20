@@ -38,7 +38,7 @@ export function createApp(settings: any) {
         middlewareStartHook(app);
     
     // 加载静态文件，加载前端页面，只有线上生效
-    app.use('/pages', express.static(path.resolve(__dirname, '../static')))
+    app.use('/pages', express.static(path.resolve(__dirname, '../html')))
     // use all middlewares
     for (const middleware of middlewares) {
         if (typeof middleware !== 'function')
