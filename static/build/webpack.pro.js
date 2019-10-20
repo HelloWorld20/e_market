@@ -24,7 +24,7 @@ const webpackConfig = {
 				options: {
 					// 要在这里面配置，MiniCssExtractPlugin才能提取.vue里的样式
 					loaders: {
-						scss: [
+						less: [
 							MiniCssExtractPlugin.loader,
 							{
 								loader: 'css-loader',
@@ -64,11 +64,11 @@ const webpackConfig = {
 				]
 			},
 			{
-				test: /\.scss$/, use: [
+				test: /\.less$/, use: [
 					MiniCssExtractPlugin.loader,
 					'css-loader', // 将 CSS 转化成 CommonJS 模块
 					// "postcss-loader",	// postcss-loader 应该在css-loader下面
-					'sass-loader' // 将 Sass 编译成 CSS，默认使用 Node Sass
+					'less-loader' // 将 Less 编译成 CSS
 				]
 			},
 			{
@@ -97,7 +97,7 @@ const webpackConfig = {
 	// 当资源在import、require的时候做的一些操作。（css里的@import不算。应该配置在css-loader）
 	// 一般是配置别名。省略扩展名
 	resolve: {
-		extensions: ['.js', '.vue', '.css', '.scss'],
+		extensions: ['.js', '.vue', '.css', '.less'],
 		alias: {
 			'@': path.resolve(__dirname, '../src'),
 			'@config': path.resolve(__dirname, '../src/common/config')

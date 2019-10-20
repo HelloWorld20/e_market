@@ -12,20 +12,6 @@
 
 # 问题
 
-## 安装不了node-sass
-
-**问题是npm没有办法下载`binding.node`这个包**
-
-执行`npm rebuild node-sass`
-
-在执行过程中，会打印node-sass的路径。复制链接，用浏览器下载
-
-把下载的东西手动放到报错指定的路径，比如我的是
-
-	D:\workspace\work\zjsfnlljgw\node_modules\node-sass\vendor\win32-x64-64\binding.node
-
-要注意文件名。插件要求的是`binding.node`。而下载下来的是`win32-x64-64_binding.node`。要记得改名称
-
 # todo
 
 * extra-text-plugin √
@@ -42,4 +28,3 @@
 
 * .vue里的css无法提取出来	√
 * .scss无法用postcss-loader加前缀	√
-* sass-resources-loader无法自动注入scss

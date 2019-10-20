@@ -4,7 +4,7 @@ import store from './store';
 import router from './router';
 // import { Indicator } from 'mint-ui';
 
-import '@/styles/app.scss';
+import '@/styles/app.less';
 import 'mint-ui/lib/style.css';
 
 

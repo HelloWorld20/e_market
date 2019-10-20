@@ -42,13 +42,13 @@ module.exports = {
 				]
 			},
 			{
-				test: /\.scss$/,
+				test: /\.less$/,
 				// exclude: /node_modules/,
 				use: [
-				"style-loader", // 将 JS 字符串生成为 style 节点
-                "css-loader", // 将 CSS 转化成 CommonJS 模块
-				"sass-loader", // 将 Sass 编译成 CSS，默认使用 Node Sass
-			]},
+					'style-loader', // 将 JS 字符串生成为 style 节点
+					'css-loader', // 将 CSS 转化成 CommonJS 模块
+					'less-loader' // 将 less 编译成 CSS
+				]},
 			{
 				test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
 				loader: 'url-loader',
@@ -80,7 +80,7 @@ module.exports = {
 	// 当资源在import、require的时候做的一些操作。（css里的@import不算。应该配置在css-loader）
 	// 一般是配置别名。省略扩展名
 	resolve: {
-		extensions: ['.js', '.vue', '.css', '.scss'],
+		extensions: ['.js', '.vue', '.css', '.scss', '.less'],
 		alias: {
 			'vue': 'vue/dist/vue.esm.js',
 			'@': path.resolve(__dirname, '../src'),
@@ -102,4 +102,4 @@ module.exports = {
 			'process.env': '"development"'
 		})
 	]
-}
+};
