@@ -1,8 +1,15 @@
+import Redis from "../modules/redis";
+import * as config from '../modules/config';
+const redisConfig = config.get('redis.app');
+const redisIns = new Redis(redisConfig);
+
 export async function getRedis(key: string) {
-  return "";
+  return redisIns.get(key);
 }
 
 export async function setRedis(key: string, value: string) {
+  console.log('redisInsredisInsredisIns', redisIns.set)
+  redisIns.set(key, value);
   return value;
 }
 

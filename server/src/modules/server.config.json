@@ -7,5 +7,13 @@
     "secret": "session.id",
     "saveUninitialized": false,
     "resave": false
+  },
+  "redis": {
+    "app": {
+      "server": {
+        "host": "127.0.0.1",
+        "name": "app"
+      }
+    }
   }
 }

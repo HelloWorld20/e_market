@@ -13,14 +13,15 @@ router.get(
 router.get(
   "/redis",
   catchError(async (req, res, next) => {
-    testSrv.getRedis("key");
-    response.json(res, "results");
+    const result = await testSrv.getRedis(req.query.key);
+    response.json(res, `key=${req.query.key}, result=${result}`);
   })
 );
 
 router.post(
   "/redis",
   catchError(async (req, res, next) => {
+    const result = await testSrv.setRedis(req.query.key, req.body.value);
     response.json(res, "results");
   })
 );
