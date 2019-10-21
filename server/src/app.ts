@@ -1,5 +1,5 @@
 import routes from "./routes";
-import config from "./modules/config";
+import * as config from "./modules/config";
 import { createApp } from "./modules/app";
 import middlewares from "./middlewares";
 import errorHandler from "./middlewares/error-handler";

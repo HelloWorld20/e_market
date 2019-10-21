@@ -1,9 +1,9 @@
-let config = {
-  NODE_ENV: "production",
-  RUNTIME_ENV: "RUNTIME_ENV",
-  host: "http://localhost",
-  port: 3000
-};
+import * as _ from 'lodash';
+const localConfig = require("../../../var/server.config.json");
+
+const defaultConfig = require('./server.config.json');
+
+const config = _.merge(defaultConfig, localConfig);
 
 function getInternally(conf: any, key: any) {
   const keys = key.split(".");
@@ -15,10 +15,6 @@ function getInternally(conf: any, key: any) {
   return result;
 }
 
-function get(key: string) {
+export function get(key: string) {
   return getInternally(config, key);
 }
-
-export default {
-  get
-};
