@@ -4,7 +4,6 @@
  * @param {Response} res
  * @param {NextFunction} next
  */
-// const error_1 = require("../error");
 import * as error_1 from "../error";
 
 export default (req: any, res: any, next: any) => {
