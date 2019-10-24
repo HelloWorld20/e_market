@@ -9,10 +9,5 @@ const RedisStore = connectRedis(session);
 
 export const createSession = function() {
   const redisStore = new RedisStore({client});
-  // return session({...sessionConfig, store: redisStore});
-  return session({
-    secret: 'keyboard cat',
-    resave: false,
-    store: redisStore
-  })
+  return session({...sessionConfig, store: redisStore});
 };

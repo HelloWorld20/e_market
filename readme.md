@@ -22,13 +22,13 @@
 会生成打包好的代码在var文件夹下
 然后生成docker镜像
 
-    docker build -t liuzhou_market . --no-cache
+    docker build -t liuzhou_market .
 
 把镜像推到Docker hub
 
     docker tag liuzhou_market helloworld20/liuzhou_market
 
-    docker push
+    docker push helloworld20/liuzhou_market
 
 如果没有登陆docker hub则需要
 

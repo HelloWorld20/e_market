@@ -21,23 +21,42 @@ router.get(
 router.post(
   "/redis",
   catchError(async (req, res, next) => {
-    const result = await testSrv.setRedis(req.query.key, req.body.value);
+    await testSrv.setRedis(req.query.key, req.body.value);
     response.json(res, "results");
   })
 );
-
+////////////////////////////////////////////////
+// 查
 router.get(
   "/mongo",
-  catchError(async (req, res, next) => {
-    response.json(res, "results");
+  catchError(async (req, res) => {
+    const result = await testSrv.getMongo(req.query);
+    response.json(res, result);
   })
 );
-
+// 改
 router.post(
   "/mongo",
-  catchError(async (req, res, next) => {
-    response.json(res, "results");
+  catchError(async (req, res) => {
+    const result = await testSrv.updateMongo(req.query, req.body);
+    response.json(res, result);
   })
 );
-
+// 删
+router.delete(
+  "/mongo",
+  catchError(async (req, res) => {
+    const result = await testSrv.delMongo(req.query);
+    response.json(res, result);
+  })
+);
+// 增
+router.put(
+  "/mongo",
+  catchError(async (req, res) => {
+    const { age, name } = req.query;
+    const result = await testSrv.addMongo(age, name);
+    response.json(res, result);
+  })
+);
 export default router;
