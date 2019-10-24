@@ -1,21 +1,14 @@
 import * as mongoose from "mongoose";
-const Schema = mongoose.Schema;
-
+import * as config from './config';
+const mongoConfig = config.get('mongo');
 // mongoose.connect('mongodb://用户名:密码@127.0.0.1:27017/数据库名称')
-const DB_URL = "mongodb://192.168.99.100:27017";
-
-/**
- * 连接异常
- */
-mongoose.connection.on("error", function(err: any) {
-  console.log("Mongoose connection error: " + err);
-});
+const DB_URL = "mongodb://" + mongoConfig.url + mongoConfig.port;
 
 /**
  * 连接断开
  */
-mongoose.connection.on("disconnected", function() {
-  console.log("Mongoose connection disconnected");
+mongoose.connection.on("disconnected", function () {
+  console.log("Mongoose 连接断开");
 });
 
 class Mongo {
@@ -26,10 +19,10 @@ class Mongo {
     mongoose.connect(DB_URL, err => {
       if (err) {
         this.isConnected = false;
-        console.log("Mongoose connection error: " + err);
+        console.log("Mongoose 连接错误: " + err);
       } else {
         this.isConnected = true;
-        console.log("Mongoose connection open to " + DB_URL);
+        console.log("Mongoose 连接成功 " + DB_URL);
       }
     });
   }
