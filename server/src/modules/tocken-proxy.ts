@@ -29,6 +29,9 @@ class TockenProxy {
   isOutDate() {
     return new Date().getTime() > this.expiresTime;
   }
+  clearTocken() {
+    this.tocken = "";
+  }
   async getTocken() {
     if (!this.tocken) {
       const access_token = await this.fetchAndSaveTocken();

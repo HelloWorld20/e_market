@@ -12,17 +12,22 @@ export default class Redis {
     this.client = this.create(conf);
   }
   create(conf: any) {
+    console.log("redis 配置", conf.server);
     const client = new IORedis(conf.server);
     client.on("connect", () => {
+      console.log("redis连接成功");
       this.isReady = true;
     });
     client.on("ready", () => {
+      console.log("redis连接准备完成");
       this.isReady = true;
     });
     client.on("end", () => {
+      console.log("redis连接断开");
       this.isReady = false;
     });
     client.on("error", (err: any) => {
+      console.log("redis连接失败", this.name, err);
       console.error(this.name, err);
       this.isReady = false;
     });
@@ -39,7 +44,7 @@ export default class Redis {
     });
   }
   set(key: string, value: string) {
-    console.log('redis set', key, value)
+    console.log("redis set", key, value);
     this.client.set(key, value);
   }
 }
