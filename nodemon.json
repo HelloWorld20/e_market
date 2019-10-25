@@ -4,7 +4,7 @@
     "legacyWatch": true,
     "watch": ["server/src"],
     "ignore": ["node_modules", "dist",".git"],
-    "exec": "node -r ts-node/register ./server/src/index.ts",
+    "exec": "node -r ts-node/register --inspect=3001 ./server/src/index.ts",
     "env": {
       "PORT": 12000,
       "NODE_ENV": "development",

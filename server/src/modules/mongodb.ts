@@ -1,13 +1,14 @@
 import * as mongoose from "mongoose";
-import * as config from './config';
-const mongoConfig = config.get('mongo');
+import * as config from "./config";
+const mongoConf = config.get("mongo");
+
 // mongoose.connect('mongodb://用户名:密码@127.0.0.1:27017/数据库名称')
-const DB_URL = "mongodb://" + mongoConfig.url + mongoConfig.port;
+const DB_URL = "mongodb://" + mongoConf.host + ":" + mongoConf.port;
 
 /**
  * 连接断开
  */
-mongoose.connection.on("disconnected", function () {
+mongoose.connection.on("disconnected", function() {
   console.log("Mongoose 连接断开");
 });
 

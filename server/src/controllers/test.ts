@@ -1,12 +1,14 @@
 import { createRouter, response, catchError } from "../modules";
 import * as testSrv from "../services/test";
+import tockenProxy from "../modules/tocken-proxy";
 
 const router = createRouter();
 
 router.get(
   "/",
   catchError(async (req, res, next) => {
-    response.json(res, "results");
+    const tocken = await tockenProxy.getTocken();
+    response.json(res, tocken);
   })
 );
 
