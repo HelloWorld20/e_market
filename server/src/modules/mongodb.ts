@@ -3,7 +3,7 @@ import * as config from "./config";
 const mongoConf = config.get("mongo");
 
 // mongoose.connect('mongodb://用户名:密码@127.0.0.1:27017/数据库名称')
-const DB_URL = "mongodb://" + mongoConf.host + ":" + mongoConf.port;
+const DB_URL = `mongodb://${mongoConf.user}:${mongoConf.password}@${mongoConf.host}:${mongoConf.port}/admin`;
 
 /**
  * 连接断开

@@ -7,9 +7,9 @@ const redisConf = config.get("redis.session");
 
 var redis = require("redis");
 var client = redis.createClient({
-  port: redisConf.port,
-  host: redisConf.host,
-  password: redisConf.password
+  port: redisConf.server.port,
+  host: redisConf.server.host,
+  password: redisConf.server.password
 });
 
 const RedisStore = connectRedis(session);

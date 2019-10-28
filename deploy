@@ -2,9 +2,9 @@
 
 npm run build-server && npm run build-static && echo "build-finished!"
 
-rm -rf ./var
+rm -rf ./var/server
 
-mkdir var
+mkdir var/server
 
 cp -r ./server/dist/ ./var/server
 
