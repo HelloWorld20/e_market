@@ -10,7 +10,7 @@
 
     npm run dev-static
 
-然后server启动在3000端口。static启动在8080端口
+然后server启动在3001端口。static启动在3000端口。server调试端口在3005
 
 # 部署
 

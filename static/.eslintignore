@@ -3,4 +3,6 @@
 # Ignore built files except build/index.js
 build/*
 dist/*
+var/*
+package.json
 # !build/index.js

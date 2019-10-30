@@ -23,7 +23,7 @@ class TockenProxy {
     const { access_token, expires_in }: any = await this.fetchTocken();
     this.tocken = access_token;
     const current = new Date().getTime();
-    this.expiresTime = current + expires_in * 1000;
+    this.expiresTime = (current + expires_in - 100) * 1000; // 减掉100秒时间
     return { access_token, expires_in };
   }
   isOutDate() {

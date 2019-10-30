@@ -3,6 +3,10 @@ import App from './App.vue';
 import store from './store';
 import router from './router';
 // import { Indicator } from 'mint-ui';
+import { Button } from 'mint-ui';
+
+
+Vue.component(Button.name, Button);
 
 import '@/styles/app.less';
 import 'mint-ui/lib/style.css';
