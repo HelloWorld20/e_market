@@ -40,7 +40,7 @@
 
 登陆远程服务器，run远程镜像
 
-    docker run -p 3000:3000 helloworld20/liuzhou_market
+    docker run --name App -p 3000:3000 -t helloworld20/liuzhou_market
 
 但是有个小问题是。一旦`ctrl + c`或者关调终端后会退出docker。所以还得重新启动
 
