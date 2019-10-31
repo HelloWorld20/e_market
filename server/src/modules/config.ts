@@ -1,9 +1,9 @@
 import * as fs from "fs";
 import * as _ from "lodash";
 // const localConfig = require("../../../var/server.config.json");
-const localConfig = loadJSON("../../../var/server.config.json")
+const localConfig = loadJSON("../../../var/server.config.json");
 // const defaultConfig = require('./server.config.json');
-const defaultConfig = loadJSON('./server.config.json')
+const defaultConfig = loadJSON('./server.config.json');
 
 const config = _.merge(defaultConfig, localConfig);
 
