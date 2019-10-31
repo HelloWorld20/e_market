@@ -3,7 +3,13 @@ import * as config from "./config";
 const mongoConf = config.get("mongo");
 
 // mongoose.connect('mongodb://用户名:密码@127.0.0.1:27017/数据库名称')
-const DB_URL = `mongodb://${mongoConf.user}:${mongoConf.password}@${mongoConf.host}:${mongoConf.port}/admin`;
+const DB_URL = (function() {
+  if (mongoConf.user && mongoConf.password) {
+    return `mongodb://${mongoConf.user}:${mongoConf.password}@${mongoConf.host}:${mongoConf.port}/admin`;
+  } else {
+    return `mongodb://${mongoConf.host}:${mongoConf.port}/admin`;
+  }
+})();
 
 /**
  * 连接断开
