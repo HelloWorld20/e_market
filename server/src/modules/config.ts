@@ -3,7 +3,7 @@ import * as path from "path";
 import * as _ from "lodash";
 // const localConfig = require("../../../var/server.config.json");
 
-const localConfig = (function() {
+const config = (function() {
   if (process.env.NODE_ENV === "development") {
     return loadJSON("../../../var/server.config.json");
   }
@@ -11,9 +11,19 @@ const localConfig = (function() {
 })();
 
 // const defaultConfig = require('./server.config.json');
-const defaultConfig = require("./server.config.json");
+// const defaultConfig = (function() {
+//   if (process.env.NODE_ENV === "development") {
+//     return (function() {
+//       if (process.env.NODE_ENV === "development") {
+//         return loadJSON("../../../var/server.config.json");
+//       }
+//       return loadJSON(path.resolve(__dirname, "../../../server.config.json"));
+//     })();
+//   }
+//   return loadJSON(path.resolve(__dirname, "../../../server.config.json"));
+// })();
 
-const config = _.merge(defaultConfig, localConfig);
+// const config = _.merge(defaultConfig, localConfig);
 
 function loadJSON(filename: string) {
   try {
