@@ -47,7 +47,7 @@ export function createApp(settings: any) {
     if (process.env.NODE_ENV === "development") {
       res.header("Access-Control-Allow-Origin", "*");
     } else {
-      res.header("Access-Control-Allow-Origin", "118.24.146.135");
+      res.header("Access-Control-Allow-Origin", "http://118.24.146.135");
     }
     res.header(
       "Access-Control-Allow-Headers",
