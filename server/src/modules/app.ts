@@ -42,6 +42,22 @@ export function createApp(settings: any) {
 
   if (middlewareStartHook) middlewareStartHook(app);
 
+  app.all("*", function(req, res, next) {
+    // res.header("Access-Control-Allow-Origin", "*");
+    if (process.env.NODE_ENV === "development") {
+      res.header("Access-Control-Allow-Origin", "*");
+    } else {
+      res.header("Access-Control-Allow-Origin", "118.24.146.135");
+    }
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Content-Type,Content-Length, Authorization, Accept,X-Requested-With"
+    );
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
+    res.header("X-Powered-By", " 3.2.1");
+    if (req.method == "OPTIONS") res.send(200);
+    /*让options请求快速返回*/ else next();
+  });
   // 捕捉favicon错误
   app.get("/favicon.ico", (req, res) => res.status(204));
   // 加载静态文件，加载前端页面，只有线上生效

@@ -1,26 +1,27 @@
-import {$get, $post, $delete, $put} from '../http/request';
+import { $get, $post, $delete, $put } from '../http/request';
 import apis from '../http/apis';
 
 export default {
-	getTestData({state, commit}) {
+	getTestData({ state, commit }) {
 		return $get(apis.testUrl);
 	},
-	getRedis({state, commit}) {
+	getRedis({ state, commit }) {
 		return $get(apis.redis);
 	},
-	setRedis({state, commit}) {
+	setRedis({ state, commit }) {
 		return $post(apis.redis);
 	},
-	getMongo({state, commit}) {
-		return $get(apis.redis);
+	getMongo({ state, commit }) {
+		console.log('getMongo');
+		return $get(apis.mongo);
 	},
-	addMongo({state, commit}) {
-		return $put(apis.redis);
+	addMongo({ state, commit }) {
+		return $put(apis.mongo);
 	},
-	delMongo({state, commit}) {
-		return $delete(apis.redis);
+	delMongo({ state, commit }) {
+		return $delete(apis.mongo);
 	},
-	updateMongo({state, commit}) {
-		return $post(apis.redis);
+	updateMongo({ state, commit }) {
+		return $post(apis.mongo);
 	}
 };

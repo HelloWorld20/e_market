@@ -1,20 +1,14 @@
 
-const API_HOST = (function() {
-	if (process.env.NODE_ENV === 'development') {
-		return 'http://localhost:3001';
-	} else {
-		return '';
-	}
-})();
+import config from '../common/config';
 
 let urls = {
 	testUrl: '/api/test',
 	redis: '/api/test/redis',
-	mongo: 'api/test/mongo'
+	mongo: '/api/test/mongo'
 };
 
 for (let o in urls) {
-	urls[o] = API_HOST + urls[o];
+	urls[o] = config.baseUrl() + urls[o];
 }
-console.log('urls', urls);
+
 export default urls;

@@ -12,7 +12,6 @@ export default class Redis {
     this.client = this.create(conf);
   }
   create(conf: any) {
-    console.log("redis 配置", conf.server);
     const client = new IORedis(conf.server);
     client.on("connect", () => {
       console.log("redis连接成功");

@@ -14,6 +14,13 @@
 
 # 部署
 
+1. 把代码推动到github
+2. 登陆服务器，到指定目录下git拉取代码
+3. 按需安装 npm i (貌似服务器上不能自动到server、static文件夹下安装，则手动到俩文件夹下安装)
+4. sh deploy
+5. pm2 restart index
+
+***dockers部署废弃（太麻烦了）***
 ## 生成docker镜像
 在node_modules完全安装的情况下
 
