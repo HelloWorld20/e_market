@@ -1,7 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as _ from "lodash";
-// const localConfig = require("../../../var/server.config.json");
 
 const config = (function() {
   if (process.env.NODE_ENV === "development") {

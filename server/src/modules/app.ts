@@ -9,8 +9,6 @@ const path = require("path");
 
 const NODE_ENV = config.get("NODE_ENV");
 const RUNTIME_ENV = config.get("RUNTIME_ENV");
-const host = "http://localhost";
-const port = "4000";
 
 export function createApp(settings: any) {
   const app = express();
@@ -30,8 +28,8 @@ export function createApp(settings: any) {
   app.set("view engine", "ejs");
   // 同时也支持将html文件作为ejs模板来渲染
   // app.engine('html', ejs.renderFile);
-  app.set("host", host);
-  app.set("port", port);
+  // app.set("host", host);
+  // app.set("port", port);
 
   app.set("NODE_ENV", NODE_ENV);
   app.set("RUNTIME_ENV", RUNTIME_ENV);
@@ -43,7 +41,6 @@ export function createApp(settings: any) {
   if (middlewareStartHook) middlewareStartHook(app);
 
   app.all("*", function(req, res, next) {
-    // res.header("Access-Control-Allow-Origin", "*");
     if (process.env.NODE_ENV === "development") {
       res.header("Access-Control-Allow-Origin", "*");
     } else {
@@ -54,7 +51,7 @@ export function createApp(settings: any) {
       "Content-Type,Content-Length, Authorization, Accept,X-Requested-With"
     );
     res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-    res.header("X-Powered-By", " 3.2.1");
+    res.header("X-Powered-By", "292701515@qq.com");
     if (req.method == "OPTIONS") res.send(200);
     /*让options请求快速返回*/ else next();
   });
