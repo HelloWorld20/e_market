@@ -1,4 +1,3 @@
-
 import config from '../common/config';
 
 let urls = {

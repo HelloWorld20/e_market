@@ -14,25 +14,25 @@
 <script>
 import { mapActions } from 'vuex';
 export default {
-  data() {
-    return {
-      greeting: 'hello world',
-    };
-  },
-  mounted() {
-    this.getTestData();
-  },
-  methods: {
-    ...mapActions([
-      'getTestData',
-      'getRedis',
-      'setRedis',
-      'getMongo',
-      'addMongo',
-      'delMongo',
-      'updateMongo',
-    ]),
-  },
+	data() {
+		return {
+			greeting: 'hello world'
+		};
+	},
+	mounted() {
+		this.getTestData();
+	},
+	methods: {
+		...mapActions([
+			'getTestData',
+			'getRedis',
+			'setRedis',
+			'getMongo',
+			'addMongo',
+			'delMongo',
+			'updateMongo'
+		])
+	}
 };
 </script>
 

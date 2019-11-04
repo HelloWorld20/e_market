@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import axios from 'axios';
 import config from '@config';
-import { Indicator } from 'mint-ui';
+import {
+	Indicator
+} from 'mint-ui';
 
 let $axios = axios.create({
 	baseURL: config.baseUrl(),
