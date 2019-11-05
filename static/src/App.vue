@@ -7,11 +7,11 @@
 
 <script>
 export default {
-	data() {
-		return {
-			title: 'first app'
-		};
-	}
+  data() {
+    return {
+      title: 'first app',
+    };
+  },
 };
 </script>
 

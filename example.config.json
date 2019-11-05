@@ -32,5 +32,11 @@
   "wechat": {
       "AppId": "",
       "AppSecret": ""
+  },
+  "cos": {
+    "SecretId": "",
+    "SecretKey": "",
+    "Bucket": "",
+    "Region": ""
   }
 }

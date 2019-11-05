@@ -4,10 +4,10 @@ import * as mongoose from "mongoose";
 const model = { version: String, timestamp: Number };
 const schema = new mongoose.Schema(model);
 // const value = { age: 10, name: "save" };
-const COLLECTION = "config";
+const COLLECTION = "config";  // collection是config，则对应的库是configs
 
 // export const insert = async (value: any) => {
-//   return mongo.insert(collection, schema, value);
+//   return mongo.insert(COLLECTION, schema, value);
 // };
 
 export const find = async () => {
