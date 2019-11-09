@@ -100,7 +100,8 @@ const webpackConfig = {
 		extensions: ['.js', '.vue', '.css', '.less'],
 		alias: {
 			'@': path.resolve(__dirname, '../src'),
-			'@config': path.resolve(__dirname, '../src/common/config')
+			'@config': path.resolve(__dirname, '../src/common/config'),
+			'@components': path.resolve(__dirname, '../src/components')
 		}
 	},
 	plugins: [
