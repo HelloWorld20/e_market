@@ -32,14 +32,17 @@ $axios.interceptors.request.use(function(config) {
 
 // 返回拦截
 $axios.interceptors.response.use(function(response) {
-	// Do something with response data
+	console.log('统一接口拦截', response);
+	if (response.status !== 200 && response.status !== 304) {
+		return Promise.reject(response);
+	}
 	loadingCount = loadingCount > 0
 		? loadingCount - 1 : 0;
 
 	if (loadingCount === 0) {
 		Indicator.close();
 	}
-	return response;
+	return response.data;
 }, function(error) {
 	loadingCount = loadingCount > 0
 		? loadingCount - 1 : 0;

@@ -64,6 +64,11 @@ class Mongo {
     return Model.remove(condition);
   }
 
+  getModal(collection: string, schema: any) {
+    const Modal = mongoose.model(collection,schema);
+    return Modal;
+  }
+
   private isConnected = false;
 }
 

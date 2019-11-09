@@ -19,32 +19,32 @@ import { mapActions } from 'vuex';
 import { $post } from '../../http/request';
 import apis from '../../http/apis';
 export default {
-  data() {
-    return {
-      greeting: 'hello world',
-    };
-  },
-  mounted() {
-    this.getTestData();
-  },
-  methods: {
-    ...mapActions([
-      'getTestData',
-      'getRedis',
-      'setRedis',
-      'getMongo',
-      'addMongo',
-      'delMongo',
-      'updateMongo',
-    ]),
-    upload() {
-      const formData = new FormData();
-      formData.append('file', this.$refs.file.files[0]);
-      $post(apis.upload, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-    },
-  },
+	data() {
+		return {
+			greeting: 'hello world'
+		};
+	},
+	mounted() {
+		this.getTestData();
+	},
+	methods: {
+		...mapActions([
+			'getTestData',
+			'getRedis',
+			'setRedis',
+			'getMongo',
+			'addMongo',
+			'delMongo',
+			'updateMongo'
+		]),
+		upload() {
+			const formData = new FormData();
+			formData.append('file', this.$refs.file.files[0]);
+			$post(apis.upload, formData, {
+				headers: { 'Content-Type': 'multipart/form-data' }
+			});
+		}
+	}
 };
 </script>
 
