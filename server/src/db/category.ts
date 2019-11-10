@@ -24,5 +24,5 @@ export const update = async (condition: any, value: Record<string, any>) => {
 
 export const findMax = async (): Promise<Record<string, any>> => {
   const Modal = mongo.getModal(COLLECTION, schema);
-  return Modal.aggregate([{$sort:{age: -1}}, {$limit: 1}])
+  return Modal.aggregate([{$sort:{id: -1}}, {$limit: 1}])
 }

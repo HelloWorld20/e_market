@@ -10,9 +10,11 @@
   "scripts": {
     "postinstall": "cd server && npm install && cd ../static && npm install",
     "dev-static": "cd static && npm run dev",
+    "dev-static-admin": "cd static-admin && npm run dev",
     "dev-server": "nodemon",
     "build-static": "cd static && npm run build",
-    "build-server": "cd server && npm run build"
+    "build-server": "cd server && npm run build",
+    "build-static-admin": "cd static-admin && npm run build"
   },
   "repository": {
     "type": "git",

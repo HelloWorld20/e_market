@@ -19,7 +19,7 @@ export async function addOrUpdate(opts: { name: String, id?: Number, preority: N
     }, value);
   } else {
     // 没有id的情况
-    value.updateTime = new Date().getTime();
+    value.createTime = new Date().getTime();
     const maxRecord = await db_cate.findMax();
     if (maxRecord.length === 1) {
       value.id = maxRecord[0].id + 1;
