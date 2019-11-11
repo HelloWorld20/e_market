@@ -1,1 +1,1 @@
-export declare function upload(filePath: any, fileName: string): Promise<any>;
+// export declare function upload(filePath: any, fileName: string): Promise<any>;

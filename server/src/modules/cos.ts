@@ -1,5 +1,7 @@
-const config = require('./config');
-const COS = require('cos-nodejs-sdk-v5')
+// const config = require('./config');
+// const COS = require('cos-nodejs-sdk-v5')
+import * as config from './config'
+import * as COS from 'cos-nodejs-sdk-v5';
 
 const cos_conf = config.get('cos');
 
@@ -8,7 +10,7 @@ var cos = new COS({
   SecretKey: cos_conf.SecretKey,
 });
 // 分片上传
-const upload = function (filePath, fileName) {
+export const upload = function (filePath: string, fileName: string) {
   if (!filePath || !fileName) return;
   return new Promise((resolve, reject) => {
     cos.sliceUploadFile({
@@ -16,7 +18,7 @@ const upload = function (filePath, fileName) {
       Region: cos_conf.Region,
       Key: `/cos/${fileName}`,
       FilePath: filePath
-    }, function (err, data) {
+    }, function (err: any, data: any) {
       if (err) {
         reject(err);
       } else {
@@ -25,6 +27,4 @@ const upload = function (filePath, fileName) {
     });
   })
 }
-module.exports = {
-  upload
-}
+

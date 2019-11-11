@@ -1,6 +1,6 @@
 #!/bin/sh
 
-npm run build-server && npm run build-static && echo "build-finished!"
+npm run build-server && npm run build-static && npm run build-static-admin && echo "build-finished!"
 
 rm -rf ./var/server
 
@@ -10,11 +10,9 @@ cp -r ./server/dist/ ./var/server
 
 cp ./server/package.json ./var/server/package.json
 
-cd ./var/server
-
-cd ../../
-
 cp -r ./static/dist/ ./var/server/html
+
+cp -r ./static-admin/dist/ ./var/server/html-admin
 
 cd ./var/server
 

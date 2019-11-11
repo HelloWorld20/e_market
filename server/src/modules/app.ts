@@ -59,6 +59,7 @@ export function createApp(settings: any) {
   app.get("/favicon.ico", (req, res) => res.status(204));
   // 加载静态文件，加载前端页面，只有线上生效
   app.use("/pages", express.static(path.resolve(__dirname, "../../html")));
+  app.use("/admin", express.static(path.resolve(__dirname, "../../html-admin")));
   // use all middlewares
   for (const middleware of middlewares) {
     if (typeof middleware !== "function") continue;

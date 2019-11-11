@@ -1,5 +1,6 @@
 {
   "NODE_ENV": "development",
+  "port": 4000,
   "session": {
       "secret": "session.id",
       "saveUninitialized": false,
