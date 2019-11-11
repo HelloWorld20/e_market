@@ -1,5 +1,6 @@
 import * as cos from "../modules/cos";
 import * as formidable from "formidable";
+import * as uuid from 'uuid/v4';
 
 const form = new formidable.IncomingForm();
 
@@ -15,5 +16,5 @@ export const upload = async (req: any) => {
     });
   });
   // 上传成功后，会把该文件临时存储到files.file.path, 上传前文件名为 files.file.name
-  return cos.upload(files.file.path, files.file.name);
+  return cos.upload(files.file.path, uuid() + files.file.name);
 };
