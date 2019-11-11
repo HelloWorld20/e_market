@@ -80,7 +80,7 @@ module.exports = {
 	// 当资源在import、require的时候做的一些操作。（css里的@import不算。应该配置在css-loader）
 	// 一般是配置别名。省略扩展名
 	resolve: {
-		extensions: ['.js', '.vue', '.css', '.scss', '.less'],
+		extensions: ['.js', '.vue', '.css', '.less'],
 		alias: {
 			'vue': 'vue/dist/vue.esm.js',
 			'@': path.resolve(__dirname, '../src'),

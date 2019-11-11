@@ -20,21 +20,7 @@ const webpackConfig = {
 		rules: [
 			{
 				test: /\.vue$/,
-				loader: 'vue-loader',
-				options: {
-					// 要在这里面配置，MiniCssExtractPlugin才能提取.vue里的样式
-					loaders: {
-						less: [
-							MiniCssExtractPlugin.loader,
-							{
-								loader: 'css-loader',
-								options: {
-									sourceMap: false
-								}
-							}
-						]
-					}
-				}
+				loader: 'vue-loader'
 			},
 			{
 				test: /\.js$/,

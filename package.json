@@ -8,7 +8,7 @@
     "static"
   ],
   "scripts": {
-    "postinstall": "cd server && npm install && cd ../static && npm install",
+    "postinstall": "cd server && npm install && cd ../static && npm install && cd ../static-admin && npm install",
     "dev-static": "cd static && npm run dev",
     "dev-static-admin": "cd static-admin && npm run dev",
     "dev-server": "nodemon",
