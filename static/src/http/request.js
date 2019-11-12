@@ -5,6 +5,10 @@ import {
 	Indicator
 } from 'mint-ui';
 
+if (process.env.NODE_ENV === 'development') {
+	axios.defaults.withCredentials = true;
+}
+
 let $axios = axios.create({
 	baseURL: config.baseUrl(),
 	timeout: 10000

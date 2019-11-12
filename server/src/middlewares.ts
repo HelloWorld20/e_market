@@ -1,4 +1,5 @@
 import * as session from "./middlewares/session";
-const middlewares: any = [session.createSession()];
+import auth from './middlewares/auth';
+const middlewares: any = [session.createSession(), auth];
 
 export default middlewares;

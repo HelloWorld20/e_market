@@ -9,6 +9,7 @@ const path = require("path");
 
 const NODE_ENV = config.get("NODE_ENV");
 const RUNTIME_ENV = config.get("RUNTIME_ENV");
+const ALLOW_ORIGINS = config.get("allowOrigins")
 
 export function createApp(settings: any) {
   const app = express();
@@ -41,11 +42,13 @@ export function createApp(settings: any) {
   if (middlewareStartHook) middlewareStartHook(app);
 
   app.all("*", function(req, res, next) {
-    if (process.env.NODE_ENV === "development") {
-      res.header("Access-Control-Allow-Origin", "*");
-    } else {
-      res.header("Access-Control-Allow-Origin", "http://118.24.146.135");
+    if (typeof(req.headers.origin) === 'string') {
+      if (ALLOW_ORIGINS.includes(req.headers.origin)) {
+        res.set('Access-Control-Allow-Credentials', 'true');
+        res.set('Access-Control-Allow-Origin', req.headers.origin)
+      }
     }
+    res.header("Access-Control-Allow-Credentials", 'true');
     res.header(
       "Access-Control-Allow-Headers",
       "Content-Type,Content-Length, Authorization, Accept,X-Requested-With"
