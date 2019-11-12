@@ -1,6 +1,6 @@
 <template>
 	<div id="layout">
-		<div class="menu" @click="handleClick($event)">
+		<div class="menu" v-show="menuVisibal" @click="handleClick($event)">
 			<el-menu
 				background-color="#545c64"
 				text-color="#fff"
@@ -37,10 +37,12 @@
 
 <script>
 import {Row, Col, Menu, MenuItem, MenuItemGroup, Submenu} from 'element-ui';
+const MENU_HIDE_ROUTE = ['Login'];
 export default {
 	data() {
 		return {
-			activityId: 0
+			activityId: 0,
+			menuVisibal: false
 		};
 	},
 	components: {
@@ -54,6 +56,11 @@ export default {
 	methods: {
 		handleClick(e) {
 			this.$router.push(e.target.getAttribute('data-id'));
+		}
+	},
+	watch: {
+		$route(val) {
+			this.menuVisibal = !MENU_HIDE_ROUTE.includes(val.name);
 		}
 	}
 };

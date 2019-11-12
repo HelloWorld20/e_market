@@ -17,7 +17,6 @@ export function createApp(settings: any) {
     routes = {},
     middlewares = [],
     premiddlewares,
-    views = "./views",
     middlewareStartHook,
     middlewareEndHook
   } = settings;
