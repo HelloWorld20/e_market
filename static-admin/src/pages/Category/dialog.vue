@@ -45,7 +45,6 @@ export default {
 	},
 	methods: {
 		setDialogValue(opts) {
-			console.log(opts);
 			this.form.name = opts.name;
 			this.form.preority = opts.preority;
 			if (opts.id) {

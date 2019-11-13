@@ -5,6 +5,7 @@
 				background-color="#545c64"
 				text-color="#fff"
 				active-text-color="#ffd04b"
+				default-active="1-1"
 			>
 				<el-submenu index="1">
 					<template slot="title">
@@ -12,7 +13,7 @@
 						<span>导航一</span>
 					</template>
 					<el-menu-item index="1-1" data-id="Category">分类管理</el-menu-item>
-					<el-menu-item index="1-2" data-id="Login">选项2</el-menu-item>
+					<el-menu-item index="1-2" data-id="Goods">商品管理</el-menu-item>
 					<el-menu-item index="1-3">选项3</el-menu-item>
 				</el-submenu>
 				<el-menu-item index="2">

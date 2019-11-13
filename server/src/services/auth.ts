@@ -44,7 +44,6 @@ export async function register(username: string, password: string) {
 }
 
 export async function login(req: Request, username: string, password: string) {
-  console.log(req.session, req.session && req.session.id)
   if (username.trim().length <= 0 || password.trim().length <= 0) {
     throw new ServiceError('400', "请输入用户名或密码");
   }

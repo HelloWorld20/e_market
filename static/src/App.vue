@@ -36,7 +36,6 @@ export default {
 	},
 	watch: {
 		selected(val) {
-			// console.log(val);
 			this.$router.push(val);
 		}
 	}

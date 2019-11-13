@@ -1,6 +1,6 @@
 <template>
 	<section class="cate">
-		<h2>分类管理</h2>
+		<h1>分类管理</h1>
 		<div class="cate-btns">
 			<el-button type="primary" @click="handleCreate">新增</el-button>
 		</div>
@@ -25,9 +25,9 @@
 			></el-table-column>
 			<el-table-column label="操作">
 				<template slot-scope="scope">
-					<el-button @click="handleEdit(scope.row)" type="text" size="small">编辑</el-button>
+					<el-button @click="handleEdit(scope.row)" type="primary" size="small">编辑</el-button>
 					<vue-del-pop :id="scope.row.id" :handleDelete="handleDelete.bind(scope.row.id)">
-						<el-button type="text" size="small">删除</el-button>
+						<el-button type="danger" size="small">删除</el-button>
 					</vue-del-pop>
 
 				</template>
@@ -64,7 +64,6 @@ export default {
 		VueDelPop
 	},
 	created() {
-		window.m = moment;
 		this.getCategory().then(res => (this.tableData = res));
 	},
 	methods: {
@@ -83,7 +82,6 @@ export default {
 			this.dialogVisible = false;
 		},
 		async handleDelete(id) {
-			console.log(id);
 			await this.$delete(apis.cate, {
 				params: {id}
 			});
@@ -112,11 +110,6 @@ export default {
 		updateTimeFormat(row) {
 			if (!row.updateTime) return '';
 			return moment(Number(row.updateTime)).format('YYYY-MM-DD HH:mm:ss');
-		}
-	},
-	watch: {
-		tableData(val) {
-			console.log('wathc', val);
 		}
 	}
 };
