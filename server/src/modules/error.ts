@@ -11,12 +11,14 @@ export class ServiceError extends Error {
    * @return {ServiceError}
    */
   constructor(
-    service = "service_code_1.default.UNKONWN",
-    status = "error_code_1.default.INTERNAL_SERVER_ERROR",
+    // service = "service_code_1.default.UNKONWN",
+    status = "500",
     msg = "未知错误",
     nativeCode?: any
   ) {
     super(msg);
+    const service = status;
+
     const svrcode = service || "service_code_1.default.UNKONWN";
     const code = svrcode + status;
     this.code = code;

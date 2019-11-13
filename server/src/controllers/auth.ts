@@ -5,10 +5,37 @@ const router = createRouter();
 router.get(
   "/wechatServerValid",
   catchError(async (req, res, next) => {
-    const { signature, timestamp, nonce, echostr } = req.query;
-    const result = await authSrv.wechatServerValid(signature, timestamp, nonce);
-    res.send(result ? echostr : 'valid error')
+    res.send('wechatServerValid closed');
+    // const { signature, timestamp, nonce, echostr } = req.query;
+    // const result = await authSrv.wechatServerValid(signature, timestamp, nonce);
+    // res.send(result ? echostr : 'valid error')
   })
 );
+
+router.post(
+  "/login",
+  catchError(async (req, res, next) => {
+    const { username, password } = req.body;
+    const result = await authSrv.login(req, username, password);
+    res.send(result);
+  })
+)
+
+router.post(
+  "/register",
+  catchError(async (req, res, next) => {
+    const { username, password } = req.body;
+    const result = await authSrv.register(username, password);
+    res.send(result);
+  })
+)
+
+router.post(
+  "/logout",
+  catchError(async (req, res, next) => {
+    const result = await authSrv.logout(req);
+    res.send(result);
+  })
+)
 
 export default router;

@@ -6,8 +6,7 @@ import Category from '@/pages/Category';
 import Login from '@/pages/Login';
 
 Vue.use(Router);
-
-export default new Router({
+const router = new Router({
 	routes: [{
 		path: '/',
 		name: '',
@@ -26,3 +25,5 @@ export default new Router({
 		component: Login
 	}]
 });
+
+export default router;

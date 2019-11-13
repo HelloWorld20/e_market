@@ -12,7 +12,7 @@
 						<span>导航一</span>
 					</template>
 					<el-menu-item index="1-1" data-id="Category">分类管理</el-menu-item>
-					<el-menu-item index="1-2">选项2</el-menu-item>
+					<el-menu-item index="1-2" data-id="Login">选项2</el-menu-item>
 					<el-menu-item index="1-3">选项3</el-menu-item>
 				</el-submenu>
 				<el-menu-item index="2">
@@ -25,7 +25,7 @@
 				</el-menu-item>
 				<el-menu-item index="4">
 					<i class="el-icon-setting"></i>
-					<span slot="title">导航四</span>
+					<span slot="title" @click="logout">退出</span>
 				</el-menu-item>
 			</el-menu>
 		</div>
@@ -37,12 +37,13 @@
 
 <script>
 import {Row, Col, Menu, MenuItem, MenuItemGroup, Submenu} from 'element-ui';
+import { logout } from './http/apis'
 const MENU_HIDE_ROUTE = ['Login'];
 export default {
 	data() {
 		return {
 			activityId: 0,
-			menuVisibal: false
+			menuVisibal: true
 		};
 	},
 	components: {
@@ -53,9 +54,18 @@ export default {
 		[MenuItemGroup.name]: MenuItemGroup,
 		[Submenu.name]: Submenu
 	},
+	created() {
+		this.menuVisibal = !MENU_HIDE_ROUTE.includes(this.$route.name);
+	},
 	methods: {
 		handleClick(e) {
-			this.$router.push(e.target.getAttribute('data-id'));
+			if (e.target.getAttribute('data-id')) {
+				this.$router.push(e.target.getAttribute('data-id'));
+			}
+		},
+		async logout() {
+			await logout();
+			this.$router.replace('Login')
 		}
 	},
 	watch: {

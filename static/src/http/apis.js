@@ -8,8 +8,8 @@ let urls = {
 	cate: '/api/market/category'	// 分类相关接口
 };
 
-for (let o in urls) {
-	urls[o] = config.baseUrl() + urls[o];
-}
+// for (let o in urls) {
+// 	urls[o] = config.baseUrl() + urls[o];
+// }
 
 export default urls;

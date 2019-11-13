@@ -42,6 +42,10 @@ export function createApp(settings: any) {
 
   app.all("*", function(req, res, next) {
     if (typeof(req.headers.origin) === 'string') {
+      // 在设置 withCredentials 为true的情况下，Access-Control-Allow-Origin不能设置为 通配符 *
+      // 因为 withCredentials为true时，浏览器会携带cookie到后端，而设置通配符的话说明，任何一个域名下都可以登陆
+      // 安全性太低
+      // 所以此处只能设置 一个 域名。而想设置多个域名的话，需要设置白名单
       if (ALLOW_ORIGINS.includes(req.headers.origin)) {
         res.set('Access-Control-Allow-Credentials', 'true');
         res.set('Access-Control-Allow-Origin', req.headers.origin)
@@ -62,6 +66,7 @@ export function createApp(settings: any) {
   // 加载静态文件，加载前端页面，只有线上生效
   app.use("/pages", express.static(path.resolve(__dirname, "../../html")));
   app.use("/admin", express.static(path.resolve(__dirname, "../../html-admin")));
+  // app.use("/admin", express.static(path.resolve(__dirname, '../../../static-admin/dist')))
   // use all middlewares
   for (const middleware of middlewares) {
     if (typeof middleware !== "function") continue;
@@ -77,7 +82,7 @@ export function createApp(settings: any) {
 
   app.use(_404);
 
-  // app.use(_error(settings.errorHandler));
+  app.use(_error);
 
   return app;
 }

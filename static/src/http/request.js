@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import axios from 'axios';
-import config from '@config';
+// import config from '@config';
 import {
 	Indicator
 } from 'mint-ui';
@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 let $axios = axios.create({
-	baseURL: config.baseUrl(),
+	// baseURL: config.baseUrl(),
 	timeout: 10000
 });
 

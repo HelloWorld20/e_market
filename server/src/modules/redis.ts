@@ -43,7 +43,6 @@ export default class Redis {
     });
   }
   set(key: string, value: string) {
-    console.log("redis set", key, value);
     this.client.set(key, value);
   }
 }

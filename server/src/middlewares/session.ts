@@ -5,8 +5,9 @@ import * as config from "../modules/config";
 const sessionConfig = config.get("session");
 const redisConf = config.get("redis.session");
 
-var redis = require("redis");
-var client = redis.createClient({
+const redis = require("redis");
+
+const client = redis.createClient({
   port: redisConf.server.port,
   host: redisConf.server.host,
   password: redisConf.server.password

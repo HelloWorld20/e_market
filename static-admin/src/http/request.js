@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import axios from 'axios';
-import config from '@config';
+import router from '../router';
+// import config from '@config';
 import { Loading } from 'element-ui';
 
 let loadingIns;
 
 let $axios = axios.create({
-	baseURL: config.baseUrl(),
+	// baseURL: config.baseUrl(),
 	timeout: 10000
 });
 
@@ -46,16 +47,22 @@ $axios.interceptors.response.use(function(response) {
 		loadingIns.close();
 	}
 	return response.data;
-}, function(error) {
+}, function(err) {
 	loadingCount = loadingCount > 0
 		? loadingCount - 1 : 0;
 
 	if (loadingCount === 0) {
-		// Indicator.close();
 		loadingIns.close();
+		Vue.prototype.$message({
+			message: err.response.data,
+			type: 'error'
+		});
+	}
+	if (err.response.status === 403) {
+		router.replace('Login');
 	}
 	// Do something with response error
-	return Promise.reject(error);
+	return Promise.reject(err);
 });
 
 Vue.prototype.$axios = $axios;
