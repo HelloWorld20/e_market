@@ -43,51 +43,62 @@
 				</template>
 			</el-table-column>
 		</el-table>
+		<vue-dialog
+			ref="dialog"
+			:visible="dialogVisible"
+			@close="handleDialogClose"
+			@submit="handleDialogSubmit"></vue-dialog>
 	</section>
 </template>
 
 <script>
-import { Table, TableColumn, Popover } from "element-ui";
-import { getGoods, addOrUpdateGoods, delGoods } from "../../http/apis";
-import VueDelPop from "../../components/delPop";
-import moment from "moment";
+import { Table, TableColumn, Popover } from 'element-ui';
+import { getGoods, addOrUpdateGoods, delGoods } from '../../http/apis';
+import VueDelPop from '../../components/delPop';
+import VueDialog from './dialog';
+import moment from 'moment';
 export default {
 	data() {
 		return {
-			tableData: []
+			tableData: [],
+			dialogVisible: false
 		};
 	},
 	components: {
 		[Table.name]: Table,
 		[TableColumn.name]: TableColumn,
 		[Popover.name]: Popover,
-		VueDelPop
+		VueDelPop, VueDialog
 	},
 	created() {
 		getGoods({ pageNo: 0 }).then(res => (this.tableData = res));
 	},
 	methods: {
 		handleCreate() {
-			addOrUpdateGoods({
-				name: "皇帝柑",
-				desc: "广西产皇帝柑",
-				prise: "5.00",
-				unit: "元/斤",
-				category: 6,
-				images: "images",
-				totalNum: 100,
-				restNum: 100
-			});
+			this.dialogVisible = true;
+
+			// addOrUpdateGoods({
+			// 	name: '皇帝柑',
+			// 	desc: '广西产皇帝柑',
+			// 	prise: '5.00',
+			// 	unit: '元/斤',
+			// 	category: 6,
+			// 	images: 'images',
+			// 	totalNum: 100,
+			// 	restNum: 100
+			// });
 		},
 		handleEdit(row) {},
 		async handleDelete(id) {},
+		handleDialogClose() { this.dialogVisible = false; },
+		handleDialogSubmit(form) {},
 		createTimeFormat(row) {
-			if (!row.createTime) return "";
-			return moment(Number(row.createTime)).format("YYYY-MM-DD HH:mm:ss");
+			if (!row.createTime) return '';
+			return moment(Number(row.createTime)).format('YYYY-MM-DD HH:mm:ss');
 		},
 		updateTimeFormat(row) {
-			if (!row.updateTime) return "";
-			return moment(Number(row.updateTime)).format("YYYY-MM-DD HH:mm:ss");
+			if (!row.updateTime) return '';
+			return moment(Number(row.updateTime)).format('YYYY-MM-DD HH:mm:ss');
 		}
 	}
 };

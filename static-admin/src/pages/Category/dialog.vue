@@ -1,16 +1,16 @@
 <template>
-	<el-dialog title="分类操作" :visible.sync="visible">
-		<el-form :model="form">
-			<el-form-item label="分类名称" :label-width="formLabelWidth">
+	<el-dialog title="分类操作" :visible.sync="visible" :before-close="() => $emit('close')">
+		<el-form :model="form" :rules="rules" ref="form">
+			<el-form-item prop="name" label="分类名称" label-width="120px">
 				<el-input v-model="form.name" autocomplete="off"></el-input>
 			</el-form-item>
-			<el-form-item label="分类优先级" :label-width="formLabelWidth">
+			<el-form-item label="分类优先级" label-width="120px">
 				<el-input-number v-model="form.preority"></el-input-number>
 			</el-form-item>
 		</el-form>
 		<div slot="footer" class="dialog-footer">
 			<el-button @click="$emit('close')">取 消</el-button>
-			<el-button type="primary" @click="$emit('submit', form)"
+			<el-button type="primary" @click="handleSubmit"
 				>确 定</el-button
 			>
 		</div>
@@ -18,20 +18,25 @@
 </template>
 
 <script>
-import { Dialog, Form, FormItem } from "element-ui";
+import { Dialog, Form, FormItem } from 'element-ui';
 export default {
 	data() {
 		return {
 			form: {
-				name: "",
+				name: '',
 				preority: 0,
 				id: undefined
 			},
-			formLabelWidth: "120px"
+			// formLabelWidth: '120px',
+			rules: {
+				name: [
+					{ required: true, message: '请输入分类名称', trigger: 'blur' }
+				]
+			}
 		};
 	},
 	created() {
-		this.$on("setDialogValue", this.setDialogValue);
+		this.$on('setDialogValue', this.setDialogValue);
 	},
 	props: {
 		visible: {
@@ -54,10 +59,19 @@ export default {
 			} else {
 				this.form.id = undefined;
 			}
+		},
+		handleSubmit() {
+			// console.log('beforeClose');
+			this.$refs['form'].validate(valid => {
+				if (valid) {
+					console.log('submit');
+					this.$emit('submit', this.form);
+				}
+			});
 		}
 	},
 	beforeDestroyed() {
-		this.$off("setDialogValue", this.setDialogValue);
+		this.$off('setDialogValue', this.setDialogValue);
 	}
 };
 </script>
