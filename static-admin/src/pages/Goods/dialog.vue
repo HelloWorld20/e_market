@@ -1,5 +1,5 @@
 <template>
-	<el-dialog title="分类操作" :visible.sync="visible">
+	<el-dialog title="商品操作" :visible.sync="visible">
 		<el-form :model="form">
 			<el-form-item label="分类名称" :label-width="formLabelWidth">
 				<el-input v-model="form.name" autocomplete="off"></el-input>
@@ -30,8 +30,10 @@ export default {
 			formLabelWidth: "120px"
 		};
 	},
-	created() {
-		this.$on("setDialogValue", this.setDialogValue);
+	components: {
+		[Dialog.name]: Dialog,
+		[Form.name]: Form,
+		[FormItem.name]: FormItem
 	},
 	props: {
 		visible: {
@@ -39,27 +41,8 @@ export default {
 			type: Boolean,
 			default: false
 		}
-	},
-	components: {
-		[Dialog.name]: Dialog,
-		[Form.name]: Form,
-		[FormItem.name]: FormItem
-	},
-	methods: {
-		setDialogValue(opts) {
-			this.form.name = opts.name;
-			this.form.preority = opts.preority;
-			if (opts.id) {
-				this.form.id = opts.id;
-			} else {
-				this.form.id = undefined;
-			}
-		}
-	},
-	beforeDestroyed() {
-		this.$off("setDialogValue", this.setDialogValue);
 	}
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scope></style>

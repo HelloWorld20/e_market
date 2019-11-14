@@ -1,6 +1,6 @@
 import * as cos from "../modules/cos";
 import * as formidable from "formidable";
-import * as uuid from 'uuid/v4';
+import * as uuid from "uuid/v4";
 
 const form = new formidable.IncomingForm();
 

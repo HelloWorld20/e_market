@@ -1,21 +1,18 @@
 <template>
-<!-- v-model="visible" -->
-	<el-popover
-		placement="top"
-		v-model="visible">
-		<p>确定要删除分类吗？</p>
+	<!-- v-model="visible" -->
+	<el-popover placement="top" v-model="visible">
+		<p>{{title}}</p>
 		<div style="text-align: right; margin: 0">
-			<el-button  type="danger" size="mini"  @click="handleDel">删除</el-button>
+			<el-button type="danger" size="mini" @click="handleDel"
+				>删除</el-button
+			>
 		</div>
-		<!-- <span slot="reference" @click="slotClick">
-			<slot ref="child"></slot>
-		</span> -->
 		<slot slot="reference"></slot>
-  </el-popover>
+	</el-popover>
 </template>
 
 <script>
-import {Popover} from 'element-ui';
+import { Popover } from "element-ui";
 export default {
 	data() {
 		return {
@@ -26,6 +23,9 @@ export default {
 		id: {
 			require: true
 		},
+		title: {
+			require: true,
+		},
 		handleDelete: {
 			type: Function,
 			requrie: true
@@ -35,9 +35,6 @@ export default {
 		[Popover.name]: Popover
 	},
 	methods: {
-		// slotClick() {
-		// 	console.warn('slotClick');
-		// },
 		async handleDel() {
 			await this.handleDelete(this.id);
 			this.visible = false;
@@ -46,6 +43,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

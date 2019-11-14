@@ -14,14 +14,14 @@ let $axios = axios.create({
 let loadingCount = 0;
 
 // 请求拦截
-$axios.interceptors.request.use(function(config) {
+$axios.interceptors.request.use(config => {
 	if (loadingCount++ === 0) {
 		// Indicator.open();
 		loadingIns = Loading.service({ fullscreen: true });
 	}
 	// Do something before request is sent
 	return config;
-}, function(error) {
+}, error => {
 	loadingCount = loadingCount > 0
 		? loadingCount - 1 : 0;
 
@@ -34,7 +34,7 @@ $axios.interceptors.request.use(function(config) {
 });
 
 // 返回拦截
-$axios.interceptors.response.use(function(response) {
+$axios.interceptors.response.use(response => {
 	console.log('统一接口拦截', response);
 	if (response.status !== 200 && response.status !== 304) {
 		return Promise.reject(response);
@@ -47,7 +47,7 @@ $axios.interceptors.response.use(function(response) {
 		loadingIns.close();
 	}
 	return response.data;
-}, function(err) {
+}, err => {
 	loadingCount = loadingCount > 0
 		? loadingCount - 1 : 0;
 

@@ -2,12 +2,13 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-09 23:18:08
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-09 23:49:51
+ * @Last Modified time: 2019-11-14 19:32:58
  * 业务相关路由定义
  */
 
 import { createRouter, response, catchError } from "../modules";
 import * as cateSrv from "../services/category";
+import * as goodsSrv from '../services/goods';
 const router = createRouter();
 
 // 获取所有分类
@@ -37,5 +38,71 @@ router.delete(
     res.send(result)
   })
 );
+
+router.get(
+  "/goods",
+  catchError(async (req, res, next) => {
+    const {
+      pageNo,
+      pageSize,
+      name,
+      maxPrise,
+      minPrise,
+      updateTime,
+      createTime,
+      rest
+    } = req.query;
+    const result = await goodsSrv.getGoods({
+      pageNo,
+      pageSize: pageSize || 10,
+      name,
+      maxPrise,
+      minPrise,
+      updateTime,
+      createTime,
+      rest
+    });
+    res.send(result);
+  })
+);
+
+router.post(
+  "/goods",
+  catchError(async (req, res, next) => {
+    const {
+      id,
+      name,
+      desc,
+      prise,
+      unit,
+      category,
+      images,
+      totalNum,
+      restNum
+    } = req.body;
+    const result = goodsSrv.addOrUpdateGoods({
+      id,
+      name,
+      desc,
+      prise,
+      unit,
+      category,
+      images,
+      totalNum,
+      restNum
+    });
+    res.send(result);
+  })
+);
+
+router.delete(
+  "/goods",
+  catchError(async (req, res, next) => {
+    const { id } = req.query;
+    const result = goodsSrv.delGoods(id);
+    res.send(result);
+  })
+);
+
 
 export default router;

@@ -5,14 +5,8 @@
 			<el-button type="primary" @click="handleCreate">新增</el-button>
 		</div>
 		<el-table border style="width: 100%" :data="tableData">
-			<el-table-column
-				label="分类名称"
-				prop="name"
-			></el-table-column>
-			<el-table-column
-				label="优先级"
-				prop="preority"
-			></el-table-column>
+			<el-table-column label="分类名称" prop="name"></el-table-column>
+			<el-table-column label="优先级" prop="preority"></el-table-column>
 			<el-table-column
 				label="创建时间"
 				prop="createTime"
@@ -25,11 +19,19 @@
 			></el-table-column>
 			<el-table-column label="操作">
 				<template slot-scope="scope">
-					<el-button @click="handleEdit(scope.row)" type="primary" size="small">编辑</el-button>
-					<vue-del-pop :id="scope.row.id" :handleDelete="handleDelete.bind(scope.row.id)">
+					<el-button
+						@click="handleEdit(scope.row)"
+						type="primary"
+						size="small"
+						>编辑</el-button
+					>
+					<vue-del-pop
+						:id="scope.row.id"
+						title="确定要删除分类吗？"
+						:handleDelete="handleDelete.bind(scope.row.id)"
+					>
 						<el-button type="danger" size="small">删除</el-button>
 					</vue-del-pop>
-
 				</template>
 			</el-table-column>
 		</el-table>
@@ -43,12 +45,12 @@
 </template>
 
 <script>
-import { Table, TableColumn, Popover } from 'element-ui';
-import { mapActions } from 'vuex';
-import VueDialog from './dialog';
-import VueDelPop from './delPop';
-import moment from 'moment';
-import apis from '../../http/apis';
+import { Table, TableColumn, Popover } from "element-ui";
+import { mapActions } from "vuex";
+import VueDialog from "./dialog";
+import VueDelPop from "../../components/delPop";
+import moment from "moment";
+import apis from "../../http/apis";
 export default {
 	data() {
 		return {
@@ -67,15 +69,16 @@ export default {
 		this.getCategory().then(res => (this.tableData = res));
 	},
 	methods: {
-		...mapActions(['getCategory']),
+		...mapActions(["getCategory"]),
 		handleCreate() {
 			this.dialogVisible = true;
-			this.$refs.dialog.$emit('setDialogValue', {
-				name: '', preority: 0
+			this.$refs.dialog.$emit("setDialogValue", {
+				name: "",
+				preority: 0
 			});
 		},
 		handleEdit(row) {
-			this.$refs.dialog.$emit('setDialogValue', {...row});
+			this.$refs.dialog.$emit("setDialogValue", { ...row });
 			this.dialogVisible = true;
 		},
 		handleDialogClose() {
@@ -83,13 +86,13 @@ export default {
 		},
 		async handleDelete(id) {
 			await this.$delete(apis.cate, {
-				params: {id}
+				params: { id }
 			});
 			const res = await this.getCategory();
 			this.tableData = res;
 			this.$message({
-				message: '删除成功',
-				type: 'success'
+				message: "删除成功",
+				type: "success"
 			});
 		},
 		async handleDialogSubmit(form) {
@@ -98,23 +101,21 @@ export default {
 			const res = await this.getCategory();
 			this.tableData = res;
 			this.$message({
-				message: '修改成功',
-				type: 'success'
+				message: "修改成功",
+				type: "success"
 			});
 		},
 
 		createTimeFormat(row) {
-			if (!row.createTime) return '';
-			return moment(Number(row.createTime)).format('YYYY-MM-DD HH:mm:ss');
+			if (!row.createTime) return "";
+			return moment(Number(row.createTime)).format("YYYY-MM-DD HH:mm:ss");
 		},
 		updateTimeFormat(row) {
-			if (!row.updateTime) return '';
-			return moment(Number(row.updateTime)).format('YYYY-MM-DD HH:mm:ss');
+			if (!row.updateTime) return "";
+			return moment(Number(row.updateTime)).format("YYYY-MM-DD HH:mm:ss");
 		}
 	}
 };
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>
