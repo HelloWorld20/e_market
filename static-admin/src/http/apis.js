@@ -53,7 +53,9 @@ export const addOrUpdateGoods = params => {
 };
 
 export const delGoods = id => {
-	return $delete(urls.goods, id);
+	return $delete(urls.goods, {
+		params: { id }
+	});
 };
 
 export default urls;

@@ -2,13 +2,12 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-14 19:33:08
+ * @Last Modified time: 2019-11-15 19:21:21
  * 商品管理
  */
 import * as config from "../modules/config";
 import { ServiceError } from "../modules";
 import * as db_goods from "../db/goods";
-import { Request } from "express";
 
 export const getGoods = async (params: {
   pageNo: number; // 页码
@@ -20,12 +19,20 @@ export const getGoods = async (params: {
   createTime?: string; // 创建时间
   rest?: number; // 库存
 }) => {
-  return db_goods.findAggregate([
+  const totalPromise = db_goods.find({status: 1}).count();
+  const dataPromise = db_goods.findAggregate([
     {$sort: {id: 1}},         // 顺序
     {$match: {status: 1}},    // 只选上架
     {$skip: (params.pageNo * params.pageSize)}, // 页码
     {$limit: params.pageSize}   // 页数
-  ])
+  ]);
+
+  const [total, data] = await Promise.all([totalPromise, dataPromise])
+
+  return {
+    data,
+    total
+  }
 };
 
 export const addOrUpdateGoods = async (params: {
@@ -65,6 +72,4 @@ export const addOrUpdateGoods = async (params: {
   }
 };
 
-export const delGoods = (id: Number) => {
-  return db_goods.update({ id }, { status: -1 });
-};
+export const delGoods = (id: Number) => db_goods.update({ id }, { status: -1 });

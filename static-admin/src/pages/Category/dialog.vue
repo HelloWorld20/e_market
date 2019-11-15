@@ -27,7 +27,6 @@ export default {
 				preority: 0,
 				id: undefined
 			},
-			// formLabelWidth: '120px',
 			rules: {
 				name: [
 					{ required: true, message: '请输入分类名称', trigger: 'blur' }
@@ -36,7 +35,7 @@ export default {
 		};
 	},
 	created() {
-		this.$on('setDialogValue', this.setDialogValue);
+		this.$on('setValue', this.setValue);
 	},
 	props: {
 		visible: {
@@ -51,7 +50,7 @@ export default {
 		[FormItem.name]: FormItem
 	},
 	methods: {
-		setDialogValue(opts) {
+		setValue(opts) {
 			this.form.name = opts.name;
 			this.form.preority = opts.preority;
 			if (opts.id) {
@@ -61,7 +60,6 @@ export default {
 			}
 		},
 		handleSubmit() {
-			// console.log('beforeClose');
 			this.$refs['form'].validate(valid => {
 				if (valid) {
 					console.log('submit');
@@ -71,7 +69,7 @@ export default {
 		}
 	},
 	beforeDestroyed() {
-		this.$off('setDialogValue', this.setDialogValue);
+		this.$off('setValue', this.setValue);
 	}
 };
 </script>

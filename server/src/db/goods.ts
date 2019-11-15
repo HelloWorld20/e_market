@@ -3,7 +3,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-05 14:50:37
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-14 19:33:05
+ * @Last Modified time: 2019-11-15 19:16:11
  */
 
 import mongo from "../modules/mongodb";
@@ -27,28 +27,28 @@ const schema = new mongoose.Schema(model);
 
 const COLLECTION = "goods";
 
-export const insert = async (value: any) => {
+export const insert = (value: any) => {
   return mongo.insert(COLLECTION, schema, value);
 };
 
-export const find = async (condition?: any) => {
+export const find = (condition?: any) => {
   return mongo.find(COLLECTION, schema, condition);
 };
 
-export const findAggregate = async (aggregate: Array<any>) => {
+export const findAggregate = (aggregate: Array<any>) => {
   const Modal = mongo.getModal(COLLECTION, schema);
   return Modal.aggregate(aggregate);
 }
 
-export const del = async (condition: any) => {
+export const del = (condition: any) => {
   return mongo.del(COLLECTION, schema, condition);
 };
 
-export const update = async (condition: any, value: Record<string, any>) => {
+export const update = (condition: any, value: Record<string, any>) => {
   return mongo.update(COLLECTION, schema, condition, value);
 };
 
-export const findMax = async (): Promise<Record<string, any>> => {
+export const findMax = () => {
   const Modal = mongo.getModal(COLLECTION, schema);
   return Modal.aggregate([{$sort:{id: -1}}, {$limit: 1}])
 }
