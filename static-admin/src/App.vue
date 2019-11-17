@@ -38,7 +38,7 @@
 
 <script>
 import {Row, Col, Menu, MenuItem, MenuItemGroup, Submenu} from 'element-ui';
-import { logout } from './http/apis'
+import { logout } from './http/apis';
 const MENU_HIDE_ROUTE = ['Login'];
 export default {
 	data() {
@@ -66,7 +66,7 @@ export default {
 		},
 		async logout() {
 			await logout();
-			this.$router.replace('Login')
+			this.$router.replace('Login');
 		}
 	},
 	watch: {
@@ -87,9 +87,12 @@ export default {
 .menu{
 	overflow-x: hidden;
 	flex-basis: 200px;
+	width: 200px;
+	min-width: 200px;
 }
 .router-view{
-	flex: 1;
+	// flex: 1;
+	width: calc(100% - 200px);
 	padding: 20px;
 	box-sizing: border-box;
 }

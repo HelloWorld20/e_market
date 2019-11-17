@@ -15,17 +15,24 @@
 				label="创建时间"
 				prop="createTime"
 				:formatter="timeFormat"
+				width="170"
 			></el-table-column>
 			<el-table-column
 				label="更新时间"
 				prop="updateTime"
 				:formatter="timeFormat"
+				width="170"
 			></el-table-column>
-			<el-table-column label="分类名称" prop="name"></el-table-column>
-			<el-table-column label="描述" prop="desc"></el-table-column>
-			<el-table-column label="单价" prop="prise"></el-table-column>
-			<el-table-column label="单位" prop="unit"></el-table-column>
-			<el-table-column label="图片" prop="images">
+			<el-table-column label="名称" prop="name" width="100"></el-table-column>
+			<el-table-column label="分类名称" prop="name" width="100">
+				<template slot-scope="scope">
+					<span>{{getCateName(scope.row.category)}}</span>
+				</template>
+			</el-table-column>
+			<el-table-column label="描述" prop="desc" width="200"></el-table-column>
+			<el-table-column label="单价" prop="prise" width="100"></el-table-column>
+			<el-table-column label="单位" prop="unit" width="100"></el-table-column>
+			<el-table-column label="图片" prop="images" width="120">
 				<template slot-scope="scope">
 					<el-image
 						style="width: 100px; height: 100px"
@@ -34,9 +41,9 @@
 					/>
 				</template>
 			</el-table-column>
-			<el-table-column label="当前库存" prop="restNum"></el-table-column>
-			<el-table-column label="总库存" prop="totalNum"></el-table-column>
-			<el-table-column label="操作">
+			<el-table-column label="当前库存" prop="restNum" width="100"></el-table-column>
+			<el-table-column label="总库存" prop="totalNum" width="100"></el-table-column>
+			<el-table-column label="操作" fixed="right" width="150">
 				<template slot-scope="scope">
 					<el-button
 						@click="handleEdit(scope.row)"
@@ -54,9 +61,9 @@
 				</template>
 			</el-table-column>
 		</el-table>
-
 		<vue-dialog
 			ref="dialog"
+			:category="category"
 			:visible="dialogVisible"
 			@close="handleDialogClose"
 			@submit="handleDialogSubmit"
@@ -65,16 +72,17 @@
 </template>
 
 <script>
-import { Table, TableColumn, Popover, Pagination, Image } from "element-ui";
-import { getGoods, addOrUpdateGoods, delGoods } from "../../http/apis";
-import VueDelPop from "../../components/delPop";
-import VueDialog from "./dialog";
-import moment from "moment";
-import * as _ from "lodash";
+import { Table, TableColumn, Popover, Pagination, Image } from 'element-ui';
+import { getGoods, addOrUpdateGoods, delGoods, getCategory } from '../../http/apis';
+import VueDelPop from '../../components/delPop';
+import VueDialog from './dialog';
+import moment from 'moment';
+import * as _ from 'lodash';
 export default {
 	data() {
 		return {
 			tableData: [],
+			category: [],
 			dialogVisible: false,
 			currentPage: 0,
 			totalPage: 1
@@ -90,25 +98,26 @@ export default {
 		VueDialog
 	},
 	async created() {
-		const result = await getGoods({ pageNo: this.currentPage });
-		this.tableData = result.data;
-		this.totalPage = result.total;
+		const goodsList = await getGoods({ pageNo: this.currentPage });
+		this.tableData = goodsList.data;
+		this.totalPage = goodsList.total;
+		this.category = await getCategory();
 	},
 	methods: {
 		handleCreate() {
 			this.dialogVisible = true;
-			this.$refs["dialog"].$emit("clearValue");
+			this.$refs['dialog'].$emit('clearValue');
 		},
 		handleEdit(row) {
 			this.dialogVisible = true;
-			this.$refs["dialog"].$emit("setValue", row);
+			this.$refs['dialog'].$emit('setValue', row);
 		},
 		async handleDelete(id) {
 			await delGoods(Number(id));
 			const result = await getGoods({ pageNo: this.currentPage });
 			this.tableData = result.data;
 			this.totalPage = result.total;
-			this.$message({ message: "删除成功", type: "success" });
+			this.$message({ message: '删除成功', type: 'success' });
 		},
 		handleDialogClose() {
 			this.dialogVisible = false;
@@ -118,7 +127,7 @@ export default {
 			const result = await getGoods({ pageNo: this.currentPage });
 			this.tableData = result.data;
 			this.totalPage = result.total;
-			this.$message({ message: "更新成功", type: "success" });
+			this.$message({ message: '更新成功', type: 'success' });
 			this.dialogVisible = false;
 		},
 		async pageChange(page) {
@@ -128,8 +137,8 @@ export default {
 			this.totalPage = result.total;
 		},
 		timeFormat(row, el) {
-			if (!row[el.property]) return "";
-			return moment(Number(row[el.property])).format("YYYY-MM-DD HH:mm:ss");
+			if (!row[el.property]) return '';
+			return moment(Number(row[el.property])).format('YYYY-MM-DD HH:mm:ss');
 		},
 		getImageLocation(url) {
 			if (_.isArray(url)) {
@@ -138,9 +147,19 @@ export default {
 				});
 			}
 			return `${location.protocol}//${url}`;
+		},
+		getCateName(type) {
+			if (this.category.length > 0) {
+				const result = this.category.find(v => v.id === type);
+				if (result) {
+					return result.name;
+				}
+				return '没有对应分类	';
+			}
+			return '加载中...';
 		}
 	}
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped src="./style.less"></style>

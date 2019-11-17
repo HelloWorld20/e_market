@@ -18,7 +18,16 @@
 				<el-input v-model="form.unit"></el-input>
 			</el-form-item>
 			<el-form-item prop="category" label="所属分类:" label-width="120px">
-				<el-input-number v-model="form.category"></el-input-number>
+				<!-- <el-input-number v-model="form.category"></el-input-number> -->
+				<el-select v-model="form.category">
+					<el-option
+						v-for="(item, i) in category"
+						:key="i"
+						:label="item.name"
+						:value="item.id"
+					>
+					</el-option>
+				</el-select>
 			</el-form-item>
 			<el-form-item prop="image" label="商品图片:" label-width="120px">
 				<el-upload
@@ -55,18 +64,18 @@
 </template>
 
 <script>
-import { Dialog, Form, FormItem, Upload } from "element-ui";
-import apis from "../../http/apis";
+import { Dialog, Form, FormItem, Upload, Select, Option } from 'element-ui';
+import apis from '../../http/apis';
 export default {
 	data() {
 		return {
 			uploadUrl: apis.upload,
-			imageUrl: "",
+			imageUrl: '',
 			form: {
-				name: "",
-				desc: "",
+				name: '',
+				desc: '',
 				prise: 1,
-				unit: "",
+				unit: '',
 				category: 0,
 				images: [''],
 				totalNum: 1,
@@ -77,57 +86,57 @@ export default {
 				name: [
 					{
 						required: true,
-						message: "请输入商品名称",
-						trigger: "blur"
+						message: '请输入商品名称',
+						trigger: 'blur'
 					}
 				],
 				desc: [
 					{
 						required: true,
-						message: "请输入商品描述",
-						trigger: "blur"
+						message: '请输入商品描述',
+						trigger: 'blur'
 					}
 				],
 				prise: [
 					{
 						required: true,
-						message: "请输入商品价格",
-						trigger: "blur"
+						message: '请输入商品价格',
+						trigger: 'blur'
 					}
 				],
 				unit: [
 					{
 						required: true,
-						message: "请输入价格单位",
-						trigger: "blur"
+						message: '请输入价格单位',
+						trigger: 'blur'
 					}
 				],
 				category: [
 					{
 						required: true,
-						message: "请输入所属分类",
-						trigger: "blur"
+						message: '请输入所属分类',
+						trigger: 'blur'
 					}
 				],
 				images: [
 					{
 						required: true,
-						message: "请输入商品图片",
-						trigger: "blur"
+						message: '请输入商品图片',
+						trigger: 'blur'
 					}
 				],
 				totalNum: [
 					{
 						required: true,
-						message: "请输入商品总库存",
-						trigger: "blur"
+						message: '请输入商品总库存',
+						trigger: 'blur'
 					}
 				],
 				restNum: [
 					{
 						required: true,
-						message: "请输入商品当前库存",
-						trigger: "blur"
+						message: '请输入商品当前库存',
+						trigger: 'blur'
 					}
 				]
 			}
@@ -137,24 +146,29 @@ export default {
 		[Dialog.name]: Dialog,
 		[Form.name]: Form,
 		[FormItem.name]: FormItem,
-		[Upload.name]: Upload
+		[Upload.name]: Upload,
+		[Select.name]: Select,
+		[Option.name]: Option
 	},
 	props: {
 		visible: {
 			require: true,
 			type: Boolean,
 			default: false
+		},
+		category: {
+			type: Array
 		}
 	},
 	created() {
-		this.$on("setValue", this.setValue);
-		this.$on("clearValue", this.clearValue);
+		this.$on('setValue', this.setValue);
+		this.$on('clearValue', this.clearValue);
 	},
 	methods: {
 		handleSubmit() {
-			this.$refs["form"].validate(valid => {
+			this.$refs['form'].validate(valid => {
 				if (valid) {
-					this.$emit("submit", this.form);
+					this.$emit('submit', this.form);
 				}
 			});
 		},
@@ -179,12 +193,12 @@ export default {
 		clearValue() {
 			this.imageUrl = '';
 			this.form = {
-				name: "",
-				desc: "",
+				name: '',
+				desc: '',
 				prise: 1,
-				unit: "",
+				unit: '',
 				category: 0,
-				images: "",
+				images: '',
 				totalNum: 1,
 				restNum: 1,
 				id: undefined
@@ -192,18 +206,18 @@ export default {
 		},
 		beforeUpload(file) {
 			const isExt =
-				file.type === "image/jpeg" || file.type === "image/png";
+				file.type === 'image/jpeg' || file.type === 'image/png';
 			const isLt2M = file.size / 1024 / 1024 < 1;
-			let message = "";
+			let message = '';
 			if (!isExt) {
-				message = "上传格式只能是png，jpg，jpeg";
+				message = '上传格式只能是png，jpg，jpeg';
 			}
 			if (!isLt2M) {
-				message = "上传头像图片大小不能超过 1MB!";
+				message = '上传头像图片大小不能超过 1MB!';
 			}
 
 			if (message) {
-				this.$message({ message, type: "error" });
+				this.$message({ message, type: 'error' });
 				return false;
 			}
 			return true;
@@ -214,7 +228,12 @@ export default {
 		}
 	},
 	beforeDestroyed() {
-		this.$off("setDialogValue", this.setDialogValue);
+		this.$off('setDialogValue', this.setDialogValue);
+	},
+	watch: {
+		category(val) {
+			console.log('val', val);
+		}
 	}
 };
 </script>

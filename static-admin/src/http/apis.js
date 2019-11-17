@@ -58,4 +58,6 @@ export const delGoods = id => {
 	});
 };
 
+export const getCategory = () => $get(urls.cate);
+
 export default urls;
