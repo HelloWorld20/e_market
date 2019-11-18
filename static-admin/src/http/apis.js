@@ -58,6 +58,7 @@ export const delGoods = id => {
 	});
 };
 
+// 分类管理
 export const getCategory = () => $get(urls.cate);
 
 export default urls;

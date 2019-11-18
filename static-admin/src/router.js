@@ -1,17 +1,17 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
-import Helloworld from '@/pages/Helloworld';
 import Category from '@/pages/Category';
 import Login from '@/pages/Login';
 import Goods from '@/pages/Goods';
+import HomaManage from '@/pages/HomaManage';
 
 Vue.use(Router);
 const router = new Router({
 	routes: [{
 		path: '/',
 		name: '',
-		component: Helloworld
+		component: Login
 	}, {
 		path: '/Category',
 		name: 'Category',
@@ -20,6 +20,10 @@ const router = new Router({
 		path: '/Login',
 		name: 'Login',
 		component: Login
+	}, {
+		path: '/HomaManage',
+		name: 'HomaManage',
+		component: HomaManage
 	}, {
 		path: '/Goods',
 		name: 'Goods',
