@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-09 23:18:08
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-14 19:32:58
+ * @Last Modified time: 2019-11-19 18:45:07
  * 业务相关路由定义
  */
 
@@ -98,8 +98,9 @@ router.post(
 router.delete(
   "/goods",
   catchError(async (req, res, next) => {
-    const { id } = req.query;
-    const result = goodsSrv.delGoods(id);
+    const { ids } = req.query;
+    console.log(ids.split(','))
+    const result = await goodsSrv.delGoods(ids.split(','));
     res.send(result);
   })
 );

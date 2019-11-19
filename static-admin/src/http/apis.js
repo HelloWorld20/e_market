@@ -52,9 +52,11 @@ export const addOrUpdateGoods = params => {
 	return $post(urls.goods, params);
 };
 
-export const delGoods = id => {
+export const delGoods = ids => {
+	console.log('typeof', typeof ids);
+	const idsStr = ids.reduce((a, b) => (a + ',' + b), '').slice(1);
 	return $delete(urls.goods, {
-		params: { id }
+		params: { ids: idsStr }
 	});
 };
 

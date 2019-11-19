@@ -4,7 +4,7 @@ import Router from 'vue-router';
 import Category from '@/pages/Category';
 import Login from '@/pages/Login';
 import Goods from '@/pages/Goods';
-import HomaManage from '@/pages/HomaManage';
+import HomeManage from '@/pages/HomeManage';
 
 Vue.use(Router);
 const router = new Router({
@@ -21,9 +21,9 @@ const router = new Router({
 		name: 'Login',
 		component: Login
 	}, {
-		path: '/HomaManage',
-		name: 'HomaManage',
-		component: HomaManage
+		path: '/HomeManage',
+		name: 'HomeManage',
+		component: HomeManage
 	}, {
 		path: '/Goods',
 		name: 'Goods',
