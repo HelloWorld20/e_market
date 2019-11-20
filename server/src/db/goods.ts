@@ -3,7 +3,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-05 14:50:37
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-15 19:16:11
+ * @Last Modified time: 2019-11-20 14:22:32
  */
 
 import mongo from "../modules/mongodb";
@@ -15,7 +15,7 @@ const model = {
   id: Number,
   name: String, // 商品名称
   desc: String, // 商品描述
-  prise: String,  // 单价
+  prise: Number,  // 单价
   unit: String,  // 单位
   category: Number, // 所属分类
   images: [],  // 商品图片
@@ -52,3 +52,7 @@ export const findMax = () => {
   const Modal = mongo.getModal(COLLECTION, schema);
   return Modal.aggregate([{$sort:{id: -1}}, {$limit: 1}])
 }
+
+export const getModal = () =>{
+  return mongo.getModal(COLLECTION, schema);
+};

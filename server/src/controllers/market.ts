@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-09 23:18:08
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-19 18:45:07
+ * @Last Modified time: 2019-11-20 11:15:18
  * 业务相关路由定义
  */
 
@@ -50,7 +50,8 @@ router.get(
       minPrise,
       updateTime,
       createTime,
-      rest
+      rest,
+      category
     } = req.query;
     const result = await goodsSrv.getGoods({
       pageNo,
@@ -60,7 +61,8 @@ router.get(
       minPrise,
       updateTime,
       createTime,
-      rest
+      rest,
+      category
     });
     res.send(result);
   })
@@ -99,7 +101,6 @@ router.delete(
   "/goods",
   catchError(async (req, res, next) => {
     const { ids } = req.query;
-    console.log(ids.split(','))
     const result = await goodsSrv.delGoods(ids.split(','));
     res.send(result);
   })

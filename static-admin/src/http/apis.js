@@ -33,6 +33,7 @@ export const logout = () => {
  * @param updateTime?: string; // 更新时间
  * @param createTime?: string; // 创建时间
  * @param rest?: number; // 库存
+ * @param category?: number; // 分类
  */
 export const getGoods = params => {
 	return $get(urls.goods, { params });
