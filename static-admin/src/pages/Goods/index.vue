@@ -3,6 +3,7 @@
         <h1>商品管理</h1>
         <div class="goods-btns">
             <el-button type="primary" @click="handleCreate">新增</el-button>
+			<el-button type="primary" @click="handleAdd2Recommend">添加推荐</el-button>
             <el-button type="danger" @click="handleDeleteMulti">删除</el-button>
         </div>
         <el-divider></el-divider>
@@ -228,7 +229,14 @@ export default {
         handleCreate() {
             this.dialogVisible = true;
             this.$refs['dialog'].$emit('clearValue');
-        },
+		},
+		handleAdd2Recommend() {
+			if (this.selectedRow.length <= 0) {
+				this.$message({ message: '请勾选商品' });
+				return;
+			}
+			// 添加商品到推荐列表
+		},
         handleEdit(row) {
             this.dialogVisible = true;
             this.$refs['dialog'].$emit('setValue', row);
@@ -257,7 +265,6 @@ export default {
 						message: '已取消删除'
 					});
 				});
-            // this.handleDelete(this.selectedRow);
         },
         handleSelectionChange(val) {
             this.selectedRow = val.map(v => v.id);
