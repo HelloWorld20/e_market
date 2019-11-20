@@ -14,7 +14,8 @@
 					</template>
 					<el-menu-item index="1-1" data-id="Category">分类管理</el-menu-item>
 					<el-menu-item index="1-2" data-id="Goods">商品管理</el-menu-item>
-					<el-menu-item index="1-3">选项3</el-menu-item>
+					<el-menu-item index="1-3" data-id="HomeManage">首页管理</el-menu-item>
+					<el-menu-item index="1-4" data-id="Recommend">推荐商品管理</el-menu-item>
 				</el-submenu>
 				<el-menu-item index="2">
 					<i class="el-icon-menu"></i>

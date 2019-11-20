@@ -9,7 +9,10 @@
 
         <el-form :modal="form" ref="form">
             <el-form-item prop="name" label="商品名称:" label-width="150px">
-                <el-input v-model="form.name"></el-input>
+                <el-input
+                    v-model="form.name"
+                    placeholder="请输入商品名称"
+                ></el-input>
             </el-form-item>
             <el-form-item prop="minPrise" label="价格范围:" label-width="150px">
                 <el-input-number v-model="form.minPrise"></el-input-number>
@@ -19,7 +22,7 @@
 
             <el-form-item prop="category" label="分类:" label-width="150px">
                 <el-select v-model="form.category">
-					<el-option :key="-1" label="无" :value="0"></el-option>
+                    <el-option :key="-1" label="无" :value="0"></el-option>
                     <el-option
                         v-for="(item, i) in category"
                         :key="i"
@@ -141,11 +144,8 @@ import {
     Image,
     Form,
     FormItem,
-    Divider,
     Input,
     InputNumber,
-    Option,
-    Select,
     Slider,
     Col,
 } from 'element-ui';
@@ -172,7 +172,8 @@ export default {
             },
             dialogVisible: false,
             currentPage: 0,
-			totalPage: 1
+			totalPage: 1,
+			selectedRow: []
         };
     },
     components: {
@@ -183,12 +184,9 @@ export default {
         [Pagination.name]: Pagination,
         [Form.name]: Form,
         [FormItem.name]: FormItem,
-        [Divider.name]: Divider,
         [Slider.name]: Slider,
         [Input.name]: Input,
         [InputNumber.name]: InputNumber,
-        [Option.name]: Option,
-        [Select.name]: Select,
         [Col.name]: Col,
         VueDelPop,
         VueDialog,
@@ -243,7 +241,23 @@ export default {
             this.$message({ message: '删除成功', type: 'success' });
         },
         handleDeleteMulti() {
-            this.handleDelete(this.selectedRow);
+			if (this.selectedRow.length <= 0) {
+				this.$message({ message: '请勾选商品' });
+				return;
+			}
+			this.$confirm('此操作将永久删除商品, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+				}).then(() => {
+					this.handleDelete(this.selectedRow);
+				}).catch(() => {
+					this.$message({
+						type: 'info',
+						message: '已取消删除'
+					});
+				});
+            // this.handleDelete(this.selectedRow);
         },
         handleSelectionChange(val) {
             this.selectedRow = val.map(v => v.id);

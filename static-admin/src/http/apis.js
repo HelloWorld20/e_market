@@ -9,21 +9,16 @@ let urls = {
 	register: '/api/auth/register',
 	logout: '/api/auth/logout',
 	goods: '/api/market/goods',
-	cate: '/api/market/category'	// 分类相关接口
+	cate: '/api/market/category',	// 分类相关接口
+	home: '/api/market/home'	// 首页相关接口
 };
 
 
-export const login = (username, password) => {
-	return $post(urls.login, { username, password });
-};
+export const login = (username, password) => $post(urls.login, { username, password });
 
-export const register = (username, password) => {
-	return $post(urls.register, { username, password });
-};
+export const register = (username, password) => $post(urls.register, { username, password });
 
-export const logout = () => {
-	return $post(urls.logout);
-};
+export const logout = () => $post(urls.logout);
 /**
  * @param pageNo: number; // 页码
  * @param pageSize: number; // 页数
@@ -35,9 +30,7 @@ export const logout = () => {
  * @param rest?: number; // 库存
  * @param category?: number; // 分类
  */
-export const getGoods = params => {
-	return $get(urls.goods, { params });
-};
+export const getGoods = params => $get(urls.goods, { params });
 /**
  * @param {*} id?: number;
  * @param {*} name?: string;
@@ -49,12 +42,9 @@ export const getGoods = params => {
  * @param {*} totalNum?: number;
  * @param {*} restNum?: number;
  */
-export const addOrUpdateGoods = params => {
-	return $post(urls.goods, params);
-};
+export const addOrUpdateGoods = params => $post(urls.goods, params);
 
 export const delGoods = ids => {
-	console.log('typeof', typeof ids);
 	const idsStr = ids.reduce((a, b) => (a + ',' + b), '').slice(1);
 	return $delete(urls.goods, {
 		params: { ids: idsStr }
@@ -63,5 +53,9 @@ export const delGoods = ids => {
 
 // 分类管理
 export const getCategory = () => $get(urls.cate);
+
+// 首页相关;
+export const getHome = () => $get(urls.home);
+export const updateHome = params => $post(urls.home, params);
 
 export default urls;

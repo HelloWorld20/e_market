@@ -19,6 +19,7 @@
             </el-form-item>
             <el-form-item prop="category" label="所属分类:" label-width="120px">
                 <el-select v-model="form.category">
+					<el-option :key="-1" label="无" :value="0"></el-option>
                     <el-option
                         v-for="(item, i) in category"
                         :key="i"
@@ -63,7 +64,7 @@
 </template>
 
 <script>
-import { Dialog, Form, FormItem, Upload, Select, Option } from 'element-ui';
+import { Dialog, Form, FormItem, Upload } from 'element-ui';
 import apis from '../../http/apis';
 export default {
     data() {
@@ -145,9 +146,7 @@ export default {
         [Dialog.name]: Dialog,
         [Form.name]: Form,
         [FormItem.name]: FormItem,
-        [Upload.name]: Upload,
-        [Select.name]: Select,
-        [Option.name]: Option,
+        [Upload.name]: Upload
     },
     props: {
         visible: {
