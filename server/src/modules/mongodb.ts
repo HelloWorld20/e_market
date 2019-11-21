@@ -1,3 +1,10 @@
+/*
+ * @Author: jianghong.wei
+ * @Date: 2019-11-21 15:07:35
+ * @Last Modified by:   jianghong.wei
+ * @Last Modified time: 2019-11-21 15:07:35
+ * mongodb管理
+ */
 import * as mongoose from "mongoose";
 import * as config from "./config";
 const mongoConf = config.get("mongo");
@@ -37,9 +44,9 @@ class Mongo {
   find(collection: string, schema: any, condition?: Record<string, any>) {
     const Model = mongoose.model(collection, schema);
     if (condition) {
-      return Model.find(condition);
+      return Model.find(condition, {_id: 0, __v: 0});
     } else {
-      return Model.find();
+      return Model.find({}, {_id: 0, _v: 0});
     }
   }
   // 插入一个

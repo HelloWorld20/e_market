@@ -5,7 +5,6 @@ import Category from '@/pages/Category';
 import Login from '@/pages/Login';
 import Goods from '@/pages/Goods';
 import HomeManage from '@/pages/HomeManage';
-import Recommend from '@/pages/Recommend';
 
 Vue.use(Router);
 const router = new Router({
@@ -29,10 +28,6 @@ const router = new Router({
 		path: '/Goods',
 		name: 'Goods',
 		component: Goods
-	}, {
-		path: '/Recommend',
-		name: 'Recommend',
-		component: Recommend
 	}, {
 		path: '*',
 		name: '*',

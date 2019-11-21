@@ -3,7 +3,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-05 14:50:37
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-20 14:22:32
+ * @Last Modified time: 2019-11-21 10:59:53
  */
 
 import mongo from "../modules/mongodb";
@@ -21,7 +21,8 @@ const model = {
   images: [],  // 商品图片
   totalNum: Number, // 总库存
   restNum: Number,  // 剩余库存
-  status: Number  // 状态 -1: 不显示，1显示
+  status: Number,  // 状态 -1: 不显示，1显示
+  isRecommend: Boolean  // 是否是推荐商品
 };
 const schema = new mongoose.Schema(model);
 
@@ -36,6 +37,7 @@ export const find = (condition?: any) => {
 };
 
 export const findAggregate = (aggregate: Array<any>) => {
+  aggregate.push({$project: {_id: 0, __v: 0}})
   const Modal = mongo.getModal(COLLECTION, schema);
   return Modal.aggregate(aggregate);
 }

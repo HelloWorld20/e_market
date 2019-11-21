@@ -55,6 +55,13 @@
             >
                 <el-input-number v-model="form.restNum"></el-input-number>
             </el-form-item>
+			<el-form-item
+                prop="isRecommend"
+                label="推荐商品："
+                label-width="120px"
+            >
+                <el-checkbox v-model="form.isRecommend"></el-checkbox>
+            </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="$emit('close')">取 消</el-button>
@@ -80,7 +87,8 @@ export default {
                 images: [''],
                 totalNum: 1,
                 restNum: 1,
-                id: undefined,
+				id: undefined,
+				isRecommend: false,
             },
             rules: {
                 name: [
@@ -183,7 +191,8 @@ export default {
             this.form.category = opts.category;
             this.form.images = opts.images;
             this.form.totalNum = opts.totalNum;
-            this.form.restNum = opts.restNum;
+			this.form.restNum = opts.restNum;
+			this.form.isRecommend = opts.isRecommend;
             if (opts.id) {
                 this.form.id = opts.id;
             } else {
@@ -204,7 +213,8 @@ export default {
                 images: '',
                 totalNum: 1,
                 restNum: 1,
-                id: undefined,
+				id: undefined,
+				isRecommend: false,
             };
         },
         beforeUpload(file) {

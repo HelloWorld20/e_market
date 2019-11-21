@@ -2,11 +2,12 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-20 14:35:24
+ * @Last Modified time: 2019-11-21 15:08:51
  * 商品管理
  */
 import { ServiceError } from '../modules';
 import * as db_goods from '../db/goods';
+import * as _ from 'lodash';
 
 export const getGoods = async (params: {
     pageNo: number; // 页码
@@ -18,13 +19,11 @@ export const getGoods = async (params: {
     createTime?: string; // 创建时间
     rest?: number; // 库存
     category?: number; // 分类
+    isRecommend?: boolean; // 是否是推荐
 }) => {
-    const totalPromise = db_goods.find({ status: 1 }).count();
     let condition: Array<any> = [
         { $sort: { id: 1 } }, // 顺序
         { $match: { status: 1 } }, // 只选上架
-        { $skip: params.pageNo * params.pageSize }, // 页码
-        { $limit: params.pageSize }, // 页数
     ];
     // 分类查询
     const category = Number(params.category);
@@ -44,16 +43,44 @@ export const getGoods = async (params: {
     if (params.name) {
         condition.push({ $match: { name: new RegExp(params.name) } });
     }
+    if (_.isBoolean(params.isRecommend)) {
+        condition.push({ $match: { isRecommend: params.isRecommend } });
+    }
+    // 当前条件的总数
+    const totalPromise = db_goods.findAggregate([
+        ...condition,
+        { $group: { _id: null, count: { $sum: 1 } } },
+    ]);
+    // 条件 + 分页
+    condition = condition.concat([
+        { $skip: params.pageNo * params.pageSize }, // 页码
+        { $limit: params.pageSize }, // 页数
+    ]);
     const dataPromise = db_goods.findAggregate(condition);
 
     const [total, data] = await Promise.all([totalPromise, dataPromise]);
 
     return {
         data,
-        total,
+        total: total[0].count,
     };
 };
 
+// 获取推荐商品
+// export const getRecommend = async (params: {
+//     pageNo: number; // 页码
+//     pageSize: number; // 页数
+// }) => {
+//     let condition: Array<any> = [
+//         { $sort: { id: 1 } }, // 顺序
+//         { $match: { status: 1, isRecommend: 1 } }, // 只选上架
+//         { $skip: params.pageNo * params.pageSize }, // 页码
+//         { $limit: params.pageSize }, // 页数
+//     ];
+
+// };
+
+// 更新商品
 export const addOrUpdateGoods = async (params: {
     id?: number;
     name?: string;
@@ -64,6 +91,7 @@ export const addOrUpdateGoods = async (params: {
     images?: Array<string>;
     totalNum?: number;
     restNum?: number;
+    isRecommend?: boolean;
 }) => {
     if (Object.keys(params).length <= 0) {
         throw new ServiceError('400', '参数为空');
@@ -91,7 +119,16 @@ export const addOrUpdateGoods = async (params: {
     }
 };
 
+// 删除商品
 export const delGoods = async (ids: Array<Number>) => {
-    ids = ids.map(v => Number(v));
     return db_goods.getModal().updateMany({ id: { $in: ids } }, { status: -1 });
+};
+// 批量更新推荐状态
+export const updateMultiRecommend = async (
+    ids: Array<Number>,
+    state: Boolean
+) => {
+    return db_goods
+        .getModal()
+        .updateMany({ id: { $in: ids } }, { isRecommend: state });
 };

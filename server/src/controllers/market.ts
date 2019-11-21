@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-09 23:18:08
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-20 17:31:53
+ * @Last Modified time: 2019-11-21 15:02:13
  * 业务相关路由定义
  */
 
@@ -53,6 +53,7 @@ router.get(
             createTime,
             rest,
             category,
+            isRecommend,
         } = req.query;
         const result = await goodsSrv.getGoods({
             pageNo,
@@ -64,6 +65,11 @@ router.get(
             createTime,
             rest,
             category,
+            isRecommend: isRecommend
+                ? isRecommend === 'true'
+                    ? true
+                    : false
+                : undefined,
         });
         res.send(result);
     })
@@ -82,6 +88,7 @@ router.post(
             images,
             totalNum,
             restNum,
+            isRecommend,
         } = req.body;
         const result = goodsSrv.addOrUpdateGoods({
             id,
@@ -93,6 +100,7 @@ router.post(
             images,
             totalNum,
             restNum,
+            isRecommend,
         });
         res.send(result);
     })
@@ -101,8 +109,10 @@ router.post(
 router.delete(
     '/goods',
     catchError(async (req, res) => {
-        const { ids } = req.query;
-        const result = await goodsSrv.delGoods(ids.split(','));
+        let { ids } = req.query;
+        ids = ids.split(',');
+        ids = ids.map((v: string) => Number(v));
+        const result = await goodsSrv.delGoods(ids);
         res.send(result);
     })
 );
@@ -124,4 +134,27 @@ router.post(
     })
 );
 
+router.post(
+    '/recommend',
+    catchError(async (req, res) => {
+        let { ids } = req.body;
+        ids = ids.split(',');
+        ids = ids.map((v: string) => Number(v));
+        const result = await goodsSrv.updateMultiRecommend(ids, true);
+        res.send(result);
+    })
+);
+
+router.delete(
+  '/recommend',
+  catchError(async (req, res) => {
+      let { ids } = req.query;
+      ids = ids.split(',');
+      ids = ids.map((v: string) => Number(v));
+      const result = await goodsSrv.updateMultiRecommend(ids, false);
+      res.send(result);
+  })
+);
+
+// updateMultiRecommend
 export default router;

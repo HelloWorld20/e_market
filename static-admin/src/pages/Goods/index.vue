@@ -3,8 +3,13 @@
         <h1>商品管理</h1>
         <div class="goods-btns">
             <el-button type="primary" @click="handleCreate">新增</el-button>
-			<el-button type="primary" @click="handleAdd2Recommend">添加推荐</el-button>
             <el-button type="danger" @click="handleDeleteMulti">删除</el-button>
+            <el-button type="primary" @click="handleAdd2Recommend"
+                >添加推荐</el-button
+            >
+            <el-button type="primary" @click="handleRemoveRecommend"
+                >移除推荐</el-button
+            >
         </div>
         <el-divider></el-divider>
 
@@ -31,6 +36,25 @@
                         :value="item.id"
                     >
                     </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item
+                prop="isRecommend"
+                label="是否推荐："
+                label-width="150px"
+            >
+                <el-select v-model="form.isRecommend">
+                    <el-option :key="0" label="无" :value="0"></el-option>
+                    <el-option
+                        :key="1"
+                        label="有推荐"
+                        :value="true"
+                    ></el-option>
+                    <el-option
+                        :key="2"
+                        label="不推荐"
+                        :value="false"
+                    ></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -108,6 +132,15 @@
                 prop="totalNum"
                 width="100"
             ></el-table-column>
+            <el-table-column
+                label="是否是推荐商品"
+                prop="isRecommend"
+                width="100"
+            >
+                <template slot-scope="scope">
+                    <span>{{ scope.row.isRecommend ? '是' : '否' }}</span>
+                </template>
+            </el-table-column>
             <el-table-column label="操作" fixed="right" width="150">
                 <template slot-scope="scope">
                     <el-button
@@ -155,6 +188,8 @@ import {
     addOrUpdateGoods,
     delGoods,
     getCategory,
+    updateRecommend,
+    delRecommend,
 } from '../../http/apis';
 import VueDelPop from '../../components/delPop';
 import VueDialog from './dialog';
@@ -170,11 +205,12 @@ export default {
                 category: 0,
                 minPrise: 0,
                 maxPrise: 100,
+                isRecommend: 0,
             },
             dialogVisible: false,
             currentPage: 0,
-			totalPage: 1,
-			selectedRow: []
+            totalPage: 1,
+            selectedRow: [],
         };
     },
     components: {
@@ -199,20 +235,27 @@ export default {
         this.category = await getCategory();
     },
     methods: {
+        async updateTable() {
+            const goodsList = await getGoods({
+                pageNo: this.currentPage,
+                name: this.form.name,
+                maxPrise: this.form.maxPrise,
+                minPrise: this.form.minPrise,
+                createTime: undefined,
+                updateTime: undefined,
+                rest: undefined,
+                category: this.form.category && this.form.category,
+                isRecommend:
+                    this.form.isRecommend === 0
+                        ? undefined
+                        : this.form.isRecommend,
+            });
+            this.tableData = goodsList.data;
+            this.totalPage = goodsList.total;
+        },
         async handleSearch() {
 			this.currentPage = 0;
-			const goodsList = await getGoods({
-				pageNo: this.currentPage,
-				name: this.form.name,
-				maxPrise: this.form.maxPrise,
-				minPrise: this.form.minPrise,
-				createTime: undefined,
-				updateTime: undefined,
-				rest: undefined,
-				category: this.form.category && this.form.category
-			 });
-			this.tableData = goodsList.data;
-			this.totalPage = goodsList.total;
+			this.updateTable();
         },
         async handleReset() {
             this.$set(this, 'form', {
@@ -220,68 +263,82 @@ export default {
                 category: 0,
                 minPrise: 0,
                 maxPrise: 100,
-			});
-			this.currentPage = 0;
-			const goodsList = await getGoods({ pageNo: this.currentPage });
-			this.tableData = goodsList.data;
-			this.totalPage = goodsList.total;
+            });
+            this.currentPage = 0;
+            const goodsList = await getGoods({ pageNo: this.currentPage });
+            this.tableData = goodsList.data;
+            this.totalPage = goodsList.total;
         },
         handleCreate() {
             this.dialogVisible = true;
             this.$refs['dialog'].$emit('clearValue');
-		},
-		handleAdd2Recommend() {
-			if (this.selectedRow.length <= 0) {
-				this.$message({ message: '请勾选商品' });
-				return;
-			}
-			// 添加商品到推荐列表
-		},
+        },
+        // 批量标记商品到推荐
+        async handleAdd2Recommend() {
+            if (this.selectedRow.length <= 0) {
+                this.$message({ message: '请勾选商品' });
+                return;
+            }
+            await updateRecommend(this.selectedRow);
+            await this.updateTable();
+            this.$message({ message: '更新完成', type: 'success' });
+            this.selectedRow = [];
+        },
+        // 批量清除商品推荐标记
+        async handleRemoveRecommend() {
+            if (this.selectedRow.length <= 0) {
+                this.$message({ message: '请勾选商品' });
+                return;
+            }
+
+            await delRecommend(this.selectedRow);
+            await this.updateTable();
+            this.$message({ message: '更新完成', type: 'success' });
+            this.selectedRow = [];
+        },
         handleEdit(row) {
             this.dialogVisible = true;
             this.$refs['dialog'].$emit('setValue', row);
         },
         async handleDelete(ids) {
             await delGoods([ids]);
-            const result = await getGoods({ pageNo: this.currentPage });
-            this.tableData = result.data;
-            this.totalPage = result.total;
+            await this.updateTable();
             this.$message({ message: '删除成功', type: 'success' });
         },
         handleDeleteMulti() {
-			if (this.selectedRow.length <= 0) {
-				this.$message({ message: '请勾选商品' });
-				return;
-			}
-			this.$confirm('此操作将永久删除商品, 是否继续?', '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning'
-				}).then(() => {
-					this.handleDelete(this.selectedRow);
-				}).catch(() => {
-					this.$message({
-						type: 'info',
-						message: '已取消删除'
-					});
-				});
+            if (this.selectedRow.length <= 0) {
+                this.$message({ message: '请勾选商品' });
+                return;
+            }
+            this.$confirm('此操作将永久删除商品, 是否继续?', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning',
+            })
+                .then(() => {
+                    this.handleDelete(this.selectedRow).then(
+                        () => (this.selectedRow = [])
+                    );
+                })
+                .catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除',
+                    });
+                });
         },
         handleSelectionChange(val) {
             this.selectedRow = val.map(v => v.id);
         },
         async handleDialogSubmit(form) {
             await addOrUpdateGoods(form);
-            const result = await getGoods({ pageNo: this.currentPage });
-            this.tableData = result.data;
-            this.totalPage = result.total;
+            await this.updateTable();
             this.$message({ message: '更新成功', type: 'success' });
             this.dialogVisible = false;
         },
         async pageChange(page) {
             this.currentPage = page - 1;
-            const result = await getGoods({ pageNo: this.currentPage });
-            this.tableData = result.data;
-            this.totalPage = result.total;
+            this.updateTable();
         },
         timeFormat(row, el) {
             if (!row[el.property]) return '';
@@ -303,7 +360,7 @@ export default {
                 if (result) {
                     return result.name;
                 }
-                return '没有对应分类	';
+                return '没有对应分类';
             }
             return '加载中...';
         },

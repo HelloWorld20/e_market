@@ -10,7 +10,8 @@ let urls = {
 	logout: '/api/auth/logout',
 	goods: '/api/market/goods',
 	cate: '/api/market/category',	// 分类相关接口
-	home: '/api/market/home'	// 首页相关接口
+	home: '/api/market/home',	// 首页相关接口
+	recommend: '/api/market/recommend'
 };
 
 
@@ -57,5 +58,17 @@ export const getCategory = () => $get(urls.cate);
 // 首页相关;
 export const getHome = () => $get(urls.home);
 export const updateHome = params => $post(urls.home, params);
+
+export const updateRecommend = ids => {
+	const idsStr = ids.reduce((a, b) => (a + ',' + b), '').slice(1);
+	return $post(urls.recommend, { ids: idsStr });
+};
+
+export const delRecommend = ids => {
+	const idsStr = ids.reduce((a, b) => (a + ',' + b), '').slice(1);
+	return $delete(urls.recommend, {
+		params: { ids: idsStr }
+	});
+};
 
 export default urls;
