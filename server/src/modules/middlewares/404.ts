@@ -8,8 +8,7 @@ import * as error_1 from "../error";
 
 export default (req: any, res: any, next: any) => {
   const err = new error_1.ServiceError(
-    "service_code_1.default.SYSTEM",
-    "error_code_1.default.NOT_FOUND",
+    "404",
     "Not Found"
   );
   next(err);

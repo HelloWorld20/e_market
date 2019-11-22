@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-21 15:08:51
+ * @Last Modified time: 2019-11-21 15:53:21
  * 商品管理
  */
 import { ServiceError } from '../modules';
@@ -66,20 +66,6 @@ export const getGoods = async (params: {
     };
 };
 
-// 获取推荐商品
-// export const getRecommend = async (params: {
-//     pageNo: number; // 页码
-//     pageSize: number; // 页数
-// }) => {
-//     let condition: Array<any> = [
-//         { $sort: { id: 1 } }, // 顺序
-//         { $match: { status: 1, isRecommend: 1 } }, // 只选上架
-//         { $skip: params.pageNo * params.pageSize }, // 页码
-//         { $limit: params.pageSize }, // 页数
-//     ];
-
-// };
-
 // 更新商品
 export const addOrUpdateGoods = async (params: {
     id?: number;
@@ -131,4 +117,17 @@ export const updateMultiRecommend = async (
     return db_goods
         .getModal()
         .updateMany({ id: { $in: ids } }, { isRecommend: state });
+};
+
+// 随机获取推荐商品
+export const getRecommend = async (params: {
+    pageNo: number; // 页码
+    pageSize: number; // 页数
+}) => {
+    let condition: Array<any> = [
+        { $sort: { id: 1 } }, // 顺序
+        { $match: { status: 1, isRecommend: 1 } }, // 只选上架
+        { $skip: params.pageNo * params.pageSize }, // 页码
+        { $limit: params.pageSize }, // 页数
+    ];
 };
