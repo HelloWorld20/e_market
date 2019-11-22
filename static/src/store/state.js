@@ -1,3 +1,5 @@
 export default {
-	test: 'test'
+	test: 'test',
+	category: [],
+	goods: {}
 };

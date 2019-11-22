@@ -1,12 +1,20 @@
-import config from '../common/config';
+import { $get } from './request';
 
 let urls = {
 	testUrl: '/api/test',
-	redis: '/api/test/redis',
-	mongo: '/api/test/mongo',
-	upload: '/api/service/upload',	// 上传接口
-	cate: '/api/market/category'	// 分类相关接口
+	goods: '/api/market/h5/goods',
+	cate: '/api/market/h5/category',	// 分类相关接口s
+	home: '/api/market/h5/home',	// 首页相关接口
+	recommend: '/api/market/h5/recommend'
+
 };
+
+export const getHome = () => $get(urls.home);
+
+// 分类管理
+export const getCategory = () => $get(urls.cate);
+
+export const getGoods = params => $get(urls.goods, { params });
 
 // for (let o in urls) {
 // 	urls[o] = config.baseUrl() + urls[o];

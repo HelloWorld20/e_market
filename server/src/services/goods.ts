@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-21 15:53:21
+ * @Last Modified time: 2019-11-22 16:08:55
  * 商品管理
  */
 import { ServiceError } from '../modules';
@@ -63,6 +63,28 @@ export const getGoods = async (params: {
     return {
         data,
         total: total[0].count,
+    };
+};
+
+export const getAllGoods = async (params: {
+    category: number;
+    isRecommend?: boolean;
+}) => {
+    let condition: {
+        category: number;
+        status: -1 | 1;
+        isRecommend?: boolean;
+    } = {
+        category: params.category,
+        status: 1,
+    };
+    if (_.isBoolean(params.isRecommend)) {
+        condition.isRecommend = params.isRecommend;
+    }
+    const data = await db_goods.find(condition);
+    return {
+        data,
+        total: data.length,
     };
 };
 

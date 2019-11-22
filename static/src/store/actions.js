@@ -1,34 +1,28 @@
-import {
-	$get,
-	$post,
-	$delete,
-	$put
-} from '../http/request';
-import apis from '../http/apis';
+import { getCategory, getGoods } from '../http/apis';
 
 export default {
-	getTestData({state, commit}) {
-		return $get(apis.testUrl);
+
+	getCategory({ state, commit }) {
+		if (state.category.length > 0) {
+			return state.category;
+		} else {
+			return getCategory().then(res => {
+				commit('updateCategory', res);
+				return res;
+			});
+		}
 	},
-	getRedis({state, commit}) {
-		return $get(apis.redis);
-	},
-	setRedis({state, commit}) 		{
-		return $post(apis.redis);
-	},
-	getMongo({state, commit}) {
-		return $get(apis.mongo);
-	},
-	addMongo({state, commit}) {
-		return $put(apis.mongo);
-	},
-	delMongo({state, commit}) {
-		return $delete(apis.mongo);
-	},
-	updateMongo({state, commit}) {
-		return $post(apis.mongo);
-	},
-	getCategory({state, commit}) {
-		return $get(apis.cate);
+	getGoods({ state, commit }, id) {
+		if (state.goods[id]) {
+			return state.goods[id];
+		} else {
+			return getGoods({ category: id }).then(res => {
+				commit('updateGoods', {
+					key: id,
+					value: res
+				});
+				return res;
+			});
+		}
 	}
 };

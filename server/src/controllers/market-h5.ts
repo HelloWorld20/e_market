@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 10:38:12
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-22 11:01:20
+ * @Last Modified time: 2019-11-22 15:20:47
  * h5端市场controller
  */
 
@@ -15,57 +15,37 @@ const router = createRouter();
 
 // 获取所有分类
 router.get(
-  '/category',
-  authH5,
-  catchError(async (req, res) => {
-      const result = await cateSrv.getCategory();
-      res.send(result);
-  })
+    '/category',
+    catchError(async (req, res) => {
+        const result = await cateSrv.getCategory();
+        res.send(result);
+    })
 );
 
 // 获取商品，列表
 router.get(
-  '/goods',
-  catchError(async (req, res, next) => {
-      const {
-          pageNo,
-          pageSize,
-          name,
-          maxPrise,
-          minPrise,
-          updateTime,
-          createTime,
-          rest,
-          category,
-          isRecommend,
-      } = req.query;
-      const result = await goodsSrv.getGoods({
-          pageNo,
-          pageSize: pageSize || 10,
-          name,
-          maxPrise,
-          minPrise,
-          updateTime,
-          createTime,
-          rest,
-          category,
-          isRecommend: isRecommend
-              ? isRecommend === 'true'
-                  ? true
-                  : false
-              : undefined,
-      });
-      res.send(result);
-  })
+    '/goods',
+    catchError(async (req, res, next) => {
+        const { category, isRecommend } = req.query;
+        const result = await goodsSrv.getAllGoods({
+            category,
+            isRecommend: isRecommend
+                ? isRecommend === 'true'
+                    ? true
+                    : false
+                : undefined,
+        });
+        res.send(result);
+    })
 );
 
 // 获取首页配置
 router.get(
-  '/home',
-  catchError(async (req, res) => {
-      const result = await homeSrv.getConfig();
-      res.send(result[0]);
-  })
+    '/home',
+    catchError(async (req, res) => {
+        const result = await homeSrv.getConfig();
+        res.send(result[0]);
+    })
 );
 
 export default router;
