@@ -4,7 +4,7 @@ import store from './store';
 import router from './router';
 import './common/rem';
 
-import mint, { Button, MessageBox, Toast, Confirm } from 'mint-ui';
+import mint, { Button, MessageBox, Toast } from 'mint-ui';
 
 import 'mint-ui/lib/style.css';
 import '@/styles/app.less';
@@ -16,7 +16,7 @@ window.mint = mint;
 window.MessageBox = MessageBox;
 window.Vue = Vue;
 Vue.prototype.$message = opts => MessageBox(opts);
-Vue.prototype.$confirm = opts => MessageBox.confirm;
+Vue.prototype.$confirm = MessageBox.confirm;
 
 Vue.prototype.$toast = opts => Toast(opts);
 

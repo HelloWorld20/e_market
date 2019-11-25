@@ -32,6 +32,7 @@ const model = {
             number: Number,
             images: [],
             restNum: Number,
+            totalNum: Number,
             totalPrise: Number, // 商品总价
         },
     ],

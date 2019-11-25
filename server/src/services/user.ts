@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:51:01
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-24 18:57:05
+ * @Last Modified time: 2019-11-25 11:19:00
  * H5用户相关服务
  */
 
@@ -76,7 +76,7 @@ export async function getAddr(req: Request) {
 
 	return (userInfo as UserInfo).addr;
 }
-
+// 获取购物车数据
 export async function getCart(req: Request) {
 	const openid: string = req.session && req.session.openid;
 
@@ -98,10 +98,12 @@ export async function getCart(req: Request) {
  */
 export async function addOrUpdateCart(
 	req: Request,
-	number: number,
-	goodsId: number
+	goodsId: number,
+	number?: number // 不传number的话，就是加1
 ) {
-	if (number <= 0) throw new ServiceError('400', '数量不能小于1');
+	if (_.isNumber(number) && number <= 0)
+		throw new ServiceError('400', '数量不能小于1');
+
 	const openid: string = req.session && req.session.openid;
 	const userInfoArr = await db_auth_h5.find({ openid });
 	const userInfo: UserInfo = userInfoArr[0];
@@ -111,22 +113,40 @@ export async function addOrUpdateCart(
 	if (goodsIndex !== -1) {
 		// 找到对应商品
 		const goods = cartArr[goodsIndex];
-		goods.number = number;
-		goods.totalPrise = number * goods.prise;
+		if (_.isNumber(number)) {
+			if (goods.restNum <= number)
+				throw new ServiceError('403', '库存不足');
+			goods.number = number;
+		} else {
+			if (goods.restNum <= goods.number)
+				throw new ServiceError('403', '库存不足');
+			goods.number = goods.number + 1;
+		}
+		goods.totalPrise = goods.number * goods.prise;
 		cartArr[goodsIndex] = goods;
 	} else {
 		// 没在购物车里找到对应商品，新增一条记录
 		const goodsModal = db_goods.getModal();
 		const goodsInfo = (await goodsModal.findOne({ id: goodsId })) as any;
 
-		const { id, name, prise, unit, images, restNum } = goodsInfo as {
+		const {
+			id,
+			name,
+			prise,
+			unit,
+			images,
+			restNum,
+			totalNum
+		} = goodsInfo as {
 			id: number;
 			name: string;
 			prise: number;
 			unit: string;
 			images: string[];
 			restNum: number;
+			totalNum: number;
 		};
+		number = _.isNumber(number) ? number : 1;
 		const goods = {
 			id,
 			name,
@@ -135,6 +155,7 @@ export async function addOrUpdateCart(
 			number,
 			images,
 			restNum,
+			totalNum,
 			totalPrise: prise * number
 		};
 
@@ -145,6 +166,7 @@ export async function addOrUpdateCart(
 	return db_auth_h5.update({ openid }, userInfo);
 }
 
+// 根据id删除购物车条目
 export async function delCart(req: Request, goodsId: number) {
 	const openid: string = req.session && req.session.openid;
 
@@ -155,12 +177,10 @@ export async function delCart(req: Request, goodsId: number) {
 	const goodsIndex = cartArr.findIndex(v => v.id === goodsId);
 
 	if (goodsIndex !== -1) {
-		// cartArr
 		cartArr.splice(goodsIndex, 1);
 	} else {
 		throw new ServiceError('400', '没有对应商品');
 	}
-	console.log(cartArr, goodsIndex);
 
 	return db_auth_h5.update(
 		{ openid },

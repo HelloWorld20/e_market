@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { Header, MessageBox } from 'mint-ui';
+import { Header } from 'mint-ui';
 import { mapActions } from 'vuex';
 import { getCart, addOrUpdateCart, delCart } from '../../http/apis';
 import * as _ from 'lodash';
@@ -67,23 +67,25 @@ export default {
 		init() {
 			return getCart().then(cartsData => (this.cartsData = cartsData));
 		},
-		addNumber(index) {
+		async addNumber(index) {
 			if (this.cartsData[index].number >= this.cartsData[index].restNum) {
 				this.$toast('库存不足');
 				return;
 			}
 			this.cartsData[index].number++;
 			const goods = this.cartsData[index];
-			this.addOrUpdateCart(goods.id, goods.number);
+			await this.addOrUpdateCart(goods.id, goods.number);
+			this.init();
 		},
-		subNumber(index) {
+		async subNumber(index) {
 			if (this.cartsData[index].number === 0) return;
 			this.cartsData[index].number--;
 			const goods = this.cartsData[index];
-			this.addOrUpdateCart(goods.id, goods.number);
+			await this.addOrUpdateCart(goods.id, goods.number);
+			this.init();
 		},
 		async handleDelete(goodsId) {
-			MessageBox.confirm('确定要删除吗？', '删除提示').then(async() => {
+			this.$confirm('确定要删除吗？', '删除提示').then(async() => {
 				await delCart(goodsId);
 				await this.init();
 				this.$toast('删除成功');
@@ -93,9 +95,9 @@ export default {
 			return `${window.location.protocol}//${imgArr[0]}`;
 		},
 		createAddOrUpdateCart() {
-			return _.debounce((id, number) => {
-				addOrUpdateCart(id, number);
-			}, 1000);
+			return _.debounce(async (id, number) => {
+				return addOrUpdateCart(id, number);
+			}, 500);
 		}
 	}
 };

@@ -17,6 +17,8 @@ interface UserInfo {
         unit: string,   // 商品单位
         number: number, // 购买数量
         images: string[],      // 商品图片
+        restNum: number,        // 剩余库存
+        totalNum: number,       // 总库存
         totalPrise: number, // 商品总价
     }>;
     addr: Array<{

@@ -69,7 +69,7 @@ export default {
 			this.goodsData = goodsData.data;
 		},
 		async add2cart(goodsId) {
-			await addOrUpdateCart(goodsId, 1);
+			await addOrUpdateCart(goodsId);
 			this.$toast('添加购物车成功');
 		},
 		getImages(imageArr) {
