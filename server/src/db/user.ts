@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:32:30
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-22 18:43:49
+ * @Last Modified time: 2019-11-24 17:56:13
  * H5个人信息 数据库控制
  */
 
@@ -30,8 +30,9 @@ const model = {
             prise: Number,
             unit: String,
             number: Number,
-            image: [],
-            totalPrise: String, // 商品总价
+            images: [],
+            restNum: Number,
+            totalPrise: Number, // 商品总价
         },
     ],
     // 配送地址
@@ -53,7 +54,7 @@ export const insert = (value: any) => {
     return mongo.insert(COLLECTION, schema, value);
 };
 
-export const find = (condition?: any) => {
+export const find = (condition?: any): any => {
     return mongo.find(COLLECTION, schema, condition);
 };
 

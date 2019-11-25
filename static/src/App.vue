@@ -27,7 +27,7 @@ import { Tabbar, TabItem } from 'mint-ui';
 export default {
 	data() {
 		return {
-			selected: '外卖'
+			selected: 'Home'
 		};
 	},
 	components: {

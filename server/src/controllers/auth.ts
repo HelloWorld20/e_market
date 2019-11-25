@@ -1,5 +1,6 @@
 import { createRouter, response, catchError } from '../modules';
 import * as authSrv from '../services/auth';
+import * as userSrv from '../services/user';
 const router = createRouter();
 // 微信服务器认证
 router.get(
@@ -43,7 +44,7 @@ router.post(
 router.get(
     '/userInfo',
     catchError(async (req, res, next) => {
-        const result = await authSrv.getUserInfo(req);
+        const result = await userSrv.getUserInfo(req);
         res.send(result);
     })
 );

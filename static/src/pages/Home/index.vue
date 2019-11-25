@@ -44,22 +44,23 @@
 import { Swipe, SwipeItem } from 'mint-ui';
 import { mapActions } from 'vuex';
 export default {
-    data() {
-        return {
-            cateData: [],
-        };
-    },
-    components: {
-        [Swipe.name]: Swipe,
-        [SwipeItem.name]: SwipeItem,
-    },
-    async created() {
-        const category = await this.getCategory();
-        this.cateData = category;
-    },
-    methods: {
-        ...mapActions(['getCategory']),
-    },
+	data() {
+		return {
+			cateData: []
+		};
+	},
+	components: {
+		[Swipe.name]: Swipe,
+		[SwipeItem.name]: SwipeItem
+	},
+	async created() {
+		this.getUserInfo();
+		const category = await this.getCategory();
+		this.cateData = category;
+	},
+	methods: {
+		...mapActions(['getCategory', 'getUserInfo'])
+	}
 };
 </script>
 

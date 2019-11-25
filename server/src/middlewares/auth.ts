@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 18:50:28
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-22 10:33:14
+ * @Last Modified time: 2019-11-23 16:39:25
  * 是否登陆判断中间件
  */
 
@@ -30,5 +30,6 @@ export const authH5 = function(
         next();
         return;
     }
+    // 以后改为，执行微信授权登录，而不是仅仅报个错。
     throw new ServiceError('403', '用户未登录');
 };

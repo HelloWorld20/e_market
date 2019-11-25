@@ -1,5 +1,6 @@
 export default {
 	test: 'test',
-	category: [],
-	goods: {}
+	category: [],	// 商品分类
+	goods: {},	// 商品信息
+	userInfo: null
 };

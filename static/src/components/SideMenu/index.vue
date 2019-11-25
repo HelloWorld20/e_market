@@ -48,19 +48,17 @@ export default {
 	width: 1rem;
 	height: 100%;
 	box-sizing: border-box;
-	border-right: 1px solid red;
 	overflow-x: hidden;
 	overflow-y: auto;
 
 	&-item{
 		list-style: none;
 		font-size: .2rem;
-		height: .4rem;
+		height: .6rem;
 		background-color: #dddddd;
-		line-height: .4rem;
+		line-height: .6rem;
 		text-align: center;
 	}
-
 	.active {
 		background-color: white!important;
 	}

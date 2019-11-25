@@ -50,39 +50,39 @@ import { Row, Col, Menu, MenuItem, MenuItemGroup, Submenu } from 'element-ui';
 import { logout } from './http/apis';
 const MENU_HIDE_ROUTE = ['Login'];
 export default {
-    data() {
-        return {
-            activityId: 0,
-            menuVisibal: true,
-        };
-    },
-    components: {
-        [Row.name]: Row,
-        [Col.name]: Col,
-        [Menu.name]: Menu,
-        [MenuItem.name]: MenuItem,
-        [MenuItemGroup.name]: MenuItemGroup,
-        [Submenu.name]: Submenu,
-    },
-    created() {
-        this.menuVisibal = !MENU_HIDE_ROUTE.includes(this.$route.name);
-    },
-    methods: {
-        handleClick(e) {
-            if (e.target.getAttribute('data-id')) {
-                this.$router.push(e.target.getAttribute('data-id'));
-            }
-        },
-        async logout() {
-            await logout();
-            this.$router.replace('Login');
-        },
-    },
-    watch: {
-        $route(val) {
-            this.menuVisibal = !MENU_HIDE_ROUTE.includes(val.name);
-        },
-    },
+	data() {
+		return {
+			activityId: 0,
+			menuVisibal: true
+		};
+	},
+	components: {
+		[Row.name]: Row,
+		[Col.name]: Col,
+		[Menu.name]: Menu,
+		[MenuItem.name]: MenuItem,
+		[MenuItemGroup.name]: MenuItemGroup,
+		[Submenu.name]: Submenu
+	},
+	created() {
+		this.menuVisibal = !MENU_HIDE_ROUTE.includes(this.$route.name);
+	},
+	methods: {
+		handleClick(e) {
+			if (e.target.getAttribute('data-id')) {
+				this.$router.push(e.target.getAttribute('data-id'));
+			}
+		},
+		async logout() {
+			await logout();
+			this.$router.replace('Login');
+		}
+	},
+	watch: {
+		$route(val) {
+			this.menuVisibal = !MENU_HIDE_ROUTE.includes(val.name);
+		}
+	}
 };
 </script>
 
@@ -99,7 +99,6 @@ export default {
     min-width: 200px;
 }
 .router-view {
-    // flex: 1;
     width: calc(100% - 200px);
     padding: 20px;
     box-sizing: border-box;

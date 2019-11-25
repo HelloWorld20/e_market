@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 11:15:19
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-22 10:48:53
+ * @Last Modified time: 2019-11-23 16:54:32
  * 授权相关，登陆、
  */
 
@@ -66,9 +66,12 @@ export async function logout(req: Request) {
     return '退出成功';
 }
 
-// H5端的获取微信用户信息
-export async function getUserInfo(req: Request) {
-    const userInfo = {
+// 从微信获取用户信息方法。
+// 应该用redis来临时存储用户信息
+// redis过期，则微信授权 =》 拿到用户信息 =》 存储到redis =》 返回用户信息
+// redis不过期则直接返回用户数据
+export async function getWxUserInfo() {
+    return {
         city: '深圳',
         country: '中国',
         headimgurl:
@@ -81,11 +84,6 @@ export async function getUserInfo(req: Request) {
         sex: 1,
         unionid: '',
         userId: 4,
-    };
-    if (req.session) {
-        req.session.openid = userInfo.openid;
-        return userInfo;
     }
+};
 
-    throw new ServiceError('403', '获取用户信息失败');
-}

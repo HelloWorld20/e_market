@@ -4,6 +4,7 @@ import config from './controllers/config';
 import service from './controllers/service';
 import market from './controllers/market';
 import marketH5 from './controllers/market-h5';
+import userH5 from './controllers/user-h5';
 
 export default {
     '/api/test': test,
@@ -12,4 +13,5 @@ export default {
     '/api/service': service,
     '/api/market': market,
     '/api/market/h5': marketH5,
+    '/api/h5/user': userH5
 };
