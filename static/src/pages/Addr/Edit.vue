@@ -19,7 +19,7 @@
 			v-model="addr"
 		></mt-field>
 		<div class="edit-control">
-			<mt-button @click="handleConfirm">确认修改</mt-button>
+			<mt-button @click="handleConfirm" type="primary">确认修改</mt-button>
 			<mt-button @click="handleCancel">取消修改</mt-button>
 		</div>
 	</section>
@@ -44,8 +44,10 @@ export default {
 		this.$on('clearValue', this.clearValue);
 	},
 	methods: {
+		...mapActions(['getAddr']),
 		handleConfirm() {
 			this.$emit('close');
+			// 校验
 			this.$emit('valueChange', {
 				name: this.name,
 				phone: this.phone,

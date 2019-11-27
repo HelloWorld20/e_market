@@ -12,6 +12,6 @@ export default {
     '/api/config': config,
     '/api/service': service,
     '/api/market': market,
-    '/api/market/h5': marketH5,
+    '/api//h5/market': marketH5,
     '/api/h5/user': userH5
 };

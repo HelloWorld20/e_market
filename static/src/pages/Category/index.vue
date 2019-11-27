@@ -6,38 +6,7 @@
 				@menuChange="menuChange"
 			></side-menu>
 		</div>
-		<div class="cate-list">
-			<ul>
-				<li
-					class="cate-list-item"
-					:key="item.id"
-					v-for="item in goodsData"
-				>
-					<div
-						class="item-image"
-						:style="{
-							backgroundImage: `url(${getImages(item.images)})`
-						}"
-					></div>
-					<div class="content">
-						<div class="item-content-title">{{ item.name }}</div>
-						<div class="item-content-prise">
-							单价：<b>￥{{ item.prise }}{{ item.unit }}</b
-							><br />
-						</div>
-					</div>
-					<div class="item-control">
-						<mt-button
-							@click="add2cart(item.id)"
-							type="primary"
-							plain
-							size="small"
-							>添加购物车</mt-button
-						>
-					</div>
-				</li>
-			</ul>
-		</div>
+
 	</div>
 </template>
 

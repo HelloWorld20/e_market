@@ -8,7 +8,7 @@ let urls = {
 	recommend: '/api/market/h5/recommend',
 	userInfo: '/api/auth/userInfo', // 微信登陆授权
 	cart: '/api/h5/user/cart',
-	addr: '/api/h5/user/addr'
+	addr: '/api/h5/user/address'
 };
 
 export const getHome = () => $get(urls.home);
@@ -24,7 +24,6 @@ export const getGoods = params =>
 export const getUserInfo = () => $get(urls.userInfo);
 
 export const getCart = () => $get(urls.cart);
-export const getAddr = () => $get(urls.getAddr);
 
 // params = {name, phone, addr}
 export const addOrUpdateCart = (goodsId, number) =>
@@ -38,6 +37,15 @@ export const delCart = goodsId =>
 		params: {
 			goodsId
 		}
+	});
+
+export const getAddr = () => $get(urls.addr);
+export const addOrUpdateAddr = ({ name, phone, addr, id }) =>
+	$post(urls.addr, {
+		name,
+		phone,
+		addr,
+		id
 	});
 
 export default urls;

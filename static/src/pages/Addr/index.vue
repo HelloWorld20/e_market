@@ -10,16 +10,23 @@
 				</div>
 			</div>
 		</div>
-		<mt-button @click="newAddr" type="primary" style="width: 100%" >新增地址</mt-button>
+		<mt-button @click="newAddr" type="primary" style="width: 100%"
+			>新增地址</mt-button
+		>
 		<mt-popup v-model="showPopup" position="right">
-			<vue-edit ref="edit" @close="showPopup = false"></vue-edit>
+			<vue-edit
+				ref="edit"
+				@close="showPopup = false"
+				@valueChange="valueChange"
+			></vue-edit>
 		</mt-popup>
 	</section>
 </template>
 
 <script>
 import { Header, Field, Popup } from 'mint-ui';
-import { mapActions } from 'vuex';
+// import { mapActions } from 'vuex';
+import { getAddr, addOrUpdateAddr } from '../../http/apis';
 import VueEdit from './Edit';
 export default {
 	data() {
@@ -34,20 +41,26 @@ export default {
 		[Popup.name]: Popup,
 		VueEdit
 	},
+	created() {
+		this.init();
+	},
 	methods: {
-		...mapActions(['getUserInfo']),
+		// ...mapActions(['getUserInfo']),
 		init() {
-			this.getUserInfo().then(userInfo => (this.addrs = userInfo.addr));
+			// this.getUserInfo().then(userInfo => (this.addrs = userInfo.addr));
+			getAddr().then(res => console.log(res));
 		},
 		newAddr() {
 			this.$refs['edit'].$emit('clearValue');
 			this.showPopup = true;
 		},
-		closePopup() {
-
-		}
+		valueChange(value) {
+			addOrUpdateAddr({ ...value });
+			// console.log(value);
+		},
+		closePopup() {}
 	}
 };
 </script>
 
-<style lang="less" scoped src="index.less"></style>
+<style lang="less" scoped src="./index.less"></style>

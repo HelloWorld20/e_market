@@ -26,5 +26,5 @@ interface UserInfo {
         orderName: string,
         orderPhone: number,
         orderAddr: string
-    }> | Array<null>
+    }>
 }

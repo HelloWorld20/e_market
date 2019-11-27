@@ -1,6 +1,6 @@
 import { createRouter, response, catchError } from '../modules';
 import * as authSrv from '../services/auth';
-import * as userSrv from '../services/user';
+import * as userSrv from '../services/user-h5';
 const router = createRouter();
 // 微信服务器认证
 router.get(

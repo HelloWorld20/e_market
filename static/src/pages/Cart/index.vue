@@ -95,7 +95,7 @@ export default {
 			return `${window.location.protocol}//${imgArr[0]}`;
 		},
 		createAddOrUpdateCart() {
-			return _.debounce(async (id, number) => {
+			return _.debounce(async(id, number) => {
 				return addOrUpdateCart(id, number);
 			}, 500);
 		}

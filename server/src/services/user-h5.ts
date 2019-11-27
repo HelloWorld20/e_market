@@ -2,12 +2,12 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:51:01
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-25 11:19:00
+ * @Last Modified time: 2019-11-27 23:28:32
  * H5用户相关服务
  */
 
 import { ServiceError } from '../modules';
-import * as db_auth_h5 from '../db/user';
+import * as db_auth_h5 from '../db/user-h5';
 import * as db_goods from '../db/goods';
 import { getWxUserInfo } from './auth';
 import { Request } from 'express';
@@ -54,14 +54,61 @@ export async function getUserInfo(req: Request): Promise<UserInfo> {
  * @param params.orderPhone 配送手机号
  * @param params.orderAddr  配送地址
  */
-export const addAddr = (
-	openid: string,
+export const addOrUpdateAddr = async (
+	req: Request,
 	params: {
 		orderName: string;
 		orderPhone: number;
 		orderAddr: string;
+	},
+	addrId?: number
+) => {
+	const openid: string = req.session && req.session.openid;
+	const userInfoArr = await db_auth_h5.find({ openid });
+	const userInfo: UserInfo = userInfoArr[0];
+	const addressArr = userInfo.addr;
+
+	if (_.isNumber(addrId)) {
+		// 修改指定记录
+
+		const addrIndex = addressArr.findIndex(item => item.id === addrId);
+		const addrInfo = addressArr[addrIndex];
+
+		addrInfo.orderName = params.orderName || addrInfo.orderName;
+		addrInfo.orderPhone = _.isNumber(params.orderPhone)
+			? params.orderPhone
+			: addrInfo.orderPhone;
+		addrInfo.orderAddr = params.orderAddr || addrInfo.orderAddr;
+
+		addressArr[addrIndex] = addrInfo;
+	} else {
+		let addrInfo: {
+			orderName: string;
+			orderPhone: number;
+			orderAddr: string;
+			id?: number;
+		} = { ...params };
+		// 没有地址，新增记录
+		if (addressArr.length === 0) {
+			// 没有记录
+			addrInfo.id = 1;
+		} else {
+			const maxId = addressArr[addressArr.length - 1].id;
+			addrInfo.id = maxId + 1;
+		}
+		addressArr.push(
+			addrInfo as {
+				orderName: string;
+				orderPhone: number;
+				orderAddr: string;
+				id: number;
+			}
+		);
 	}
-) => {};
+
+	userInfo.addr = addressArr;
+	return db_auth_h5.update({ openid }, userInfo);
+};
 
 // 获取所有配送地址
 export async function getAddr(req: Request) {
