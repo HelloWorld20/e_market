@@ -9,7 +9,7 @@ import mint, { Button, MessageBox, Toast } from 'mint-ui';
 import 'mint-ui/lib/style.css';
 import '@/styles/app.less';
 import 'mint-ui/lib/style.css';
-import '@/styles/theme.less';
+// import '@/styles/theme.less';
 
 Vue.component(Button.name, Button);
 window.mint = mint;
