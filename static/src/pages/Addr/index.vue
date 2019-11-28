@@ -2,11 +2,25 @@
 	<section class="addr">
 		<mt-header fixed title="我的地址"></mt-header>
 		<div class="addr-content">
-			<div class="addr-content-item">
-				<div class="item-msg"></div>
+			<div class="addr-content-item" :key="item.id" v-for="item in addrs">
+				<div class="item-msg">
+					<div class="item-msg-addr">{{ item.orderAddr }}</div>
+					<div class="item-msg-contact">
+						<div class="item-msg-contact-name">
+							{{ item.orderName }}
+						</div>
+						<div class="item-msg-contact-phone">
+							{{ item.orderPhone }}
+						</div>
+					</div>
+				</div>
 				<div class="item-control">
-					<mt-button>编辑</mt-button>
-					<mt-button>删除</mt-button>
+					<mt-button @click="handleEdit(item)" type="primary"
+						>编辑</mt-button
+					>
+					<mt-button @click="handleDelete(item.id)" type="danger"
+						>删除</mt-button
+					>
 				</div>
 			</div>
 		</div>
@@ -25,7 +39,6 @@
 
 <script>
 import { Header, Field, Popup } from 'mint-ui';
-// import { mapActions } from 'vuex';
 import { getAddr, addOrUpdateAddr } from '../../http/apis';
 import VueEdit from './Edit';
 export default {
@@ -45,18 +58,32 @@ export default {
 		this.init();
 	},
 	methods: {
-		// ...mapActions(['getUserInfo']),
 		init() {
-			// this.getUserInfo().then(userInfo => (this.addrs = userInfo.addr));
-			getAddr().then(res => console.log(res));
+			return getAddr().then(res => (this.addrs = res));
 		},
 		newAddr() {
 			this.$refs['edit'].$emit('clearValue');
 			this.showPopup = true;
 		},
-		valueChange(value) {
-			addOrUpdateAddr({ ...value });
-			// console.log(value);
+		async handleEdit({id, orderName, orderPhone, orderAddr}) {
+			this.$refs['edit'].$emit('setValue', {
+				id,
+				name: orderName,
+				phone: orderPhone,
+				addr: orderAddr
+			});
+			this.showPopup = true;
+			await this.init();
+			this.$toast('更新成功');
+		},
+		handleDelete(id) {
+
+		},
+		async valueChange(value) {
+			await addOrUpdateAddr({ ...value });
+			await this.init();
+			this.$toast('更新成功');
+
 		},
 		closePopup() {}
 	}

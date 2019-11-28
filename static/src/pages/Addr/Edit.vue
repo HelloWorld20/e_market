@@ -19,8 +19,8 @@
 			v-model="addr"
 		></mt-field>
 		<div class="edit-control">
-			<mt-button @click="handleConfirm" type="primary">确认修改</mt-button>
-			<mt-button @click="handleCancel">取消修改</mt-button>
+			<mt-button @click="handleConfirm" type="primary">确认</mt-button>
+			<mt-button @click="handleCancel">取消</mt-button>
 		</div>
 	</section>
 </template>
@@ -31,6 +31,7 @@ import { mapActions } from 'vuex';
 export default {
 	data() {
 		return {
+			id: null,
 			name: '',
 			phone: '',
 			addr: ''
@@ -49,6 +50,7 @@ export default {
 			this.$emit('close');
 			// 校验
 			this.$emit('valueChange', {
+				id: this.id,
 				name: this.name,
 				phone: this.phone,
 				addr: this.addr
@@ -59,12 +61,14 @@ export default {
 			this.$emit('close');
 			this.clearValue();
 		},
-		valueChange(name, phone, addr) {
+		valueChange({id, name, phone, addr}) {
+			this.id = id;
 			this.name = name;
 			this.phone = phone;
 			this.addr = addr;
 		},
 		clearValue() {
+			this.id = null;
 			this.name = '';
 			this.phone = null;
 			this.addr = '';

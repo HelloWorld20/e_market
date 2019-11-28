@@ -51,7 +51,6 @@ export const addOrUpdateAddr = ({ name, phone, addr, id }) =>
 			phone,
 			addr
 		}
-
 	});
 
 export default urls;

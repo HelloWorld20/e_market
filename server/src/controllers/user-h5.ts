@@ -2,6 +2,7 @@ import { createRouter, response, catchError } from '../modules';
 import * as userSrv from '../services/user-h5';
 import * as orderSrv from '../services/order';
 import { authH5 } from '../middlewares/auth';
+import * as _ from 'lodash';
 const router = createRouter();
 
 // 获取首页配置
@@ -62,13 +63,13 @@ router.post(
 	'/address',
 	authH5,
 	catchError(async (req, res) => {
-		const { id } = req.body;
-		const { name, phone, addr } = req.query;
+		const { id } = req.query;
+		const { name, phone, addr } = req.body;
 		const result = await userSrv.addOrUpdateAddr(
 			req,
 			{
 				orderAddr: addr,
-				orderPhone: phone,
+				orderPhone: Number(phone),
 				orderName: name
 			},
 			id && Number(id)
