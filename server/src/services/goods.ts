@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-23 17:32:39
+ * @Last Modified time: 2019-11-28 17:30:46
  * 商品管理
  */
 import { ServiceError } from '../modules';

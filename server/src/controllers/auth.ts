@@ -1,6 +1,5 @@
 import { createRouter, response, catchError } from '../modules';
 import * as authSrv from '../services/auth';
-import * as userSrv from '../services/user-h5';
 const router = createRouter();
 // 微信服务器认证
 router.get(
@@ -40,13 +39,5 @@ router.post(
     })
 );
 
-// H5获取用户信息
-router.get(
-    '/userInfo',
-    catchError(async (req, res, next) => {
-        const result = await userSrv.getUserInfo(req);
-        res.send(result);
-    })
-);
 
 export default router;

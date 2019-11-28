@@ -1,9 +1,19 @@
 import { createRouter, response, catchError } from '../modules';
 import * as userSrv from '../services/user-h5';
+import * as orderSrv from '../services/order';
 import { authH5 } from '../middlewares/auth';
 const router = createRouter();
 
 // 获取首页配置
+
+// H5获取用户信息
+router.get(
+	'/userInfo',
+	catchError(async (req, res, next) => {
+		const result = await userSrv.getUserInfo(req);
+		res.send(result);
+	})
+);
 
 router.get(
 	'/cart',
@@ -18,7 +28,8 @@ router.post(
 	'/cart',
 	authH5,
 	catchError(async (req, res) => {
-		const { number, goodsId } = req.body;
+		const { goodsId } = req.body;
+		const { number } = req.query;
 		const result = await userSrv.addOrUpdateCart(
 			req,
 			Number(goodsId),
@@ -51,12 +62,17 @@ router.post(
 	'/address',
 	authH5,
 	catchError(async (req, res) => {
-		const { name, phone, addr, id } = req.body;
-		const result = await userSrv.addOrUpdateAddr(req, {
-            orderAddr: addr,
-            orderPhone: phone,
-            orderName: name,
-        }, id && Number(id));
+		const { id } = req.body;
+		const { name, phone, addr } = req.query;
+		const result = await userSrv.addOrUpdateAddr(
+			req,
+			{
+				orderAddr: addr,
+				orderPhone: phone,
+				orderName: name
+			},
+			id && Number(id)
+		);
 		res.send(result);
 	})
 );
@@ -65,8 +81,38 @@ router.delete(
 	'/address',
 	authH5,
 	catchError(async (req, res) => {
-		const { goodsId } = req.query;
-		const result = await userSrv.delCart(req, Number(goodsId));
+		const { addrId } = req.query;
+		const result = await userSrv.delAddr(req, Number(addrId));
+		res.send(result);
+	})
+);
+// 查看所有订单（分页？）
+router.get(
+	'/order',
+	authH5,
+	catchError(async (req, res) => {
+		const result = await orderSrv.getOrder(req);
+		res.send(result);
+	})
+);
+
+// 创建订单
+router.put(
+	'/order',
+	authH5,
+	catchError(async (req, res) => {
+		const { addrId, desc } = req.query;
+		const result = await orderSrv.createOrder(req, addrId, desc);
+		res.send(result);
+	})
+);
+// 关闭订单
+router.delete(
+	'/order',
+	authH5,
+	catchError(async (req, res) => {
+		const { addrId } = req.query;
+		const result = await orderSrv.disableOrder(req, addrId);
 		res.send(result);
 	})
 );

@@ -6,12 +6,12 @@ let urls = {
 	mongo: '/api/test/mongo',
 	upload: '/api/service/upload',	// 上传接口
 	login: '/api/auth/login',
-	register: '/api/auth/register',
-	logout: '/api/auth/logout',
-	goods: '/api/market/goods',
-	cate: '/api/market/category',	// 分类相关接口
-	home: '/api/market/home',	// 首页相关接口
-	recommend: '/api/market/recommend'
+	register: '/api/admin/auth/register',
+	logout: '/api/admin/auth/logout',
+	goods: '/api/admin/market/goods',
+	cate: '/api/admin/market/category',	// 分类相关接口
+	home: '/api/admin/market/home',	// 首页相关接口
+	recommend: '/api/admin/market/recommend'
 };
 
 

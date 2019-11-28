@@ -2,11 +2,11 @@ import { $get, $post, $delete } from './request';
 
 let urls = {
 	testUrl: '/api/test',
-	goods: '/api/market/h5/goods',
-	cate: '/api/market/h5/category', // 分类相关接口s
-	home: '/api/market/h5/home', // 首页相关接口
-	recommend: '/api/market/h5/recommend',
-	userInfo: '/api/auth/userInfo', // 微信登陆授权
+	goods: '/api/h5/market/goods',
+	cate: '/api/h5/market/category', // 分类相关接口s
+	home: '/api/h5/market/home', // 首页相关接口
+	recommend: '/api/h5/market/recommend',
+	userInfo: '/api/h5/user/userInfo', // 微信登陆授权
 	cart: '/api/h5/user/cart',
 	addr: '/api/h5/user/address'
 };
@@ -25,11 +25,14 @@ export const getUserInfo = () => $get(urls.userInfo);
 
 export const getCart = () => $get(urls.cart);
 
-// params = {name, phone, addr}
 export const addOrUpdateCart = (goodsId, number) =>
 	$post(urls.cart, {
-		goodsId,
-		number
+		params: {
+			goodsId
+		},
+		data: {
+			number
+		}
 	});
 
 export const delCart = goodsId =>
@@ -42,10 +45,13 @@ export const delCart = goodsId =>
 export const getAddr = () => $get(urls.addr);
 export const addOrUpdateAddr = ({ name, phone, addr, id }) =>
 	$post(urls.addr, {
-		name,
-		phone,
-		addr,
-		id
+		params: { id },
+		data: {
+			name,
+			phone,
+			addr
+		}
+
 	});
 
 export default urls;

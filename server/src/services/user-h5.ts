@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:51:01
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-27 23:28:32
+ * @Last Modified time: 2019-11-28 17:14:37
  * H5用户相关服务
  */
 
@@ -45,7 +45,20 @@ export async function getUserInfo(req: Request): Promise<UserInfo> {
 		throw new ServiceError('403', '获取用户信息失败');
 	}
 }
+///////////////////地址
+// 获取所有配送地址
+export async function getAddr(req: Request) {
+	const openid: string = req.session && req.session.openid;
 
+	const userInfoArr = await db_auth_h5.find({ openid });
+
+	if (userInfoArr.length === 0) {
+		throw new ServiceError('403', '获取用户信息失败');
+	}
+	const userInfo: any = userInfoArr[0];
+
+	return (userInfo as UserInfo).addr;
+}
 /**
  * 添加地址
  * @param openid openid
@@ -110,19 +123,30 @@ export const addOrUpdateAddr = async (
 	return db_auth_h5.update({ openid }, userInfo);
 };
 
-// 获取所有配送地址
-export async function getAddr(req: Request) {
+export async function delAddr(req: Request, addrId: number) {
 	const openid: string = req.session && req.session.openid;
 
 	const userInfoArr = await db_auth_h5.find({ openid });
+	const userInfo: UserInfo = userInfoArr[0];
+	const addressArr = userInfo.addr;
 
-	if (userInfoArr.length === 0) {
-		throw new ServiceError('403', '获取用户信息失败');
+	const addrIndex = addressArr.findIndex(v => v.id === addrId);
+
+	if (addrIndex !== -1) {
+		addressArr.splice(addrIndex, 1);
+	} else {
+		throw new ServiceError('404', '没有对应地址');
 	}
-	const userInfo: any = userInfoArr[0];
 
-	return (userInfo as UserInfo).addr;
+	return db_auth_h5.update(
+		{ openid },
+		{
+			addr: addressArr
+		}
+	);
 }
+
+//////////////////购物车
 // 获取购物车数据
 export async function getCart(req: Request) {
 	const openid: string = req.session && req.session.openid;
@@ -226,13 +250,23 @@ export async function delCart(req: Request, goodsId: number) {
 	if (goodsIndex !== -1) {
 		cartArr.splice(goodsIndex, 1);
 	} else {
-		throw new ServiceError('400', '没有对应商品');
+		throw new ServiceError('404', '没有对应商品');
 	}
 
 	return db_auth_h5.update(
 		{ openid },
 		{
 			cart: cartArr
+		}
+	);
+}
+// 清空购物车
+export async function clearCart(req: Request) {
+	const openid: string = req.session && req.session.openid;
+	return db_auth_h5.update(
+		{ openid },
+		{
+			cart: []
 		}
 	);
 }
