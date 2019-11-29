@@ -14,7 +14,5 @@ export async function getConfig() {
 }
 
 export async function updateConfig(value: Record<string, any>) {
-  // return db_home.insert(value);
-  console.log(value);
   return db_home.update({}, value);
 }

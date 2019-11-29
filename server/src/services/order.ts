@@ -26,7 +26,7 @@ export const getOrderById = (req: Request, id: Number) => {
 export const getOrderCondition = (params: {
 	pageNo: Number;
 	pageSize: Number;
-	state?: 0 | 1 | 2 | 3 | 4; // 订单状态 0：未支付；1：已支付；2：商家接单；3：正在配送；4：配送完成；-1：关闭
+	state?: 0 | 1 | 2 | 3 | 4 | -1; // 订单状态 0：未支付；1：已支付；2：商家接单；3：正在配送；4：配送完成；-1：关闭
 	userId?: Number;
 	startTime?: String; // 条件查询，开始时间
 	endTime?: String; // 结束时间
@@ -117,7 +117,7 @@ export const update2Payed = async (
 	payId: String
 ) => {
 	const openid: string = req.session && req.session.openid;
-
+	if (!payId) throw new ServiceError('400', '请传入交易id');
 	return db_order.update(
 		{ openid, orderId, status: 0 },
 		{
@@ -126,7 +126,7 @@ export const update2Payed = async (
 		}
 	);
 };
-
+// 关闭订单（只能关闭、不能删除）
 export const disableOrder = (req: Request, orderId: Number) => {
 	const openid: string = req.session && req.session.openid;
 	return db_order.update({ openid, orderId }, { status: -1 });

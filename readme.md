@@ -12,11 +12,11 @@
 
     npm run dev-static-admin
 
-然后 server 启动在 3001 端口。static 启动在 3000 端口。server 调试端口在 3005
+然后 static 启动在 3000 端口。static-admin 启动在 3001.server 启动在 4000 端口。server 调试端口在 3005
 
 # 部署
 
-1. 把代码推动到 github
+1. 把代码推到 github
 2. 登陆服务器，到指定目录下 git 拉取代码
 3. 按需安装 npm i (貌似服务器上不能自动到 server、static 文件夹下安装，则手动到俩文件夹下安装)
 4. sh deploy
@@ -66,3 +66,4 @@
 # todo
 
 -   一个可以链接可以查看指定订单信息
+-   换成 vant
