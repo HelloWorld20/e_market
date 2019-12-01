@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:06:09
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-28 18:56:04
+ * @Last Modified time: 2019-12-01 20:03:34
  * 订单数据库
  */
 
@@ -10,8 +10,8 @@ import mongo from '../modules/mongodb';
 import * as mongoose from 'mongoose';
 
 const model = {
-	id: Number, // 数据库里的id
-	orderId: Number, // 订单id，显示给客户的订单id。时间+单子数
+	id: String, // 数据库里的id
+	orderId: String, // 订单id，显示给客户的订单id。时间+单子数
 	payId: String, // 支付生成的id。根据情况变化变量名
 	createTime: String, // 订单创建时间
 	updateTime: String, // 更新时间
@@ -32,7 +32,7 @@ const model = {
 	openid: String, // 用户的openid
 	userName: String, // 用户名称
 	orderName: String, // 订单上的姓名
-	orderPhone: Number, // 订单上的电话号码
+	orderPhone: String, // 订单上的电话号码
 	orderAddr: String, // 订单上的地址
 
 	orderGoodsPrise: Number, // 商品总价

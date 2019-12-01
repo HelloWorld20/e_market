@@ -30,8 +30,8 @@ interface UserInfo {
 }
 
 interface OrderInfo {
-	id: number; // 数据库里的id
-	orderId: number; // 订单id，显示给客户的订单id。时间+单子数
+	id: string; // 数据库里的id
+	orderId: string; // 订单id，显示给客户的订单id。时间+单子数
 	payId: string | null; // 支付生成的id。根据情况变化变量名
 	createTime: string; // 订单创建时间
 	updateTime: string; // 更新时间

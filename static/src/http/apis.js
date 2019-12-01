@@ -54,12 +54,24 @@ export const addOrUpdateAddr = ({ name, phone, addr, id }) =>
 		}
 	});
 export const delAddr = addrId => {
-	$delete(urls.addr, {
+	return $delete(urls.addr, {
 		params: { addrId }
 	});
 };
 
-export const createOrder = () => {
-	$put(urls.order);
+export const createOrder = (addrId, desc) => {
+	return $put(urls.order, {
+		data: {
+			addrId,
+			desc
+		}
+	});
 };
+
+export const getOrder = status =>
+	$get(urls.order, {
+		params: {
+			status
+		}
+	});
 export default urls;

@@ -17,6 +17,11 @@
 				:tel="addr.phone"
 			></van-contact-card>
 			<vue-cart :cartsData="cartsData.cart" :type="'display'"></vue-cart>
+			<van-field
+				label="留言信息"
+				type="textarea"
+				v-model="desc"
+			></van-field>
 		</div>
 
 		<van-submit-bar
@@ -46,7 +51,7 @@
 <script>
 import { NavBar, ContactCard, SubmitBar, Popup } from 'vant';
 import { mapGetters } from 'vuex';
-import { getAddr } from '../../http/apis';
+import { getAddr, createOrder } from '../../http/apis';
 import VueAddr from '../../components/Addr';
 import VueCart from '../../components/Cart';
 export default {
@@ -58,6 +63,7 @@ export default {
 				phone: '',
 				addr: ''
 			},
+			desc: '',
 			addrs: [],
 			showPopup: false
 		};
@@ -73,7 +79,6 @@ export default {
 	mounted() {
 		this.init();
 		this.addAddr2html();
-		console.log('cartsData', this.cartsData);
 	},
 	computed: {
 		...mapGetters(['cartsData'])
@@ -84,6 +89,7 @@ export default {
 				this.addrs = res;
 				if (res.length > 0) {
 					const addr = res[0];
+					this.addr.id = addr.id;
 					this.addr.name = addr.orderName;
 					this.addr.phone = addr.orderPhone;
 					this.addr.addr = addr.orderAddr;
@@ -91,8 +97,11 @@ export default {
 				}
 			});
 		},
-		handleCreateOrder() {
-			console.log('创建订单');
+		async handleCreateOrder() {
+			await createOrder(this.addr.id, this.desc);
+			this.$toast('创建订单成功');
+			// 跳转到支付页面
+			this.$router.push('/MyOrder');
 		},
 		addrClick(item) {
 			this.showPopup = false;

@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 16:16:19
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-28 18:57:33
+ * @Last Modified time: 2019-12-01 22:37:38
  * 订单服务
  */
 
@@ -10,12 +10,24 @@ import { ServiceError } from '../modules';
 import * as db_order from '../db/order';
 import * as userSrv from './user-h5';
 import * as _ from 'lodash';
+import * as uuid from 'uuid/v1';
 import { Request } from 'express';
 
 // 获取个人所有订单
-export const getOrder = (req: Request) => {
+export const getOrder = (
+	req: Request,
+	params: {
+		status: 0 | 1 | 2 | 3 | 4 | -1;
+	}
+) => {
 	const openid: string = req.session && req.session.openid;
-	return db_order.find({ openid });
+	let condition: any = {
+		openid
+	};
+	if (params.status) {
+		condition.status = params.status;
+	}
+	return db_order.find(condition);
 };
 // 根据id返回订单数据
 export const getOrderById = (req: Request, id: Number) => {
@@ -54,13 +66,13 @@ export const createOrder = async (
 		throw new ServiceError('404', '没有找到地址');
 	}
 
-	const maxRecord = await db_order.findMax();
+	// const maxRecord = await db_order.findMax();
 
-	let id = 1;
-	if (maxRecord.length > 0) {
-		// 如果有记录，则id找到最大的加一
-		id = maxRecord[0].id;
-	}
+	// let id = 1;
+	// if (maxRecord.length > 0) {
+	// 	// 如果有记录，则id找到最大的加一
+	// 	id = maxRecord[0].id;
+	// }
 
 	const goods = cartArr.map(v => ({
 		goodsId: v.id,
@@ -74,10 +86,12 @@ export const createOrder = async (
 	let orderGoodsPrise = 0;
 	cartArr.forEach(v => (orderGoodsPrise += v.totalPrise));
 
+	const id = uuid();
+
 	// 创建订单
 	const order: OrderInfo = {
 		id,
-		orderId: Number(new Date().getTime() + '' + id),
+		orderId: new Date().getTime() + id,
 		payId: null,
 		createTime: new Date().getTime() + '',
 		updateTime: new Date().getTime() + '',

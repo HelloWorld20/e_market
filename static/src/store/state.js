@@ -4,5 +4,8 @@ export default {
 	goods: {},	// 商品信息
 	userInfo: null,
 	homeInfo: null,
-	cartData: null
+	cartData: {
+		cart: [],
+		totalPrise: 0
+	}
 };

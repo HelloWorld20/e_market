@@ -92,7 +92,10 @@ router.get(
 	'/order',
 	authH5,
 	catchError(async (req, res) => {
-		const result = await orderSrv.getOrder(req);
+		const { status } = req.query;
+		const result = await orderSrv.getOrder(req, {
+			status
+		});
 		res.send(result);
 	})
 );
@@ -102,7 +105,7 @@ router.put(
 	'/order',
 	authH5,
 	catchError(async (req, res) => {
-		const { addrId, desc } = req.query;
+		const { addrId, desc } = req.body;
 		const result = await orderSrv.createOrder(req, addrId, desc);
 		res.send(result);
 	})
