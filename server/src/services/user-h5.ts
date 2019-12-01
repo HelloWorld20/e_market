@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:51:01
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-28 17:14:37
+ * @Last Modified time: 2019-11-30 19:34:56
  * H5用户相关服务
  */
 
@@ -71,7 +71,7 @@ export const addOrUpdateAddr = async (
 	req: Request,
 	params: {
 		orderName: string;
-		orderPhone: number;
+		orderPhone: string;
 		orderAddr: string;
 	},
 	addrId?: number
@@ -88,16 +88,14 @@ export const addOrUpdateAddr = async (
 		const addrInfo = addressArr[addrIndex];
 
 		addrInfo.orderName = params.orderName || addrInfo.orderName;
-		addrInfo.orderPhone = _.isNumber(params.orderPhone)
-			? params.orderPhone
-			: addrInfo.orderPhone;
+		addrInfo.orderPhone = params.orderPhone || addrInfo.orderPhone;
 		addrInfo.orderAddr = params.orderAddr || addrInfo.orderAddr;
 
 		addressArr[addrIndex] = addrInfo;
 	} else {
 		let addrInfo: {
 			orderName: string;
-			orderPhone: number;
+			orderPhone: string;
 			orderAddr: string;
 			id?: number;
 		} = { ...params };
@@ -112,7 +110,7 @@ export const addOrUpdateAddr = async (
 		addressArr.push(
 			addrInfo as {
 				orderName: string;
-				orderPhone: number;
+				orderPhone: string;
 				orderAddr: string;
 				id: number;
 			}
@@ -158,7 +156,13 @@ export async function getCart(req: Request) {
 	}
 	const userInfo: any = userInfoArr[0];
 
-	return (userInfo as UserInfo).cart;
+    const cart = (userInfo as UserInfo).cart;
+    let totalPrise = 0;
+    cart.forEach(v => totalPrise += v.totalPrise)
+	return {
+        cart,
+        totalPrise
+    }
 }
 
 /**

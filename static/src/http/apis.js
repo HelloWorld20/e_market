@@ -1,4 +1,4 @@
-import { $get, $post, $delete } from './request';
+import { $get, $post, $delete, $put } from './request';
 
 let urls = {
 	testUrl: '/api/test',
@@ -8,7 +8,8 @@ let urls = {
 	recommend: '/api/h5/market/recommend',
 	userInfo: '/api/h5/user/userInfo', // 微信登陆授权
 	cart: '/api/h5/user/cart',
-	addr: '/api/h5/user/address'
+	addr: '/api/h5/user/address',
+	order: '/api/h5/user/order'
 };
 
 export const getHome = () => $get(urls.home);
@@ -52,5 +53,13 @@ export const addOrUpdateAddr = ({ name, phone, addr, id }) =>
 			addr
 		}
 	});
+export const delAddr = addrId => {
+	$delete(urls.addr, {
+		params: { addrId }
+	});
+};
 
+export const createOrder = () => {
+	$put(urls.order);
+};
 export default urls;

@@ -1,16 +1,16 @@
 <template>
     <div>
         <!-- <h1>{{greeting}}</h1>
-    <mt-button @click="this.getTestData">/test/api</mt-button>
-    <mt-button @click="this.getRedis">getRedis</mt-button>
-    <mt-button @click="this.setRedis">setRedis</mt-button>
-    <mt-button @click="this.getMongo">getMongo</mt-button>
-    <mt-button @click="this.addMongo">addMongo</mt-button>
-    <mt-button @click="this.delMongo">delMongo</mt-button>
-    <mt-button @click="this.updateMongo">updateMongo</mt-button>
+    <van-button @click="this.getTestData">/test/api</van-button>
+    <van-button @click="this.getRedis">getRedis</van-button>
+    <van-button @click="this.setRedis">setRedis</van-button>
+    <van-button @click="this.getMongo">getMongo</van-button>
+    <van-button @click="this.addMongo">addMongo</van-button>
+    <van-button @click="this.delMongo">delMongo</van-button>
+    <van-button @click="this.updateMongo">updateMongo</van-button>
     <hr />
     <input type="file" ref="file" />
-    <mt-button @click="this.upload">上传文件</mt-button> -->
+    <van-button @click="this.upload">上传文件</van-button> -->
     </div>
 </template>
 
@@ -19,32 +19,32 @@ import { mapActions } from 'vuex';
 import { $post } from '../../http/request';
 import apis from '../../http/apis';
 export default {
-    // data() {
-    // 	return {
-    // 		greeting: 'hello world'
-    // 	};
-    // },
-    // mounted() {
-    // 	this.getTestData();
-    // },
-    // methods: {
-    // 	...mapActions([
-    // 		'getTestData',
-    // 		'getRedis',
-    // 		'setRedis',
-    // 		'getMongo',
-    // 		'addMongo',
-    // 		'delMongo',
-    // 		'updateMongo'
-    // 	]),
-    // 	upload() {
-    // 		const formData = new FormData();
-    // 		formData.append('file', this.$refs.file.files[0]);
-    // 		$post(apis.upload, formData, {
-    // 			headers: { 'Content-Type': 'multipart/form-data' }
-    // 		});
-    // 	}
-    // }
+	// data() {
+	// 	return {
+	// 		greeting: 'hello world'
+	// 	};
+	// },
+	// mounted() {
+	// 	this.getTestData();
+	// },
+	// methods: {
+	// 	...mapActions([
+	// 		'getTestData',
+	// 		'getRedis',
+	// 		'setRedis',
+	// 		'getMongo',
+	// 		'addMongo',
+	// 		'delMongo',
+	// 		'updateMongo'
+	// 	]),
+	// 	upload() {
+	// 		const formData = new FormData();
+	// 		formData.append('file', this.$refs.file.files[0]);
+	// 		$post(apis.upload, formData, {
+	// 			headers: { 'Content-Type': 'multipart/form-data' }
+	// 		});
+	// 	}
+	// }
 };
 </script>
 

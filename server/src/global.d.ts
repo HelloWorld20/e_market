@@ -24,7 +24,7 @@ interface UserInfo {
 	addr: Array<{
 		id: number;
 		orderName: string;
-		orderPhone: number;
+		orderPhone: string;
 		orderAddr: string;
 	}>;
 }
@@ -50,7 +50,7 @@ interface OrderInfo {
 	openid: string; // 用户的openid
 	userName: string; // 用户名称
 	orderName: string; // 订单上的姓名
-	orderPhone: number; // 订单上的电话号码
+	orderPhone: string; // 订单上的电话号码
 	orderAddr: string; // 订单上的地址
 
 	orderGoodsPrise: number; // 商品总价

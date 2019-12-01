@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import axios from 'axios';
 // import config from '@config';
-import { Indicator } from 'mint-ui';
+import { Toast } from 'vant';
 
 if (process.env.NODE_ENV === 'development') {
 	axios.defaults.withCredentials = true;
@@ -18,7 +18,7 @@ let loadingCount = 0;
 $axios.interceptors.request.use(
 	function(config) {
 		if (loadingCount++ === 0) {
-			Indicator.open();
+			Toast.loading();
 		}
 		// Do something before request is sent
 		return config;
@@ -27,7 +27,7 @@ $axios.interceptors.request.use(
 		loadingCount = loadingCount > 0 ? loadingCount - 1 : 0;
 
 		if (loadingCount === 0) {
-			Indicator.close();
+			Toast.clear();
 		}
 		// Do something with request error
 		return Promise.reject(error);
@@ -44,7 +44,7 @@ $axios.interceptors.response.use(
 		loadingCount = loadingCount > 0 ? loadingCount - 1 : 0;
 
 		if (loadingCount === 0) {
-			Indicator.close();
+			Toast.clear();
 		}
 		return response.data;
 	},
@@ -52,11 +52,9 @@ $axios.interceptors.response.use(
 		loadingCount = loadingCount > 0 ? loadingCount - 1 : 0;
 
 		if (loadingCount === 0) {
-			Indicator.close();
+			Toast.clear();
 		}
-		Vue.prototype.$toast({
-			message: err.response.data
-		});
+		Vue.prototype.$toast.fail(err.response.data);
 		// Do something with response error
 		return Promise.reject(err);
 	}

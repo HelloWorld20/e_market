@@ -46,7 +46,6 @@
     "@vue/eslint-config-prettier": "^6.0.0",
     "axios": "^0.18.0",
     "less-loader": "^5.0.0",
-    "mint-ui": "^2.2.13",
     "prettier": "^1.19.1",
     "vant": "^2.2.15",
     "vue": "^2.6.10",

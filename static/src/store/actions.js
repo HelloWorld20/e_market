@@ -1,7 +1,9 @@
 import {
 	getCategory,
 	getGoods,
-	getUserInfo
+	getUserInfo,
+	getHome,
+	getCart
 } from '../http/apis';
 
 export default {
@@ -45,6 +47,30 @@ export default {
 		} else {
 			return getUserInfo().then(res => {
 				commit('updateUserInfo', res);
+				return res;
+			});
+		}
+	},
+	getHomeInfo({
+		state, commit
+	}) {
+		if (state.homeInfo) {
+			return state.homeInfo;
+		} else {
+			return getHome().then(res => {
+				commit('updateHomeInfo', res);
+				return res;
+			});
+		}
+	},
+	getCartData({
+		state, commit
+	}) {
+		if (state.homeInfo) {
+			return state.cartData;
+		} else {
+			return getCart().then(res => {
+				commit('updateCartData', res);
 				return res;
 			});
 		}

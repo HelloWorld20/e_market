@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:32:30
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-27 22:23:09
+ * @Last Modified time: 2019-11-30 19:35:37
  * H5个人信息 数据库控制
  */
 
@@ -41,7 +41,7 @@ const model = {
 		{
 			id: Number,
 			orderName: String, // 配送姓名
-			orderPhone: Number, // 真实手机号
+			orderPhone: String, // 真实手机号
 			orderAddr: String // 真实地址
 		}
 	]

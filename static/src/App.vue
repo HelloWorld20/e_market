@@ -1,29 +1,25 @@
 <template>
   <div id="wrapper">
     <router-view></router-view>
-    <mt-tabbar v-model="selected">
-      <mt-tab-item id="Home">
-        <img slot="icon" src="@/assets/icon/shouye-.png" />
+    <van-tabbar v-model="selected">
+      <van-tabbar-item  icon="wap-home-o" name="Home">
         首页
-      </mt-tab-item>
-      <mt-tab-item id="Category">
-        <img slot="icon" src="@/assets/icon/fenlei-.png" />
+      </van-tabbar-item>
+      <van-tabbar-item  icon="search" name="Category">
         分类
-      </mt-tab-item>
-      <mt-tab-item id="Cart">
-        <img slot="icon"  src="@/assets/icon/gouwuche-.png" />
+      </van-tabbar-item>
+      <van-tabbar-item  icon="cart-o" name="Cart">
         购物车
-      </mt-tab-item>
-      <mt-tab-item id="Me">
-        <img slot="icon"  src="@/assets/icon/wode-.png" />
+      </van-tabbar-item>
+      <van-tabbar-item  icon="user-circle-o" name="Me">
         我的
-      </mt-tab-item>
-    </mt-tabbar>
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
 <script>
-import { Tabbar, TabItem } from 'mint-ui';
+import { Tabbar, TabbarItem } from 'vant';
 export default {
 	data() {
 		return {
@@ -32,7 +28,7 @@ export default {
 	},
 	components: {
 		[Tabbar.name]: Tabbar,
-		[TabItem.name]: TabItem
+		[TabbarItem.name]: TabbarItem
 	},
 	watch: {
 		selected(val) {

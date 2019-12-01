@@ -7,6 +7,7 @@ import Me from '@/pages/Me';
 import Cart from '@/pages/Cart';
 import Addr from '@/pages/Addr';
 import Order from '@/pages/Order';
+import MyOrder from '@/pages/MyOrder';
 
 Vue.use(Router);
 
@@ -46,6 +47,11 @@ export default new Router({
 			path: '/Order',
 			name: 'Order',
 			component: Order
+		},
+		{
+			path: '/MyOrder',
+			name: 'MyOrder',
+			component: MyOrder
 		},
 		{
 			path: '/*',

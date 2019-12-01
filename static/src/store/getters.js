@@ -1,6 +1,8 @@
 export default {
-	getTest: state => state.test,
-	getCategory: state => state.category,
-	getGoods: state => state.goods,
-	getUserInfo: state => state.userInfo
+	test: state => state.test,
+	category: state => state.category,
+	goods: state => state.goods,
+	userInfo: state => state.userInfo,
+	homeInfo: state => state.homeInfo,
+	cartsData: state => state.cartsData
 };

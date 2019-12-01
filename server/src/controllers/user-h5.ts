@@ -29,8 +29,8 @@ router.post(
 	'/cart',
 	authH5,
 	catchError(async (req, res) => {
-		const { goodsId } = req.body;
-		const { number } = req.query;
+		const { goodsId } = req.query;
+		const { number } = req.body;
 		const result = await userSrv.addOrUpdateCart(
 			req,
 			Number(goodsId),
@@ -69,7 +69,7 @@ router.post(
 			req,
 			{
 				orderAddr: addr,
-				orderPhone: Number(phone),
+				orderPhone: phone,
 				orderName: name
 			},
 			id && Number(id)

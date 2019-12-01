@@ -1,71 +1,55 @@
 <template>
 	<section class="cart">
-		<mt-header fixed title="购物车"></mt-header>
+		<van-nav-bar title="购物车" fixed></van-nav-bar>
 		<div class="cart-content">
-			<div
-				class="cart-content-item"
-				:key="item.id"
-				v-for="(item, index) in cartsData"
-			>
-				<div class="item-delete" @click="handleDelete(item.id)">
-					删除
-				</div>
-				<div
-					class="item-image"
-					:style="{
-						backgroundImage: `url(${getImage(item.images)})`
-					}"
-				></div>
-				<div class="item-content">
-					<div class="item-content-title">{{ item.name }}</div>
-					<div class="item-content-prise">
-						单价：￥{{ item.prise }}{{ item.unit }}<br />
-						总价：<b>￥{{ item.totalPrise }}</b>
-					</div>
-				</div>
-				<div class="item-control">
-					<div
-						class="item-control-sub item-control-btn"
-						@click="subNumber(index)"
-					>
-						-
-					</div>
-					<div class="item-control-number">{{ item.number }}</div>
-					<div
-						class="item-control-add item-control-btn"
-						@click="addNumber(index)"
-					>
-						+
-					</div>
-				</div>
-			</div>
+			<vue-cart
+				:cartsData="cartsData"
+				@handleDelete="handleDelete"
+				@subNumber="subNumber"
+				@addNumber="addNumber"
+			></vue-cart>
 		</div>
+		<van-submit-bar
+			@submit="$router.push('/Order')"
+			:price="totalPrise"
+			button-text="去结算"
+		></van-submit-bar>
 	</section>
 </template>
 
 <script>
-import { Header } from 'mint-ui';
-import { mapActions } from 'vuex';
+import { NavBar, SubmitBar } from 'vant';
+import { mapActions, mapMutations } from 'vuex';
 import { getCart, addOrUpdateCart, delCart } from '../../http/apis';
+import VueCart from '../../components/Cart';
 import * as _ from 'lodash';
 export default {
 	data() {
 		return {
+			totalPrise: 0,
 			cartsData: [],
 			addOrUpdateCart: () => {}
 		};
 	},
 	components: {
-		[Header.name]: Header
+		[NavBar.name]: NavBar,
+		[SubmitBar.name]: SubmitBar,
+		VueCart
 	},
 	async created() {
-		this.addOrUpdateCart = this.createAddOrUpdateCart();
+		this.addOrUpdateCart = this.createDebounce(addOrUpdateCart);
+		this.debounceInit = this.createDebounce(this.init);
 		this.init();
 	},
 	methods: {
 		...mapActions(['getUserInfo']),
+		...mapMutations(['updateCartData']),
 		init() {
-			return getCart().then(cartsData => (this.cartsData = cartsData));
+			return getCart().then(cartsData => {
+				this.cartsData = cartsData.cart;
+				this.totalPrise = cartsData.totalPrise * 100;
+				this.updateCartData(cartsData);
+			});
 		},
 		async addNumber(index) {
 			if (this.cartsData[index].number >= this.cartsData[index].restNum) {
@@ -75,28 +59,30 @@ export default {
 			this.cartsData[index].number++;
 			const goods = this.cartsData[index];
 			await this.addOrUpdateCart(goods.id, goods.number);
-			this.init();
+			this.debounceInit();
 		},
 		async subNumber(index) {
-			if (this.cartsData[index].number === 0) return;
+			if (this.cartsData[index].number <= 1) return;
 			this.cartsData[index].number--;
 			const goods = this.cartsData[index];
 			await this.addOrUpdateCart(goods.id, goods.number);
-			this.init();
+			this.debounceInit();
 		},
-		async handleDelete(goodsId) {
-			this.$confirm('确定要删除吗？', '删除提示').then(async() => {
-				await delCart(goodsId);
-				await this.init();
-				this.$toast('删除成功');
-			});
+		handleDelete(goodsId) {
+			this.$dialog
+				.confirm({
+					title: '删除提示',
+					message: '确定要删除吗？'
+				})
+				.then(async() => {
+					await delCart(goodsId);
+					await this.init();
+					this.$toast('删除成功');
+				});
 		},
-		getImage(imgArr) {
-			return `${window.location.protocol}//${imgArr[0]}`;
-		},
-		createAddOrUpdateCart() {
+		createDebounce(cb) {
 			return _.debounce(async(id, number) => {
-				return addOrUpdateCart(id, number);
+				return cb(id, number);
 			}, 500);
 		}
 	}
