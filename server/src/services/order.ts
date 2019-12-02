@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 16:16:19
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-02 15:51:20
+ * @Last Modified time: 2019-12-02 16:41:20
  * 订单服务
  */
 
@@ -10,8 +10,7 @@ import { ServiceError } from '../modules';
 import * as db_order from '../db/order';
 import * as userSrv from './user-h5';
 import * as _ from 'lodash';
-// import * as uuid from 'uuid/v1';
-import Hashids from 'hashids';
+const Hashids = require('hashids/cjs');
 
 const hashids = new Hashids('order salt', 10);
 import { Request } from 'express';
@@ -85,7 +84,6 @@ export const createOrder = async (
 		goodsPrise: v.prise,
 		goodsImage: v.images
 	}));
-	// const orderPriseAll;
 	let orderGoodsPrise = 0;
 	cartArr.forEach(v => (orderGoodsPrise += v.totalPrise));
 

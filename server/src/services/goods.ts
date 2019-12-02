@@ -2,14 +2,13 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-02 15:51:18
+ * @Last Modified time: 2019-12-02 18:40:02
  * 商品管理
  */
 import { ServiceError } from '../modules';
 import * as db_goods from '../db/goods';
 import * as _ from 'lodash';
-// import * as uuid from 'uuid/v1';
-import Hashids from 'hashids';
+const Hashids = require('hashids/cjs');
 
 const hashids = new Hashids('goods salt', 10);
 
@@ -47,14 +46,12 @@ export const getGoods = async (params: {
 	if (params.name) {
 		condition.push({ $match: { name: new RegExp(params.name) } });
 	}
+	// 是否推荐
 	if (_.isBoolean(params.isRecommend)) {
 		condition.push({ $match: { isRecommend: params.isRecommend } });
 	}
 	// 当前条件的总数
-	const totalPromise = db_goods.findAggregate([
-		...condition,
-		{ $group: { _id: null, count: { $sum: 1 } } }
-	]);
+	const totalPromise = db_goods.findAggregate([...condition]);
 	// 条件 + 分页
 	condition = condition.concat([
 		{ $skip: params.pageNo * params.pageSize }, // 页码
@@ -62,11 +59,11 @@ export const getGoods = async (params: {
 	]);
 	const dataPromise = db_goods.findAggregate(condition);
 
-	const [total, data] = await Promise.all([totalPromise, dataPromise]);
+	const [total, list] = await Promise.all([totalPromise, dataPromise]);
 
 	return {
-		data,
-		total: total.length > 0 ? total[0].count : 0
+		list,
+		total: total[0].count
 	};
 };
 

@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:51:01
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-02 15:51:23
+ * @Last Modified time: 2019-12-02 16:41:22
  * H5用户相关服务
  */
 
@@ -12,8 +12,7 @@ import * as db_goods from '../db/goods';
 import { getWxUserInfo } from './auth';
 import { Request } from 'express';
 import * as _ from 'lodash';
-// import * as uuid from 'uuid/v1';
-import Hashids from 'hashids';
+const Hashids = require('hashids/cjs');
 
 const hashids = new Hashids('user-h5 salt', 10);
 

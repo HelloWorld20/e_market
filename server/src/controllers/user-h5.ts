@@ -12,7 +12,7 @@ router.get(
 	'/userInfo',
 	catchError(async (req, res) => {
 		const result = await userSrv.getUserInfo(req);
-		res.send(result);
+		response.json(res, result);
 	})
 );
 
@@ -21,7 +21,7 @@ router.get(
 	authH5,
 	catchError(async (req, res) => {
 		const result = await userSrv.getCart(req);
-		res.send(result);
+		response.json(res, result);
 	})
 );
 
@@ -36,7 +36,7 @@ router.post(
 			goodsId,
 			number === undefined ? undefined : Number(number)
 		);
-		res.send(result);
+		response.json(res, result);
 	})
 );
 
@@ -46,7 +46,7 @@ router.delete(
 	catchError(async (req, res) => {
 		const { goodsId } = req.query;
 		const result = await userSrv.delCart(req, goodsId);
-		res.send(result);
+		response.json(res, result);
 	})
 );
 
@@ -55,7 +55,7 @@ router.get(
 	authH5,
 	catchError(async (req, res) => {
 		const result = await userSrv.getAddr(req);
-		res.send(result);
+		response.json(res, result);
 	})
 );
 
@@ -74,7 +74,7 @@ router.post(
 			},
 			id
 		);
-		res.send(result);
+		response.json(res, result);
 	})
 );
 
@@ -84,7 +84,7 @@ router.delete(
 	catchError(async (req, res) => {
 		const { addrId } = req.query;
 		const result = await userSrv.delAddr(req, addrId);
-		res.send(result);
+		response.json(res, result);
 	})
 );
 // 查看所有订单（分页？）
@@ -96,7 +96,7 @@ router.get(
 		const result = await orderSrv.getOrder(req, {
 			status
 		});
-		res.send(result);
+		response.json(res, result);
 	})
 );
 
@@ -107,7 +107,7 @@ router.put(
 	catchError(async (req, res) => {
 		const { addrId, desc } = req.body;
 		const result = await orderSrv.createOrder(req, addrId, desc);
-		res.send(result);
+		response.json(res, result);
 	})
 );
 // 关闭订单
@@ -117,7 +117,7 @@ router.delete(
 	catchError(async (req, res) => {
 		const { addrId } = req.query;
 		const result = await orderSrv.disableOrder(req, addrId);
-		res.send(result);
+		response.json(res, result);
 	})
 );
 

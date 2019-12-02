@@ -1,6 +1,5 @@
 import * as db_cate from '../db/category';
-// import * as uuid from 'uuid/v1';
-import Hashids from 'hashids';
+const Hashids = require('hashids/cjs');
 
 const hashids = new Hashids('category salt', 10);
 

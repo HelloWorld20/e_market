@@ -29,7 +29,7 @@
 
 <script>
 import SideMenu from '@components/SideMenu';
-import { Sidebar, SidebarItem, Grid, GridItem, Card } from 'vant';
+import { Sidebar, SidebarItem, Card } from 'vant';
 import { mapActions } from 'vuex';
 import { addOrUpdateCart } from '../../http/apis';
 export default {
@@ -41,11 +41,8 @@ export default {
 		};
 	},
 	components: {
-		SideMenu,
 		[Sidebar.name]: Sidebar,
 		[SidebarItem.name]: SidebarItem,
-		[Grid.name]: Grid,
-		[GridItem.name]: GridItem,
 		[Card.name]: Card
 	},
 	async mounted() {
