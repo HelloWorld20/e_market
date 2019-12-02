@@ -5,7 +5,7 @@ let urls = {
 	redis: '/api/test/redis',
 	mongo: '/api/test/mongo',
 	upload: '/api/service/upload',	// 上传接口
-	login: '/api/auth/login',
+	login: '/api/admin/auth/login',
 	register: '/api/admin/auth/register',
 	logout: '/api/admin/auth/logout',
 	goods: '/api/admin/market/goods',
@@ -13,7 +13,6 @@ let urls = {
 	home: '/api/admin/market/home',	// 首页相关接口
 	recommend: '/api/admin/market/recommend'
 };
-
 
 export const login = (username, password) => $post(urls.login, { username, password });
 

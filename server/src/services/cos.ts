@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-21 15:52:23
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-28 16:58:56
+ * @Last Modified time: 2019-12-02 15:40:15
  * 文件上传相关
  */
 import * as cos from "../modules/cos";

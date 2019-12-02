@@ -3,7 +3,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-05 14:50:37
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-23 17:58:38
+ * @Last Modified time: 2019-12-02 14:58:34
  */
 
 import mongo from "../modules/mongodb";
@@ -12,12 +12,12 @@ import * as mongoose from "mongoose";
 const model = {
   createTime: String,
   updateTime: String,
-  id: Number,
+  id: String,
   name: String, // 商品名称
   desc: String, // 商品描述
   prise: Number,  // 单价
   unit: String,  // 单位
-  category: Number, // 所属分类
+  category: String, // 所属分类
   images: [],  // 商品图片
   totalNum: Number, // 总库存
   restNum: Number,  // 剩余库存

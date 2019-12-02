@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:51:01
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-30 19:34:56
+ * @Last Modified time: 2019-12-02 15:51:23
  * H5用户相关服务
  */
 
@@ -12,6 +12,10 @@ import * as db_goods from '../db/goods';
 import { getWxUserInfo } from './auth';
 import { Request } from 'express';
 import * as _ from 'lodash';
+// import * as uuid from 'uuid/v1';
+import Hashids from 'hashids';
+
+const hashids = new Hashids('user-h5 salt', 10);
 
 // H5端的获取微信用户信息
 // 这里还是去读取数据库的用户信息。
@@ -74,14 +78,14 @@ export const addOrUpdateAddr = async (
 		orderPhone: string;
 		orderAddr: string;
 	},
-	addrId?: number
+	addrId?: string
 ) => {
 	const openid: string = req.session && req.session.openid;
 	const userInfoArr = await db_auth_h5.find({ openid });
 	const userInfo: UserInfo = userInfoArr[0];
 	const addressArr = userInfo.addr;
 
-	if (_.isNumber(addrId)) {
+	if (addrId) {
 		// 修改指定记录
 
 		const addrIndex = addressArr.findIndex(item => item.id === addrId);
@@ -97,22 +101,23 @@ export const addOrUpdateAddr = async (
 			orderName: string;
 			orderPhone: string;
 			orderAddr: string;
-			id?: number;
+			id?: string;
 		} = { ...params };
 		// 没有地址，新增记录
-		if (addressArr.length === 0) {
-			// 没有记录
-			addrInfo.id = 1;
-		} else {
-			const maxId = addressArr[addressArr.length - 1].id;
-			addrInfo.id = maxId + 1;
-		}
+		// if (addressArr.length === 0) {
+		// 	// 没有记录
+		// 	addrInfo.id = 1;
+		// } else {
+		// 	const maxId = addressArr[addressArr.length - 1].id;
+		// 	addrInfo.id = maxId + 1;
+		// }
+		addrInfo.id = hashids.encode(new Date().getTime());
 		addressArr.push(
 			addrInfo as {
 				orderName: string;
 				orderPhone: string;
 				orderAddr: string;
-				id: number;
+				id: string;
 			}
 		);
 	}
@@ -121,7 +126,7 @@ export const addOrUpdateAddr = async (
 	return db_auth_h5.update({ openid }, userInfo);
 };
 
-export async function delAddr(req: Request, addrId: number) {
+export async function delAddr(req: Request, addrId: string) {
 	const openid: string = req.session && req.session.openid;
 
 	const userInfoArr = await db_auth_h5.find({ openid });
@@ -156,13 +161,13 @@ export async function getCart(req: Request) {
 	}
 	const userInfo: any = userInfoArr[0];
 
-    const cart = (userInfo as UserInfo).cart;
-    let totalPrise = 0;
-    cart.forEach(v => totalPrise += v.totalPrise)
+	const cart = (userInfo as UserInfo).cart;
+	let totalPrise = 0;
+	cart.forEach(v => (totalPrise += v.totalPrise));
 	return {
-        cart,
-        totalPrise
-    }
+		cart,
+		totalPrise
+	};
 }
 
 /**
@@ -173,7 +178,7 @@ export async function getCart(req: Request) {
  */
 export async function addOrUpdateCart(
 	req: Request,
-	goodsId: number,
+	goodsId: string,
 	number?: number // 不传number的话，就是加1
 ) {
 	if (_.isNumber(number) && number <= 0)
@@ -213,7 +218,7 @@ export async function addOrUpdateCart(
 			restNum,
 			totalNum
 		} = goodsInfo as {
-			id: number;
+			id: string;
 			name: string;
 			prise: number;
 			unit: string;
@@ -242,7 +247,7 @@ export async function addOrUpdateCart(
 }
 
 // 根据id删除购物车条目
-export async function delCart(req: Request, goodsId: number) {
+export async function delCart(req: Request, goodsId: string) {
 	const openid: string = req.session && req.session.openid;
 
 	const userInfoArr = await db_auth_h5.find({ openid });

@@ -10,7 +10,7 @@ const router = createRouter();
 // H5获取用户信息
 router.get(
 	'/userInfo',
-	catchError(async (req, res, next) => {
+	catchError(async (req, res) => {
 		const result = await userSrv.getUserInfo(req);
 		res.send(result);
 	})
@@ -33,7 +33,7 @@ router.post(
 		const { number } = req.body;
 		const result = await userSrv.addOrUpdateCart(
 			req,
-			Number(goodsId),
+			goodsId,
 			number === undefined ? undefined : Number(number)
 		);
 		res.send(result);
@@ -45,7 +45,7 @@ router.delete(
 	authH5,
 	catchError(async (req, res) => {
 		const { goodsId } = req.query;
-		const result = await userSrv.delCart(req, Number(goodsId));
+		const result = await userSrv.delCart(req, goodsId);
 		res.send(result);
 	})
 );
@@ -72,7 +72,7 @@ router.post(
 				orderPhone: phone,
 				orderName: name
 			},
-			id && Number(id)
+			id
 		);
 		res.send(result);
 	})
@@ -83,7 +83,7 @@ router.delete(
 	authH5,
 	catchError(async (req, res) => {
 		const { addrId } = req.query;
-		const result = await userSrv.delAddr(req, Number(addrId));
+		const result = await userSrv.delAddr(req, addrId);
 		res.send(result);
 	})
 );

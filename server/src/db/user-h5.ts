@@ -25,7 +25,7 @@ const model = {
 	// 购物车
 	cart: [
 		{
-			id: Number, // 商品id
+			id: String, // 商品id
 			name: String,
 			prise: Number,
 			unit: String,
@@ -39,7 +39,7 @@ const model = {
 	// 配送地址
 	addr: [
 		{
-			id: Number,
+			id: String,
 			orderName: String, // 配送姓名
 			orderPhone: String, // 真实手机号
 			orderAddr: String // 真实地址

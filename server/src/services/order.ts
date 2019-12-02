@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 16:16:19
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-01 22:37:38
+ * @Last Modified time: 2019-12-02 15:51:20
  * 订单服务
  */
 
@@ -10,7 +10,10 @@ import { ServiceError } from '../modules';
 import * as db_order from '../db/order';
 import * as userSrv from './user-h5';
 import * as _ from 'lodash';
-import * as uuid from 'uuid/v1';
+// import * as uuid from 'uuid/v1';
+import Hashids from 'hashids';
+
+const hashids = new Hashids('order salt', 10);
 import { Request } from 'express';
 
 // 获取个人所有订单
@@ -50,7 +53,7 @@ export const getOrderCondition = (params: {
 // 创建订单
 export const createOrder = async (
 	req: Request,
-	addrId: number,
+	addrId: string,
 	desc?: string
 ) => {
 	// 获取用户信息
@@ -86,7 +89,7 @@ export const createOrder = async (
 	let orderGoodsPrise = 0;
 	cartArr.forEach(v => (orderGoodsPrise += v.totalPrise));
 
-	const id = uuid();
+	const id = hashids.encode(new Date().getTime());
 
 	// 创建订单
 	const order: OrderInfo = {

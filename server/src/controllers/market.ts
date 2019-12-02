@@ -118,7 +118,6 @@ router.delete(
     catchError(async (req, res) => {
         let { ids } = req.query;
         ids = ids.split(',');
-        ids = ids.map((v: string) => Number(v));
         const result = await goodsSrv.delGoods(ids);
         res.send(result);
     })
@@ -149,7 +148,6 @@ router.post(
     catchError(async (req, res) => {
         let { ids } = req.body;
         ids = ids.split(',');
-        ids = ids.map((v: string) => Number(v));
         const result = await goodsSrv.updateMultiRecommend(ids, true);
         res.send(result);
     })
@@ -161,7 +159,6 @@ router.delete(
     catchError(async (req, res) => {
         let { ids } = req.query;
         ids = ids.split(',');
-        ids = ids.map((v: string) => Number(v));
         const result = await goodsSrv.updateMultiRecommend(ids, false);
         res.send(result);
     })
