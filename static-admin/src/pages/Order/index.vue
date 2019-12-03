@@ -297,8 +297,7 @@ export default {
 		[FormItem.name]: FormItem,
 		[Input.name]: Input,
 		[InputNumber.name]: InputNumber,
-		[DatePicker.name]: DatePicker,
-		VueDialog
+		[DatePicker.name]: DatePicker
 	},
 	created() {
 		this.updateTable();

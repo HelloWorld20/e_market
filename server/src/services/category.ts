@@ -5,7 +5,7 @@ const hashids = new Hashids('category salt', 10);
 
 // 获取所有分类
 export async function getCategory() {
-	return db_cate.findSort({ preority: -1 });
+	return db_cate.find();
 }
 // 新增或更新分类。如果有id，则更新
 export async function addOrUpdate(opts: {

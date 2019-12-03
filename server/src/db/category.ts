@@ -19,7 +19,7 @@ export const find = async () => {
 	return mongo.find(COLLECTION, schema);
 };
 export const findSort = async (sort: Record<string, any>) => {
-	mongo.find(COLLECTION, schema).sort(sort);
+	mongo.find(COLLECTION, schema).sort({ preority: -1 });
 };
 export const del = async (condition: any) => {
 	return mongo.del(COLLECTION, schema, condition);

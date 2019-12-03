@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import SideMenu from '@components/SideMenu';
 import { Sidebar, SidebarItem, Card } from 'vant';
 import { mapActions } from 'vuex';
 import { addOrUpdateCart } from '../../http/apis';
@@ -47,6 +46,7 @@ export default {
 	},
 	async mounted() {
 		const menuData = await this.getCategory();
+		console.log(menuData);
 		if (menuData.length > 0) {
 			const goodsData = await this.getGoods(menuData[0].id);
 

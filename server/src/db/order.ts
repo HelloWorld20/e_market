@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:06:09
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-03 14:23:30
+ * @Last Modified time: 2019-12-03 23:28:32
  * 订单数据库
  */
 
@@ -21,12 +21,13 @@ const model = {
 	dealTime: String, // 订单完成时间
 	goods: [
 		{
-			goodsId: Number, // 商品id
+			goodsId: String, // 商品id
 			goodsName: String, // 商品名称
 			goodsNum: Number, // 商品数量
 			goodsUnit: String, // 商品单位
 			goodsPrise: Number, // 商品单价
-			goodsImage: [] // 商品图片
+            goodsImage: [], // 商品图片
+            goodsTotalPrise: Number
 		}
 	],
 	openid: String, // 用户的openid
