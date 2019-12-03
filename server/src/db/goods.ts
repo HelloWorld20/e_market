@@ -3,7 +3,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-05 14:50:37
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-02 14:58:34
+ * @Last Modified time: 2019-12-03 09:54:10
  */
 
 import mongo from "../modules/mongodb";
@@ -49,11 +49,6 @@ export const del = (condition: any) => {
 export const update = (condition: any, value: Record<string, any>) => {
   return mongo.update(COLLECTION, schema, condition, value);
 };
-
-export const findMax = () => {
-  const Modal = mongo.getModal(COLLECTION, schema);
-  return Modal.aggregate([{$sort:{id: -1}}, {$limit: 1}])
-}
 
 export const getModal = () =>{
   return mongo.getModal(COLLECTION, schema);

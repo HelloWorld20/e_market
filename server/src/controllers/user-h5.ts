@@ -24,7 +24,7 @@ router.get(
 		response.json(res, result);
 	})
 );
-
+// 修改购物车信息
 router.post(
 	'/cart',
 	authH5,
@@ -45,8 +45,15 @@ router.delete(
 	authH5,
 	catchError(async (req, res) => {
 		const { goodsId } = req.query;
-		const result = await userSrv.delCart(req, goodsId);
-		response.json(res, result);
+		if (goodsId) {
+			// 删除指定购物车
+			const result = await userSrv.delCart(req, goodsId);
+			response.json(res, result);
+		} else {
+			// 清空购物车
+			const result = await userSrv.clearCart(req);
+			response.json(res, result);
+		}
 	})
 );
 

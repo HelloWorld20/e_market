@@ -1,8 +1,8 @@
 /*
  * @Author: jianghong.wei
  * @Date: 2019-11-21 15:07:35
- * @Last Modified by:   jianghong.wei
- * @Last Modified time: 2019-11-21 15:07:35
+ * @Last Modified by: jianghong.wei
+ * @Last Modified time: 2019-12-03 10:30:50
  * mongodb管理
  */
 import * as mongoose from "mongoose";
@@ -46,7 +46,7 @@ class Mongo {
     if (condition) {
       return Model.find(condition, {_id: 0, __v: 0});
     } else {
-      return Model.find({}, {_id: 0, _v: 0});
+      return Model.find({}, {_id: 0, __v: 0});
     }
   }
   // 插入一个

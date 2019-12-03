@@ -3,17 +3,9 @@ const Hashids = require('hashids/cjs');
 
 const hashids = new Hashids('category salt', 10);
 
-interface IModal {
-	name: string;
-	id: string;
-	createTime: string;
-	updateTime: string;
-	preority: number;
-}
-
 // 获取所有分类
 export async function getCategory() {
-	return db_cate.find();
+	return db_cate.findSort({ preority: -1 });
 }
 // 新增或更新分类。如果有id，则更新
 export async function addOrUpdate(opts: {
@@ -35,8 +27,7 @@ export async function addOrUpdate(opts: {
 		);
 	} else {
 		// 没有id的情况
-        value.createTime = new Date().getTime();
-
+		value.createTime = new Date().getTime();
 		value.id = hashids.encode(new Date().getTime());
 
 		return db_cate.insert(value);

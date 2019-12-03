@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-09 23:18:08
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-02 16:50:03
+ * @Last Modified time: 2019-12-03 11:55:14
  * 业务相关路由定义
  */
 
@@ -11,6 +11,7 @@ import { authAdmin } from '../middlewares/auth';
 import * as cateSrv from '../services/category';
 import * as goodsSrv from '../services/goods';
 import * as homeSrv from '../services/home-manage';
+import * as orderSrv from '../services/order';
 const router = createRouter();
 
 // 获取所有分类
@@ -160,6 +161,49 @@ router.delete(
 		let { ids } = req.query;
 		ids = ids.split(',');
 		const result = await goodsSrv.updateMultiRecommend(ids, false);
+		response.json(res, result);
+	})
+);
+// 获取订单信息
+router.get(
+	'/order',
+	authAdmin,
+	catchError(async (req, res) => {
+		const {
+			pageNo,
+			pageSize,
+			state,
+			timeKey,
+			startTime,
+			endTime,
+			userName,
+			orderName,
+			orderPhone,
+			deleverPhone
+		} = req.query;
+		const result = await orderSrv.getOrderCondition({
+			pageNo: Number(pageNo),
+			pageSize: Number(pageSize) || 10,
+			state,
+			timeKey,
+			startTime,
+			endTime,
+			userName,
+			orderName,
+			orderPhone,
+			deleverPhone
+		});
+		response.json(res, result);
+	})
+);
+// 更新状态
+router.post(
+	'/order',
+	authAdmin,
+	catchError(async (req, res) => {
+		let { orderId } = req.query;
+		let { phone } = req.body;
+		const result = await orderSrv.updateOrder(req, orderId, phone);
 		response.json(res, result);
 	})
 );

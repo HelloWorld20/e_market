@@ -46,9 +46,10 @@ interface OrderInfo {
 		goodsUnit: string; // 商品单位
 		goodsPrise: number; // 商品单价
 		goodsImage: Array<string>; // 商品图片
+		goodsTotalPrise: number; // 商品总价
 	}>;
 	openid: string; // 用户的openid
-	userName: string; // 用户名称
+	nickName: string; // 用户名称
 	orderName: string; // 订单上的姓名
 	orderPhone: string; // 订单上的电话号码
 	orderAddr: string; // 订单上的地址

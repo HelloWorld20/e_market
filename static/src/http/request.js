@@ -46,7 +46,7 @@ $axios.interceptors.response.use(
 		if (loadingCount === 0) {
 			Toast.clear();
 		}
-		return response.data;
+		return response.data.data;
 	},
 	function(err) {
 		loadingCount = loadingCount > 0 ? loadingCount - 1 : 0;

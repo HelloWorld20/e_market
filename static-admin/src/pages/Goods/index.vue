@@ -179,9 +179,7 @@ import {
 	Form,
 	FormItem,
 	Input,
-	InputNumber,
-	Slider,
-	Col
+	InputNumber
 } from 'element-ui';
 import {
 	getGoods,
@@ -221,10 +219,8 @@ export default {
 		[Pagination.name]: Pagination,
 		[Form.name]: Form,
 		[FormItem.name]: FormItem,
-		[Slider.name]: Slider,
 		[Input.name]: Input,
 		[InputNumber.name]: InputNumber,
-		[Col.name]: Col,
 		VueDelPop,
 		VueDialog
 	},

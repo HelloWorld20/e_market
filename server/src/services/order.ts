@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 16:16:19
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-02 16:41:20
+ * @Last Modified time: 2019-12-03 17:27:00
  * 订单服务
  */
 
@@ -37,17 +37,79 @@ export const getOrderById = (req: Request, id: Number) => {
 	return db_order.find({ openid, id });
 };
 // 查询订单，后台
-export const getOrderCondition = (params: {
-	pageNo: Number;
-	pageSize: Number;
+export const getOrderCondition = async (params: {
+	pageNo: number;
+	pageSize: number;
 	state?: 0 | 1 | 2 | 3 | 4 | -1; // 订单状态 0：未支付；1：已支付；2：商家接单；3：正在配送；4：配送完成；-1：关闭
-	userId?: Number;
-	startTime?: String; // 条件查询，开始时间
-	endTime?: String; // 结束时间
-	userPhone?: Number; // 用户手机号
-	userName?: String; // 用户姓名
-	deleverPhone?: Number; // 配送人电话
-}) => {};
+	// orderId?: number;
+	timeKey?: // 多种时间查询，只能选一个
+	| 'createTime'
+		| 'updateTime'
+		| 'payTime'
+		| 'acceptTime'
+		| 'deleverTime'
+		| 'dealTime';
+	startTime?: string; // 条件查询，开始时间
+	endTime?: string; // 结束时间
+	userName?: string; // 用户名（微信名)
+	orderPhone?: string; // 配送地址手机号
+	orderName?: string; // 配送地址姓名
+	deleverPhone?: string; // 配送人电话
+}) => {
+	let condition: Array<any> = [
+		{ $sort: { createTime: 1 } } // 顺序
+	];
+
+	// 订单状态查询
+	if (params.state && [-1, 0, 1, 2, 3, 4].includes(params.state)) {
+		condition.push({ state: params.state });
+	}
+	// 用户名查询
+	if (params.userName) {
+		condition.push({ orderPhone: params.userName });
+	}
+	// 配送手机号查询
+	if (params.orderPhone) {
+		condition.push({ orderPhone: params.orderPhone });
+	}
+	// 配送用户名查询
+	if (params.orderName) {
+		condition.push({ orderPhone: params.orderName });
+	}
+	// 送货小哥手机号查询
+	if (params.deleverPhone) {
+		condition.push({ orderPhone: params.deleverPhone });
+	}
+
+	// 时间范围查询
+	if (params.startTime) {
+		const timeKey = params.timeKey || 'createTime';
+		let matchCondition: any = {};
+		matchCondition[timeKey] = { $gte: params.startTime };
+		condition.push({ $match: matchCondition });
+	}
+	if (params.endTime) {
+		const timeKey = params.timeKey || 'createTime';
+		let matchCondition: any = {};
+		matchCondition[timeKey] = { $lte: params.startTime };
+		condition.push({ $match: matchCondition });
+	}
+
+	// 当前条件的总数
+	const totalPromise = db_order.findAggregate([
+		...condition,
+		{ $group: { _id: null, count: { $sum: 1 } } }
+	]);
+
+	const dataPromise = db_order.findAggregate(condition);
+
+	const [total, list] = await Promise.all([totalPromise, dataPromise]);
+
+	return {
+		list,
+		total: total[0].count
+	};
+};
 
 // 创建订单
 export const createOrder = async (
@@ -68,21 +130,14 @@ export const createOrder = async (
 		throw new ServiceError('404', '没有找到地址');
 	}
 
-	// const maxRecord = await db_order.findMax();
-
-	// let id = 1;
-	// if (maxRecord.length > 0) {
-	// 	// 如果有记录，则id找到最大的加一
-	// 	id = maxRecord[0].id;
-	// }
-
 	const goods = cartArr.map(v => ({
 		goodsId: v.id,
 		goodsName: v.name,
 		goodsNum: v.number,
 		goodsUnit: v.unit,
 		goodsPrise: v.prise,
-		goodsImage: v.images
+		goodsImage: v.images,
+		goodsTotalPrise: v.number * v.prise
 	}));
 	let orderGoodsPrise = 0;
 	cartArr.forEach(v => (orderGoodsPrise += v.totalPrise));
@@ -102,7 +157,7 @@ export const createOrder = async (
 		dealTime: null,
 		goods,
 		openid,
-		userName: userInfo.nickName,
+		nickName: userInfo.nickName,
 		orderName: addrInfo.orderName,
 		orderPhone: addrInfo.orderPhone,
 		orderAddr: addrInfo.orderAddr,
@@ -160,6 +215,10 @@ export const updateOrder = async (
 	const openid: string = req.session && req.session.openid;
 	const orderInfoArr = await db_order.find({ openid, orderId });
 	const orderInfo: any = orderInfoArr[0];
+
+	if (orderInfo.state === 0) {
+		throw new ServiceError('403', '无法操作，订单未支付');
+	}
 
 	if (_.isNumber(phone)) {
 		(orderInfo as OrderInfo).deleverPhone = phone;
