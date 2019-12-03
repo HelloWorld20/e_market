@@ -35,14 +35,8 @@ export async function addOrUpdate(opts: {
 		);
 	} else {
 		// 没有id的情况
-		value.createTime = new Date().getTime();
-		// const maxRecord = await db_cate.findMax();
-		// if (maxRecord.length === 1) {
-		// 	value.id = maxRecord[0].id + 1;
-		// } else {
-		// 	// 数据库为空，id为1
-		// 	value.id = 1;
-		// }
+        value.createTime = new Date().getTime();
+
 		value.id = hashids.encode(new Date().getTime());
 
 		return db_cate.insert(value);

@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-02 18:40:02
+ * @Last Modified time: 2019-12-02 22:06:44
  * 商品管理
  */
 import { ServiceError } from '../modules';
@@ -51,7 +51,11 @@ export const getGoods = async (params: {
 		condition.push({ $match: { isRecommend: params.isRecommend } });
 	}
 	// 当前条件的总数
-	const totalPromise = db_goods.findAggregate([...condition]);
+	console.log('condition', condition);
+	const totalPromise = db_goods.findAggregate([
+		...condition,
+		{ $group: { _id: null, count: { $sum: 1 } } }
+	]);
 	// 条件 + 分页
 	condition = condition.concat([
 		{ $skip: params.pageNo * params.pageSize }, // 页码

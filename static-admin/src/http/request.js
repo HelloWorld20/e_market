@@ -43,10 +43,9 @@ $axios.interceptors.response.use(response => {
 		? loadingCount - 1 : 0;
 
 	if (loadingCount === 0) {
-		// Indicator.close();
 		loadingIns.close();
 	}
-	return response.data;
+	return response.data.data;
 }, err => {
 	loadingCount = loadingCount > 0
 		? loadingCount - 1 : 0;

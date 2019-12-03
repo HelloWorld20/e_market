@@ -230,7 +230,7 @@ export default {
 	},
 	created() {
 		getGoods({ pageNo: this.currentPage }).then(goodsList => {
-			this.tableData = goodsList.data;
+			this.tableData = goodsList.list;
 			this.totalPage = goodsList.total;
 		});
 		getCategory().then(category => (this.category = category));
@@ -251,7 +251,7 @@ export default {
 						? undefined
 						: this.form.isRecommend
 			});
-			this.tableData = goodsList.data;
+			this.tableData = goodsList.list;
 			this.totalPage = goodsList.total;
 		},
 		async handleSearch() {
@@ -267,7 +267,7 @@ export default {
 			});
 			this.currentPage = 0;
 			const goodsList = await getGoods({ pageNo: this.currentPage });
-			this.tableData = goodsList.data;
+			this.tableData = goodsList.list;
 			this.totalPage = goodsList.total;
 		},
 		handleCreate() {

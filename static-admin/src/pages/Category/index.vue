@@ -45,12 +45,12 @@
 </template>
 
 <script>
-import { Table, TableColumn, Popover } from "element-ui";
-import { mapActions } from "vuex";
-import VueDialog from "./dialog";
-import VueDelPop from "../../components/delPop";
-import moment from "moment";
-import apis from "../../http/apis";
+import { Table, TableColumn, Popover } from 'element-ui';
+import { mapActions } from 'vuex';
+import VueDialog from './dialog';
+import VueDelPop from '../../components/delPop';
+import moment from 'moment';
+import apis from '../../http/apis';
 export default {
 	data() {
 		return {
@@ -66,19 +66,22 @@ export default {
 		VueDelPop
 	},
 	created() {
-		this.getCategory().then(res => (this.tableData = res));
+		this.getCategory().then(res => {
+			this.tableData = res;
+			console.log(res);
+		});
 	},
 	methods: {
-		...mapActions(["getCategory"]),
+		...mapActions(['getCategory']),
 		handleCreate() {
 			this.dialogVisible = true;
-			this.$refs.dialog.$emit("setValue", {
-				name: "",
+			this.$refs.dialog.$emit('setValue', {
+				name: '',
 				preority: 0
 			});
 		},
 		handleEdit(row) {
-			this.$refs.dialog.$emit("setValue", { ...row });
+			this.$refs.dialog.$emit('setValue', { ...row });
 			this.dialogVisible = true;
 		},
 		handleDialogClose() {
@@ -90,20 +93,22 @@ export default {
 			});
 			const res = await this.getCategory();
 			this.tableData = res;
-			this.$message({ message: "删除成功", type: "success" });
+			this.$message({ message: '删除成功', type: 'success' });
 		},
 		async handleDialogSubmit(form) {
 			this.dialogVisible = false;
 			await this.$post(apis.cate, form);
 			const res = await this.getCategory();
 			this.tableData = res;
-			this.$message({ message: "修改成功", type: "success" });
+			this.$message({ message: '修改成功', type: 'success' });
 		},
 
 		timeFormat(row, el) {
-			if (!row[el.property]) return "";
-			return moment(Number(row[el.property])).format("YYYY-MM-DD HH:mm:ss");
-		},
+			if (!row[el.property]) return '';
+			return moment(Number(row[el.property])).format(
+				'YYYY-MM-DD HH:mm:ss'
+			);
+		}
 	}
 };
 </script>
