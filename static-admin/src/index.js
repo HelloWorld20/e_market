@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import store from './store';
 import router from './router';
-import {Loading, InputNumber, Button, Input, Select, Option, Message, MessageBox, Divider, Checkbox} from 'element-ui';
+import { Loading, InputNumber, Button, Input, Select, Option, Message, MessageBox, Divider, Checkbox, Link } from 'element-ui';
 
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/styles/app.less';
@@ -16,6 +16,7 @@ Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
 Vue.component(Divider.name, Divider);
 Vue.component(Checkbox.name, Checkbox);
+Vue.component(Link.name, Link);
 
 Vue.prototype.$message = function(opts) {
 	Message(opts);

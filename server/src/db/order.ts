@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:06:09
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-01 20:03:34
+ * @Last Modified time: 2019-12-03 14:23:30
  * 订单数据库
  */
 
@@ -30,7 +30,7 @@ const model = {
 		}
 	],
 	openid: String, // 用户的openid
-	userName: String, // 用户名称
+	nickName: String, // 用户名称
 	orderName: String, // 订单上的姓名
 	orderPhone: String, // 订单上的电话号码
 	orderAddr: String, // 订单上的地址
@@ -39,7 +39,7 @@ const model = {
 	orderDeleverPrise: Number, // 配送费
 	orderDescountPrise: Number, // 减免价， 后台修改订单可以配置
 	orderPriseAll: Number, // 支付总价 = 商品总价 + 配送费 - 减免价
-	deleverPhone: Number, // 配送人电话
+	deleverPhone: String, // 配送人电话
 	status: Number, // 订单状态 0：未支付；1：已支付；2：商家接单；3：正在配送；4：配送完成；-1： 关闭
 	desc: String // 订单额外描述
 };
@@ -59,11 +59,6 @@ export const findAggregate = (aggregate: Array<any>) => {
 	aggregate.push({ $project: { _id: 0, __v: 0 } });
 	const Modal = mongo.getModal(COLLECTION, schema);
 	return Modal.aggregate(aggregate);
-};
-
-export const findMax = () => {
-	const Modal = mongo.getModal(COLLECTION, schema);
-	return Modal.aggregate([{ $sort: { id: -1 } }, { $limit: 1 }]);
 };
 
 export const del = (condition: any) => {

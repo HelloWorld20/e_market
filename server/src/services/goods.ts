@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-02 18:40:02
+ * @Last Modified time: 2019-12-03 17:26:15
  * 商品管理
  */
 import { ServiceError } from '../modules';
@@ -25,7 +25,7 @@ export const getGoods = async (params: {
 	isRecommend?: boolean; // 是否是推荐
 }) => {
 	let condition: Array<any> = [
-		{ $sort: { id: 1 } }, // 顺序
+		{ $sort: { createTime: 1 } }, // 顺序
 		{ $match: { status: 1 } } // 只选上架
 	];
 	// 分类查询
@@ -51,8 +51,11 @@ export const getGoods = async (params: {
 		condition.push({ $match: { isRecommend: params.isRecommend } });
 	}
 	// 当前条件的总数
-	const totalPromise = db_goods.findAggregate([...condition]);
-	// 条件 + 分页
+	const totalPromise = db_goods.findAggregate([
+		...condition,
+		{ $group: { _id: null, count: { $sum: 1 } } }
+	]);
+	// 条件 + 分页(需放在后面)
 	condition = condition.concat([
 		{ $skip: params.pageNo * params.pageSize }, // 页码
 		{ $limit: params.pageSize } // 页数
@@ -116,13 +119,6 @@ export const addOrUpdateGoods = async (params: {
 		// 不存在商品的情况
 		value.createTime = new Date().getTime();
 		value.status = 1;
-		// const maxRecord = await db_goods.findMax();
-		// if (maxRecord.length === 1) {
-		//     value.id = maxRecord[0].id + 1;
-		// } else {
-		//     // 数据库为空
-		//     value.id = 1;
-		// }
 		value.id = hashids.encode(new Date().getTime());
 
 		return db_goods.insert(value);

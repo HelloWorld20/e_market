@@ -46,7 +46,7 @@ $axios.interceptors.response.use(response => {
 		// Indicator.close();
 		loadingIns.close();
 	}
-	return response.data;
+	return response.data.data;
 }, err => {
 	loadingCount = loadingCount > 0
 		? loadingCount - 1 : 0;
@@ -71,9 +71,10 @@ Vue.prototype.$post = $axios.post;
 Vue.prototype.$delete = $axios.delete;
 Vue.prototype.$put = $axios.put;
 
-export const $get = $axios.get;
-export const $post = $axios.post;
-export const $delete = $axios.delete;
-export const $put = $axios.put;
+export const $get = (url, opts) => $axios({ ...opts, url, method: 'get' });
+export const $post = (url, opts) => $axios({ ...opts, url, method: 'post' });
+export const $delete = (url, opts) =>
+	$axios({ ...opts, url, method: 'delete' });
+export const $put = (url, opts) => $axios({ ...opts, url, method: 'put' });
 
 export default $axios;

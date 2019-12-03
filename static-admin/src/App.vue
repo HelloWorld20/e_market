@@ -1,48 +1,48 @@
 <template>
-    <div id="layout">
-        <div class="menu" v-show="menuVisibal" @click="handleClick($event)">
-            <el-menu
-                background-color="#545c64"
-                text-color="#fff"
-                active-text-color="#ffd04b"
-                default-active="1-1"
-            >
-                <el-submenu index="1">
-                    <template slot="title">
-                        <i class="el-icon-location"></i>
-                        <span>商品管理</span>
-                    </template>
-                    <el-menu-item index="1-1" data-id="Category"
-                        >分类管理</el-menu-item
-                    >
-                    <el-menu-item index="1-2" data-id="Goods"
-                        >商品管理</el-menu-item
-                    >
-                    <el-menu-item index="1-3" data-id="HomeManage"
-                        >首页管理</el-menu-item
-                    >
-                    <el-menu-item index="1-4" data-id="Recommend"
-                        >推荐商品管理</el-menu-item
-                    >
-                </el-submenu>
-                <el-menu-item index="2">
-                    <i class="el-icon-menu"></i>
-                    <span slot="title">订单管理</span>
-                </el-menu-item>
-                <el-menu-item index="3">
-                    <i class="el-icon-document"></i>
-                    <span slot="title">用户管理</span>
-                </el-menu-item>
-                <el-menu-item index="4">
-                    <i class="el-icon-setting"></i>
-                    <span slot="title" @click="logout">退出</span>
-                </el-menu-item>
-            </el-menu>
-        </div>
-        <div class="router-view">
-            <router-view></router-view>
-        </div>
-    </div>
+	<div id="layout">
+		<div class="menu" v-show="menuVisibal" @click="handleClick($event)">
+			<el-menu
+				background-color="#545c64"
+				text-color="#fff"
+				active-text-color="#ffd04b"
+				default-active="1-1"
+			>
+				<el-submenu index="1">
+					<template slot="title">
+						<i class="el-icon-location"></i>
+						<span>商品管理</span>
+					</template>
+					<el-menu-item index="1-1" data-id="Category"
+						>分类管理</el-menu-item
+					>
+					<el-menu-item index="1-2" data-id="Goods"
+						>商品管理</el-menu-item
+					>
+					<el-menu-item index="1-3" data-id="HomeManage"
+						>首页管理</el-menu-item
+					>
+					<el-menu-item index="1-4" data-id="Recommend"
+						>推荐商品管理</el-menu-item
+					>
+				</el-submenu>
+				<el-menu-item index="2">
+					<i class="el-icon-menu"></i>
+					<span slot="title" data-id="Order">订单管理</span>
+				</el-menu-item>
+				<el-menu-item index="3">
+					<i class="el-icon-document"></i>
+					<span slot="title">用户管理</span>
+				</el-menu-item>
+				<el-menu-item index="4">
+					<i class="el-icon-setting"></i>
+					<span slot="title" @click="logout">退出</span>
+				</el-menu-item>
+			</el-menu>
+		</div>
+		<div class="router-view">
+			<router-view></router-view>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -88,19 +88,19 @@ export default {
 
 <style lang="less" scoped>
 #layout {
-    width: 100%;
-    height: 100%;
-    display: flex;
+	width: 100%;
+	height: 100%;
+	display: flex;
 }
 .menu {
-    overflow-x: hidden;
-    flex-basis: 200px;
-    width: 200px;
-    min-width: 200px;
+	overflow-x: hidden;
+	flex-basis: 200px;
+	width: 200px;
+	min-width: 200px;
 }
 .router-view {
-    width: calc(100% - 200px);
-    padding: 20px;
-    box-sizing: border-box;
+	width: calc(100% - 200px);
+	padding: 20px;
+	box-sizing: border-box;
 }
 </style>

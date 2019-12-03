@@ -179,9 +179,7 @@ import {
 	Form,
 	FormItem,
 	Input,
-	InputNumber,
-	Slider,
-	Col
+	InputNumber
 } from 'element-ui';
 import {
 	getGoods,
@@ -221,16 +219,14 @@ export default {
 		[Pagination.name]: Pagination,
 		[Form.name]: Form,
 		[FormItem.name]: FormItem,
-		[Slider.name]: Slider,
 		[Input.name]: Input,
 		[InputNumber.name]: InputNumber,
-		[Col.name]: Col,
 		VueDelPop,
 		VueDialog
 	},
 	created() {
 		getGoods({ pageNo: this.currentPage }).then(goodsList => {
-			this.tableData = goodsList.data;
+			this.tableData = goodsList.list;
 			this.totalPage = goodsList.total;
 		});
 		getCategory().then(category => (this.category = category));
@@ -251,7 +247,7 @@ export default {
 						? undefined
 						: this.form.isRecommend
 			});
-			this.tableData = goodsList.data;
+			this.tableData = goodsList.list;
 			this.totalPage = goodsList.total;
 		},
 		async handleSearch() {
@@ -267,7 +263,7 @@ export default {
 			});
 			this.currentPage = 0;
 			const goodsList = await getGoods({ pageNo: this.currentPage });
-			this.tableData = goodsList.data;
+			this.tableData = goodsList.list;
 			this.totalPage = goodsList.total;
 		},
 		handleCreate() {

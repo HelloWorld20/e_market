@@ -9,7 +9,6 @@ const model = {
 	preority: Number
 };
 const schema = new mongoose.Schema(model);
-// const value = { age: 10, name: "save" };
 const COLLECTION = 'category'; // collection是config，则对应的库是configs
 
 export const insert = async (value: any) => {
@@ -19,16 +18,13 @@ export const insert = async (value: any) => {
 export const find = async () => {
 	return mongo.find(COLLECTION, schema);
 };
-
+export const findSort = async (sort: Record<string, any>) => {
+	mongo.find(COLLECTION, schema).sort(sort);
+};
 export const del = async (condition: any) => {
 	return mongo.del(COLLECTION, schema, condition);
 };
 
 export const update = async (condition: any, value: Record<string, any>) => {
 	return mongo.update(COLLECTION, schema, condition, value);
-};
-
-export const findMax = async (): Promise<Record<string, any>> => {
-	const Modal = mongo.getModal(COLLECTION, schema);
-	return Modal.aggregate([{ $sort: { id: -1 } }, { $limit: 1 }]);
 };

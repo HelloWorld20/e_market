@@ -103,13 +103,6 @@ export const addOrUpdateAddr = async (
 			id?: string;
 		} = { ...params };
 		// 没有地址，新增记录
-		// if (addressArr.length === 0) {
-		// 	// 没有记录
-		// 	addrInfo.id = 1;
-		// } else {
-		// 	const maxId = addressArr[addressArr.length - 1].id;
-		// 	addrInfo.id = maxId + 1;
-		// }
 		addrInfo.id = hashids.encode(new Date().getTime());
 		addressArr.push(
 			addrInfo as {

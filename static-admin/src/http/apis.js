@@ -11,7 +11,8 @@ let urls = {
 	goods: '/api/admin/market/goods',
 	cate: '/api/admin/market/category',	// 分类相关接口
 	home: '/api/admin/market/home',	// 首页相关接口
-	recommend: '/api/admin/market/recommend'
+	recommend: '/api/admin/market/recommend',
+	order: '/api/admin/market/order'
 };
 
 export const login = (username, password) => $post(urls.login, { username, password });
@@ -56,11 +57,15 @@ export const getCategory = () => $get(urls.cate);
 
 // 首页相关;
 export const getHome = () => $get(urls.home);
-export const updateHome = params => $post(urls.home, params);
+export const updateHome = params => $post(urls.home, {
+	data: params
+});
 
 export const updateRecommend = ids => {
 	const idsStr = ids.reduce((a, b) => (a + ',' + b), '').slice(1);
-	return $post(urls.recommend, { ids: idsStr });
+	return $post(urls.recommend, {
+		data: { ids: idsStr }
+	});
 };
 
 export const delRecommend = ids => {
@@ -69,5 +74,17 @@ export const delRecommend = ids => {
 		params: { ids: idsStr }
 	});
 };
+
+// params.pageNo,
+// params.pageSize,
+// params.state,
+// params.timeKey,
+// params.startTime,
+// params.endTime,
+// params.userName,
+// params.orderName,
+// params.orderPhone,
+// params.deleverPhone
+export const getOrder = params => $get(urls.order, params);
 
 export default urls;
