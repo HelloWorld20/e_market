@@ -26,10 +26,6 @@ export default {
 			require: true
 		}
 	},
-	created() {
-		window.moment = moment;
-		console.log(this.data);
-	},
 	methods: {
 		dateFormat(timestamp) {
 			return moment(Number(timestamp)).format('YYYY-MM-DD hh:mm:ss');

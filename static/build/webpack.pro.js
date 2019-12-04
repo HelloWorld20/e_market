@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -9,12 +10,15 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+const server_conf = loadJSON('../var/server.config.json');
+
 const webpackConfig = {
 	mode: 'production',
 	entry: path.resolve(__dirname, '../src/index.js'),
 	output: {
 		filename: './js/[name].[hash:8].js',
-		path: path.resolve(__dirname, '../dist')
+		path: path.resolve(__dirname, '../dist'),
+		publicPath: `${server_conf.CDN}/app/static/dist`
 	},
 	module: {
 		rules: [
@@ -156,6 +160,16 @@ if (process.argv.includes('--analyze')) {
 	webpackConfig.plugins.push(
 		new BundleAnalyzerPlugin()
 	);
+}
+
+function loadJSON(filename) {
+	console.log('filename', path.resolve(filename));
+	try {
+		const content = fs.readFileSync(filename, 'utf8');
+		return JSON.parse(content);
+	} catch (error) {
+		return {};
+	}
 }
 
 module.exports = webpackConfig;
