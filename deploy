@@ -1,4 +1,19 @@
 #!/bin/sh
+npm i &&
+
+cd static
+
+npm i &&
+
+cd ../static-admin
+
+npm i &&
+
+cd ../server
+
+npm i &&
+
+cd ../
 
 npm run build-server && npm run build-static && npm run build-static-admin && echo "build-finished!"
 

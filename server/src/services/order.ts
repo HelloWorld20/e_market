@@ -2,17 +2,19 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 16:16:19
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-03 17:27:00
+ * @Last Modified time: 2019-12-04 17:34:45
  * 订单服务
  */
 
 import { ServiceError } from '../modules';
 import * as db_order from '../db/order';
+import * as db_goods from '../db/goods';
 import * as userSrv from './user-h5';
 import * as _ from 'lodash';
 const Hashids = require('hashids/cjs');
 
 const hashids = new Hashids('order salt', 10);
+const orderids = new Hashids('order id salt for user', 15);
 import { Request } from 'express';
 
 // 获取个人所有订单
@@ -130,6 +132,36 @@ export const createOrder = async (
 		throw new ServiceError('404', '没有找到地址');
 	}
 
+	// 检查剩余库存，
+	const goodsIds = cartArr.map(v => v.id);
+
+	let goodsInfo = await db_goods.find({ id: { $in: goodsIds } });
+
+	goodsInfo = goodsInfo.map((goodsItem: any) => {
+		const id = goodsItem.id;
+		const cartItem = cartArr.find(v => v.id === id);
+		if (!cartItem) {
+			throw new ServiceError('403', `不存在商品：${goodsItem.name}`);
+		}
+		if (cartItem.number > goodsItem.restNum) {
+			throw new ServiceError('403', `${goodsItem.name}库存不足`);
+		}
+
+		goodsItem.restNum = goodsItem.restNum - cartItem.number;
+
+		return goodsItem;
+	});
+
+	// 更新剩余库存
+	for (let i = 0; i < goodsIds.length; i++) {
+		const id = goodsIds[i];
+		const goods = goodsInfo.find(v => id === v.id);
+		if (!goods) throw new ServiceError('500', '无法修改剩余库存');
+		const restNum = (goods as any).restNum;
+		await db_goods.update({ id }, { restNum });
+	}
+
+	// 创建订单
 	const goods = cartArr.map(v => ({
 		goodsId: v.id,
 		goodsName: v.name,
@@ -142,15 +174,15 @@ export const createOrder = async (
 	let orderGoodsPrise = 0;
 	cartArr.forEach(v => (orderGoodsPrise += v.totalPrise));
 
-	const id = hashids.encode(new Date().getTime());
-
-	// 创建订单
+	const t = new Date().getTime();
+	const id = hashids.encode(t);
+	const orderId = orderids.encode(t);
 	const order: OrderInfo = {
 		id,
-		orderId: new Date().getTime() + id,
+		orderId,
 		payId: null,
-		createTime: new Date().getTime() + '',
-		updateTime: new Date().getTime() + '',
+		createTime: t + '',
+		updateTime: t + '',
 		payTime: null,
 		acceptTime: null,
 		deleverTime: null,
@@ -173,7 +205,7 @@ export const createOrder = async (
 	};
 	await db_order.insert(order);
 	// 清空购物车
-	await userSrv.clearCart(req);
+	// await userSrv.clearCart(req);
 	// 推送通知
 	// ??????
 	// 返回订单详情

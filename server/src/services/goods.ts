@@ -2,11 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
-<<<<<<< HEAD
- * @Last Modified time: 2019-12-02 22:06:44
-=======
- * @Last Modified time: 2019-12-03 22:54:47
->>>>>>> 14689df0ba907b362ec5b16d3f2798afc5ac3404
+ * @Last Modified time: 2019-12-04 17:05:53
  * 商品管理
  */
 import { ServiceError } from '../modules';
