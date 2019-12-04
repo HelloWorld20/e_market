@@ -14,7 +14,7 @@ export const upload = function (filePath: string, fileName: string) {
   if (!filePath || !fileName) return;
   return new Promise((resolve, reject) => {
     cos.sliceUploadFile({
-      Bucket: cos_conf.Bucket, // Bucket 格式：test-1250000000
+      Bucket: cos_conf.Bucket.market, // Bucket 格式：test-1250000000
       Region: cos_conf.Region,
       Key: `/cos/${fileName}`,
       FilePath: filePath

@@ -17,7 +17,7 @@ function upload(filePath, fileName) {
     console.log(`/app/${fileName}`)
     return new Promise((resolve, reject) => {
         cos.sliceUploadFile({
-            Bucket: server_conf.cos.Bucket, // Bucket 格式：test-1250000000
+            Bucket: server_conf.cos.Bucket.app, // Bucket 格式：test-1250000000
             Region: server_conf.cos.Region,
             Key: `/app/${fileName}`,
             FilePath: filePath

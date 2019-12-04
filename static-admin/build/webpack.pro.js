@@ -18,7 +18,7 @@ const webpackConfig = {
 	output: {
 		filename: './js/[name].[hash:8].js',
 		path: path.resolve(__dirname, '../dist'),
-		publicPath: `${server_conf.CDN}/app/static/dist`
+		publicPath: `${server_conf.CDN}/app/static-admin/dist/`
 	},
 	module: {
 		rules: [
@@ -79,7 +79,7 @@ const webpackConfig = {
 				test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
 				loader: 'url-loader',
 				options: {
-					limit: 8192
+					limit: 81920
 				}
 			}
 		]
