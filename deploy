@@ -25,6 +25,10 @@ cp -r ./server/dist/ ./var/server
 
 cp ./server/package.json ./var/server/package.json
 
-node ./upload.js  && echo "deploy finished!"
+node ./upload.js &&
+
+cd ./var/server
+# 这里暂时必须安装，打包server端时，不会吧node_modules的东西搬过来
+npm i && echo "deploy finished!"
 
 
