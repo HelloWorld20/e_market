@@ -2,31 +2,34 @@
 	<section class="order" style="margin-bottom: 100px;">
 		<h1>订单管理</h1>
 		<el-form v-model="form">
-			<el-form-item prop="state" label="订单状态:" label-width="150px">
-				<el-select v-model="form.state">
+			<el-form-item prop="status" label="订单状态:" label-width="150px">
+				<el-select v-model="form.status">
 					<el-option :key="-2" label="无" :value="-2">无</el-option>
-					<el-option :key="-1" label="关闭" :value="0"
+					<el-option
+						:key="-1"
+						:label="constant.status['-1']"
+						:value="0"
 						>关闭</el-option
 					>
-					<el-option :key="0" label="未支付" :value="0"
+					<el-option :key="0" :label="constant.status['0']" :value="0"
 						>未支付</el-option
 					>
-					<el-option :key="1" label="已支付" :value="1"
+					<el-option :key="1" :label="constant.status['1']" :value="1"
 						>已支付</el-option
 					>
-					<el-option :key="2" label="商家接单" :value="2"
+					<el-option :key="2" :label="constant.status['2']" :value="2"
 						>商家接单</el-option
 					>
-					<el-option :key="3" label="正在配送" :value="3"
+					<el-option :key="3" :label="constant.status['3']" :value="3"
 						>正在配送</el-option
 					>
-					<el-option :key="4" label="配送完成" :value="4"
+					<el-option :key="4" :label="constant.status['4']" :value="4"
 						>配送完成</el-option
 					>
 				</el-select>
 			</el-form-item>
-			<el-form-item prop="userName" label="用户昵称:" label-width="150px">
-				<el-input v-model="form.userName"></el-input>
+			<el-form-item prop="nickName" label="用户昵称:" label-width="150px">
+				<el-input v-model="form.nickName"></el-input>
 			</el-form-item>
 			<el-form-item
 				prop="orderName"
@@ -36,18 +39,18 @@
 				<el-input v-model="form.orderName"></el-input>
 			</el-form-item>
 			<el-form-item
-				prop="userName"
+				prop="orderPhone"
 				label="订单手机号:"
 				label-width="150px"
 			>
-				<el-input-number v-model="form.orderPhone"></el-input-number>
+				<el-input v-model="form.orderPhone"></el-input>
 			</el-form-item>
 			<el-form-item
 				prop="deleverPhone"
 				label="快递员手机号:"
 				label-width="150px"
 			>
-				<el-input-number v-model="form.deleverPhone"></el-input-number>
+				<el-input v-model="form.deleverPhone"></el-input>
 			</el-form-item>
 			<el-form-item prop="timeKey" label="时间分类:" label-width="150px">
 				<el-select v-model="form.timeKey">
@@ -102,7 +105,6 @@
 				>
 				</el-date-picker>
 			</el-form-item>
-			<!-- 再来个时间选择器 -->
 			<el-form-item>
 				<el-button type="primary" @click="handleSearch">搜索</el-button>
 				<el-button @click="handleReset">重置</el-button>
@@ -154,7 +156,9 @@
 							<span>{{ props.row.orderPriseAll }}</span>
 						</el-form-item>
 						<el-form-item label="订单状态">
-							<span>{{ props.row.status }}</span>
+							<el-tag>{{
+								constant.status[props.row.status]
+							}}</el-tag>
 						</el-form-item>
 						<el-form-item label="创建时间">
 							<span>{{
@@ -233,6 +237,11 @@
 					</el-table>
 				</template>
 			</el-table-column>
+			<el-table-column label="订单状态" prop="orderId">
+				<template slot-scope="scope">
+					<el-tag>{{ constant.status[scope.row.status] }}</el-tag>
+				</template>
+			</el-table-column>
 			<el-table-column label="订单id" prop="orderId"></el-table-column>
 			<el-table-column label="用户昵称" prop="nickName"></el-table-column>
 			<el-table-column
@@ -249,6 +258,18 @@
 			></el-table-column>
 
 			<el-table-column label="留言" prop="desc"></el-table-column>
+			<el-table-column label="操作" fixed="right" width="150">
+				<template slot-scope="scope">
+					<el-button
+						@click="handleUpdate(scope.row)"
+						type="primary"
+						size="small"
+						:plain="getHandleBtnStatus(scope.row)"
+						:disabled="getHandleBtnStatus(scope.row)"
+						>{{ getHandleBtnText(scope.row) }}</el-button
+					>
+				</template>
+			</el-table-column>
 		</el-table>
 	</section>
 </template>
@@ -266,16 +287,17 @@ import {
 	InputNumber,
 	DatePicker
 } from 'element-ui';
-import { getOrder } from '../../http/apis';
+import { getOrder, updateOrder } from '../../http/apis';
 import moment from 'moment';
+import * as constant from './constant';
 import * as _ from 'lodash';
 export default {
 	data() {
 		return {
 			tableData: [],
 			form: {
-				state: '',
-				userName: '',
+				status: '',
+				nickName: '',
 				orderName: '',
 				orderPhone: '',
 				deleverPhone: '',
@@ -284,7 +306,8 @@ export default {
 			},
 			currentPage: 0,
 			totalPage: 1,
-			selectedRow: []
+			selectedRow: [],
+			constant
 		};
 	},
 	components: {
@@ -306,30 +329,108 @@ export default {
 		async updateTable() {
 			const orderList = await getOrder({
 				pageNo: this.currentPage,
-				state: this.form.state === -2 ? undefined : this.form.state,
-				timeKey: this.form.timeKey && this.form.timeKey,
-				startTime:
-					this.form.timeRange[0] &&
-					new Date(this.form.timeRange[0]).getTime(),
-				endTime:
-					this.form.timeRange[1] &&
-					new Date(this.form.timeRange[1]).getTime(),
-				userName: this.form.userName && this.form.userName,
-				orderName: this.form.orderName && this.form.orderName,
-				orderPhone: this.form.orderPhone && this.form.orderPhone,
-				deleverPhone: this.form.deleverPhone && this.form.deleverPhone
+				status: this.form.status === -2 ? undefined : this.form.status,
+				timeKey: this.form.timeKey ? this.form.timeKey : undefined,
+				startTime: this.form.timeRange[0]
+					? new Date(this.form.timeRange[0]).getTime()
+					: undefined,
+				endTime: this.form.timeRange[1]
+					? new Date(this.form.timeRange[1]).getTime()
+					: undefined,
+				nickName: this.form.nickName ? this.form.nickName : undefined,
+				orderName: this.form.orderName
+					? this.form.orderName
+					: undefined,
+				orderPhone: this.form.orderPhone
+					? this.form.orderPhone
+					: undefined,
+				deleverPhone: this.form.deleverPhone
+					? this.form.deleverPhone
+					: undefined
 			});
 			this.tableData = orderList.list;
 			this.totalPage = orderList.totalPage;
 		},
-		handleSearch() {},
-		handleReset() {},
-		pageChange() {},
-		handleTableClick(row) {
+		handleSearch() {
+			this.updateTable();
+		},
+		handleReset() {
+			this.form = {
+				status: '',
+				nickName: '',
+				orderName: '',
+				orderPhone: '',
+				deleverPhone: '',
+				timeKey: '',
+				timeRange: []
+			};
+			this.updateTable();
+		},
+		async pageChange(page) {
+			this.currentPage = page - 1;
+			this.updateTable();
+		},
+		handleTableClick(row, column, event) {
+			if (column && column.label === '操作') return;
 			this.$refs['table'].toggleRowExpansion(row);
 		},
-		handleEdit() {},
-		handleDialogSubmit() {},
+		handleUpdate(row) {
+			this.$confirm('操作会修改订单状态，确定修改？', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+				center: true
+			}).then(async () => {
+				// 如果是接单和派送，则可以修改配送员手机号
+				if (row.status === 2 || row.status === 3) {
+					this.$prompt('请输入送货员手机号', '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消'
+					}).then(async ({ phone }) => {
+						await updateOrder(row.orderId, phone);
+						await this.updateTable();
+						this.$message({
+							type: 'info',
+							message: '操作成功'
+						});
+					});
+				} else {
+					await updateOrder(row.orderId);
+					await this.updateTable();
+					this.$message({
+						type: 'info',
+						message: '操作成功'
+					});
+				}
+			});
+		},
+		getHandleBtnText(row) {
+			let text = '';
+			switch (row.status + '') {
+				case '-1':
+					text = '重新激活';
+					break;
+				case '0':
+					text = '等待支付';
+					break;
+				case '1':
+					text = '确认接单';
+					break;
+				case '2':
+					text = '确认配送';
+					break;
+				case '3':
+					text = '确认配送完成';
+					break;
+				case '4':
+					text = '已完成';
+					break;
+			}
+			return text;
+		},
+		getHandleBtnStatus(row) {
+			return row.status === 0 || row.status === 4;
+		},
 		timeFormat(row, el) {
 			if (!row[el.property]) return '';
 			return moment(Number(row[el.property])).format(

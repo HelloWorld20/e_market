@@ -67,9 +67,16 @@ export default {
 			});
 		},
 		async handleDelete(id) {
-			await delAddr(id);
-			await this.init();
-			this.$toast('删除成功');
+			this.$dialog
+				.confirm({
+					title: '删除提示',
+					message: '确定要删除吗？'
+				})
+				.then(async () => {
+					await delAddr(id);
+					await this.init();
+					this.$toast('删除成功');
+				});
 		},
 		async valueChange(value) {
 			await addOrUpdateAddr({ ...value });

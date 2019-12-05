@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-04 17:05:53
+ * @Last Modified time: 2019-12-05 14:31:39
  * 商品管理
  */
 import { ServiceError } from '../modules';
@@ -67,7 +67,7 @@ export const getGoods = async (params: {
 
 	return {
 		list,
-		total: total[0].count
+		total: total.length > 0 ? total[0].count : 0
 	};
 };
 

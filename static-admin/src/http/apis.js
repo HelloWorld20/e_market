@@ -15,9 +15,9 @@ let urls = {
 	order: '/api/admin/market/order'
 };
 
-export const login = (username, password) => $post(urls.login, { username, password });
+export const login = (username, password) => $post(urls.login, { data: { username, password } });
 
-export const register = (username, password) => $post(urls.register, { username, password });
+export const register = (username, password) => $post(urls.register, { data: { username, password } });
 
 export const logout = () => $post(urls.logout);
 /**
@@ -43,7 +43,7 @@ export const getGoods = params => $get(urls.goods, { params });
  * @param {*} totalNum?: number;
  * @param {*} restNum?: number;
  */
-export const addOrUpdateGoods = params => $post(urls.goods, params);
+export const addOrUpdateGoods = data => $post(urls.goods, { data });
 
 export const delGoods = ids => {
 	const idsStr = ids.reduce((a, b) => (a + ',' + b), '').slice(1);
@@ -85,6 +85,6 @@ export const delRecommend = ids => {
 // params.orderName,
 // params.orderPhone,
 // params.deleverPhone
-export const getOrder = params => $get(urls.order, params);
-
+export const getOrder = params => $get(urls.order, { params });
+export const updateOrder = (orderId, phone) => $post(urls.order, { params: { orderId }, data: { phone } });
 export default urls;
