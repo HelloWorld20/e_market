@@ -37,7 +37,11 @@
   "cos": {
     "SecretId": "",
     "SecretKey": "",
-    "Bucket": "",
+    "Bucket": {
+        "app": "",
+        "market": ""
+    },
     "Region": ""
-  }
+  },
+  "CDN": ""
 }

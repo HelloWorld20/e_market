@@ -85,8 +85,8 @@ export default {
 				unit: '',
 				category: 0,
 				images: [''],
-				totalNum: 1,
-				restNum: 1,
+				totalNum: 10,
+				restNum: 10,
 				id: undefined,
 				isRecommend: false
 			},
@@ -211,8 +211,8 @@ export default {
 				unit: '',
 				category: 0,
 				images: '',
-				totalNum: 1,
-				restNum: 1,
+				totalNum: 10,
+				restNum: 10,
 				id: undefined,
 				isRecommend: false
 			};

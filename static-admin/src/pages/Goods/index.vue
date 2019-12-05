@@ -71,7 +71,7 @@
 		></el-pagination>
 		<el-table
 			border
-			style="width: 100%"
+			style="width: 100%; margin-bottom: 50px"
 			:data="tableData"
 			@selection-change="handleSelectionChange"
 		>
@@ -80,13 +80,13 @@
 				label="创建时间"
 				prop="createTime"
 				:formatter="timeFormat"
-				width="170"
+				width="140"
 			></el-table-column>
 			<el-table-column
 				label="更新时间"
 				prop="updateTime"
 				:formatter="timeFormat"
-				width="170"
+				width="140"
 			></el-table-column>
 			<el-table-column
 				label="名称"
@@ -106,12 +106,12 @@
 			<el-table-column
 				label="单价"
 				prop="prise"
-				width="100"
+				width="70"
 			></el-table-column>
 			<el-table-column
 				label="单位"
 				prop="unit"
-				width="100"
+				width="70"
 			></el-table-column>
 			<el-table-column label="图片" prop="images" width="120">
 				<template slot-scope="scope">
@@ -125,12 +125,12 @@
 			<el-table-column
 				label="当前库存"
 				prop="restNum"
-				width="100"
+				width="70"
 			></el-table-column>
 			<el-table-column
 				label="总库存"
 				prop="totalNum"
-				width="100"
+				width="70"
 			></el-table-column>
 			<el-table-column
 				label="是否是推荐商品"
@@ -202,11 +202,11 @@ export default {
 				name: '',
 				category: 0,
 				minPrise: 0,
-				maxPrise: 100,
+				maxPrise: 0,
 				isRecommend: 0
 			},
 			dialogVisible: false,
-			currentPage: 0,
+			currentPage: -1,
 			totalPage: 1,
 			selectedRow: []
 		};
@@ -225,15 +225,28 @@ export default {
 		VueDialog
 	},
 	created() {
-		getGoods({ pageNo: this.currentPage }).then(goodsList => {
-			this.tableData = goodsList.list;
-			this.totalPage = goodsList.total;
-		});
+		this.updateTable();
 		getCategory().then(category => (this.category = category));
 	},
 	methods: {
 		async updateTable() {
 			const goodsList = await getGoods({
+				pageNo: this.currentPage >= 0 ? this.currentPage : 0,
+				name: this.form.name ? this.form.name : undefined,
+				maxPrise:
+					this.form.maxPrise > 0 ? this.form.maxPrise : undefined,
+				minPrise:
+					this.form.minPrise > 0 ? this.form.minPrise : undefined,
+				createTime: undefined,
+				updateTime: undefined,
+				rest: undefined,
+				category: this.form.category ? this.form.category : undefined,
+				isRecommend:
+					this.form.isRecommend === 0
+						? undefined
+						: this.form.isRecommend
+			});
+			console.log('params', {
 				pageNo: this.currentPage,
 				name: this.form.name,
 				maxPrise: this.form.maxPrise,
@@ -259,7 +272,7 @@ export default {
 				name: '',
 				category: 0,
 				minPrise: 0,
-				maxPrise: 100
+				maxPrise: 0
 			});
 			this.currentPage = 0;
 			const goodsList = await getGoods({ pageNo: this.currentPage });
@@ -328,6 +341,7 @@ export default {
 			this.selectedRow = val.map(v => v.id);
 		},
 		async handleDialogSubmit(form) {
+			console.log('form', form);
 			await addOrUpdateGoods(form);
 			await this.updateTable();
 			this.$message({ message: '更新成功', type: 'success' });
@@ -340,7 +354,7 @@ export default {
 		timeFormat(row, el) {
 			if (!row[el.property]) return '';
 			return moment(Number(row[el.property])).format(
-				'YYYY-MM-DD HH:mm:ss'
+				'MM-DD HH:mm:ss'
 			);
 		},
 		getImageLocation(url) {
