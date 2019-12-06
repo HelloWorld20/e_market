@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-05 14:31:39
+ * @Last Modified time: 2019-12-05 22:04:02
  * 商品管理
  */
 import { ServiceError } from '../modules';
@@ -21,7 +21,7 @@ export const getGoods = async (params: {
 	updateTime?: string; // 更新时间
 	createTime?: string; // 创建时间
 	rest?: number; // 库存
-	category?: number; // 分类
+	category?: string; // 分类
 	isRecommend?: boolean; // 是否是推荐
 }) => {
 	let condition: Array<any> = [
@@ -29,9 +29,9 @@ export const getGoods = async (params: {
 		{ $match: { status: 1 } } // 只选上架
 	];
 	// 分类查询
-	const category = Number(params.category);
-	if (category && category > 0) {
-		condition.push({ $match: { category: category } });
+	const category = params.category;
+	if (category) {
+		condition.push({ $match: { category } });
 	}
 	// 价格范围查询
 	const maxPrise = params.maxPrise && Number(params.maxPrise);
@@ -51,7 +51,7 @@ export const getGoods = async (params: {
 		condition.push({ $match: { isRecommend: params.isRecommend } });
 	}
 	// 当前条件的总数
-
+	console.log(JSON.stringify(condition));
 	const totalPromise = db_goods.findAggregate([
 		...condition,
 		{ $group: { _id: null, count: { $sum: 1 } } }

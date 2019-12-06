@@ -4,20 +4,22 @@ let urls = {
 	testUrl: '/api/test',
 	redis: '/api/test/redis',
 	mongo: '/api/test/mongo',
-	upload: '/api/service/upload',	// 上传接口
+	upload: '/api/service/upload', // 上传接口
 	login: '/api/admin/auth/login',
 	register: '/api/admin/auth/register',
 	logout: '/api/admin/auth/logout',
 	goods: '/api/admin/market/goods',
-	cate: '/api/admin/market/category',	// 分类相关接口
-	home: '/api/admin/market/home',	// 首页相关接口
+	cate: '/api/admin/market/category', // 分类相关接口
+	home: '/api/admin/market/home', // 首页相关接口
 	recommend: '/api/admin/market/recommend',
 	order: '/api/admin/market/order'
 };
 
-export const login = (username, password) => $post(urls.login, { data: { username, password } });
+export const login = (username, password) =>
+	$post(urls.login, { data: { username, password } });
 
-export const register = (username, password) => $post(urls.register, { data: { username, password } });
+export const register = (username, password) =>
+	$post(urls.register, { data: { username, password } });
 
 export const logout = () => $post(urls.logout);
 /**
@@ -46,7 +48,7 @@ export const getGoods = params => $get(urls.goods, { params });
 export const addOrUpdateGoods = data => $post(urls.goods, { data });
 
 export const delGoods = ids => {
-	const idsStr = ids.reduce((a, b) => (a + ',' + b), '').slice(1);
+	const idsStr = ids.reduce((a, b) => a + ',' + b, '').slice(1);
 	return $delete(urls.goods, {
 		params: { ids: idsStr }
 	});
@@ -57,19 +59,17 @@ export const getCategory = () => $get(urls.cate);
 
 // 首页相关;
 export const getHome = () => $get(urls.home);
-export const updateHome = params => $post(urls.home, {
-	data: params
-});
+export const updateHome = data => $post(urls.home, { data });
 
 export const updateRecommend = ids => {
-	const idsStr = ids.reduce((a, b) => (a + ',' + b), '').slice(1);
+	const idsStr = ids.reduce((a, b) => a + ',' + b, '').slice(1);
 	return $post(urls.recommend, {
 		data: { ids: idsStr }
 	});
 };
 
 export const delRecommend = ids => {
-	const idsStr = ids.reduce((a, b) => (a + ',' + b), '').slice(1);
+	const idsStr = ids.reduce((a, b) => a + ',' + b, '').slice(1);
 	return $delete(urls.recommend, {
 		params: { ids: idsStr }
 	});
