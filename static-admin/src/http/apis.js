@@ -90,6 +90,6 @@ export const delRecommend = ids => {
 // params.orderName,
 // params.orderPhone,
 // params.deleverPhone
-export const getOrder = params => $get(urls.order, params);
-
+export const getOrder = params => $get(urls.order, { params });
+export const updateOrder = (orderId, phone) => $post(urls.order, { params: { orderId }, data: { phone } });
 export default urls;

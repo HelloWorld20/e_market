@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-09 23:18:08
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-03 11:55:14
+ * @Last Modified time: 2019-12-05 14:54:34
  * 业务相关路由定义
  */
 
@@ -172,11 +172,11 @@ router.get(
 		const {
 			pageNo,
 			pageSize,
-			state,
+			status,
 			timeKey,
 			startTime,
 			endTime,
-			userName,
+			nickName,
 			orderName,
 			orderPhone,
 			deleverPhone
@@ -184,11 +184,11 @@ router.get(
 		const result = await orderSrv.getOrderCondition({
 			pageNo: Number(pageNo),
 			pageSize: Number(pageSize) || 10,
-			state,
+			status,
 			timeKey,
 			startTime,
 			endTime,
-			userName,
+			nickName,
 			orderName,
 			orderPhone,
 			deleverPhone
@@ -203,7 +203,7 @@ router.post(
 	catchError(async (req, res) => {
 		let { orderId } = req.query;
 		let { phone } = req.body;
-		const result = await orderSrv.updateOrder(req, orderId, phone);
+		const result = await orderSrv.updateOrder(req, orderId, Number(phone));
 		response.json(res, result);
 	})
 );

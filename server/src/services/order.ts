@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 16:16:19
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-04 17:34:45
+ * @Last Modified time: 2019-12-05 14:42:35
  * 订单服务
  */
 
@@ -42,7 +42,7 @@ export const getOrderById = (req: Request, id: Number) => {
 export const getOrderCondition = async (params: {
 	pageNo: number;
 	pageSize: number;
-	state?: 0 | 1 | 2 | 3 | 4 | -1; // 订单状态 0：未支付；1：已支付；2：商家接单；3：正在配送；4：配送完成；-1：关闭
+	status?: 0 | 1 | 2 | 3 | 4 | -1; // 订单状态 0：未支付；1：已支付；2：商家接单；3：正在配送；4：配送完成；-1：关闭
 	// orderId?: number;
 	timeKey?: // 多种时间查询，只能选一个
 	| 'createTime'
@@ -53,7 +53,7 @@ export const getOrderCondition = async (params: {
 		| 'dealTime';
 	startTime?: string; // 条件查询，开始时间
 	endTime?: string; // 结束时间
-	userName?: string; // 用户名（微信名)
+	nickName?: string; // 用户名（微信名)
 	orderPhone?: string; // 配送地址手机号
 	orderName?: string; // 配送地址姓名
 	deleverPhone?: string; // 配送人电话
@@ -63,24 +63,24 @@ export const getOrderCondition = async (params: {
 	];
 
 	// 订单状态查询
-	if (params.state && [-1, 0, 1, 2, 3, 4].includes(params.state)) {
-		condition.push({ state: params.state });
+	if (params.status && [-1, 0, 1, 2, 3, 4].includes(Number(params.status))) {
+		condition.push({ $match: { status: Number(params.status) } });
 	}
 	// 用户名查询
-	if (params.userName) {
-		condition.push({ orderPhone: params.userName });
+	if (params.nickName) {
+		condition.push({ $match: { nickName: params.nickName } });
 	}
 	// 配送手机号查询
 	if (params.orderPhone) {
-		condition.push({ orderPhone: params.orderPhone });
+		condition.push({ $match: { orderPhone: params.orderPhone } });
 	}
 	// 配送用户名查询
 	if (params.orderName) {
-		condition.push({ orderPhone: params.orderName });
+		condition.push({ $match: { orderName: params.orderName } });
 	}
 	// 送货小哥手机号查询
 	if (params.deleverPhone) {
-		condition.push({ orderPhone: params.deleverPhone });
+		condition.push({ $match: { deleverPhone: params.deleverPhone } });
 	}
 
 	// 时间范围查询
@@ -95,7 +95,7 @@ export const getOrderCondition = async (params: {
 		let matchCondition: any = {};
 		matchCondition[timeKey] = { $lte: params.startTime };
 		condition.push({ $match: matchCondition });
-	}
+    }
 
 	// 当前条件的总数
 	const totalPromise = db_order.findAggregate([
@@ -109,7 +109,7 @@ export const getOrderCondition = async (params: {
 
 	return {
 		list,
-		total: total[0].count
+		total: total.length > 0 ? total[0].count : 0
 	};
 };
 
@@ -248,15 +248,15 @@ export const updateOrder = async (
 	const orderInfoArr = await db_order.find({ openid, orderId });
 	const orderInfo: any = orderInfoArr[0];
 
-	if (orderInfo.state === 0) {
+	if (orderInfo.status === 0) {
 		throw new ServiceError('403', '无法操作，订单未支付');
 	}
 
 	if (_.isNumber(phone)) {
 		(orderInfo as OrderInfo).deleverPhone = phone;
 	}
-	if (orderInfo.state < 4) {
-		orderInfo.state++;
+	if (orderInfo.status < 4) {
+		orderInfo.status++;
 	}
 
 	return db_order.update({ openid, orderId }, orderInfo);
