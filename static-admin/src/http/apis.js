@@ -12,8 +12,13 @@ let urls = {
 	cate: '/api/admin/market/category', // 分类相关接口
 	home: '/api/admin/market/home', // 首页相关接口
 	recommend: '/api/admin/market/recommend',
-	order: '/api/admin/market/order'
+	order: '/api/admin/market/order',
+	crawlerLowestPrise: '/api/crawler/lowestPrise'
 };
+
+// ////爬虫接口
+export const getCrawlerLowestPrise = () => $get(urls.crawlerLowestPrise);
+// ///
 
 export const login = (username, password) =>
 	$post(urls.login, { data: { username, password } });

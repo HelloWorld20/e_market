@@ -48,7 +48,7 @@
 <script>
 import { Row, Col, Menu, MenuItem, MenuItemGroup, Submenu } from 'element-ui';
 import { logout } from './http/apis';
-const MENU_HIDE_ROUTE = ['Login'];
+const MENU_HIDE_ROUTE = ['Login', 'Crawler'];
 export default {
 	data() {
 		return {
