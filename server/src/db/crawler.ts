@@ -4,7 +4,7 @@ import * as mongoose from "mongoose";
 const model = { age: Number, name: String };
 const schema = new mongoose.Schema(model);
 // const value = { age: 10, name: "save" };
-const COLLECTION = "crawler-lowestPrice";
+const COLLECTION = "crawler";
 
 // export const insert = async (value: any) => {
 //   return mongo.insert(COLLECTION, schema, value);

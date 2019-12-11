@@ -12,7 +12,7 @@ export default {
 	},
 	async mounted() {
 		let data = await getCrawlerLowestPrise();
-		data = data[0].data;
+		data = data[2].data;
 		data = data.filter(v => {
 			return !!v.lowestPrice;
 		});
