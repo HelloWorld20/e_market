@@ -1,3 +1,11 @@
+/*
+ * @Author: jianghong.wei
+ * @Date: 2019-12-13 10:59:48
+ * @Last Modified by: jianghong.wei
+ * @Last Modified time: 2019-12-13 11:00:36
+ * H5端用户身份信息相关
+ */
+
 import { createRouter, response, catchError } from '../modules';
 import * as userSrv from '../services/user-h5';
 import * as orderSrv from '../services/order';
@@ -15,7 +23,7 @@ router.get(
 		response.json(res, result);
 	})
 );
-
+// 获取购物车
 router.get(
 	'/cart',
 	authH5,
@@ -39,7 +47,7 @@ router.post(
 		response.json(res, result);
 	})
 );
-
+// 删除购物车
 router.delete(
 	'/cart',
 	authH5,
@@ -56,7 +64,7 @@ router.delete(
 		}
 	})
 );
-
+// 获取送货地址
 router.get(
 	'/address',
 	authH5,
@@ -65,7 +73,7 @@ router.get(
 		response.json(res, result);
 	})
 );
-
+// 修改送货地址
 router.post(
 	'/address',
 	authH5,
@@ -84,7 +92,7 @@ router.post(
 		response.json(res, result);
 	})
 );
-
+// 删除送货地址
 router.delete(
 	'/address',
 	authH5,

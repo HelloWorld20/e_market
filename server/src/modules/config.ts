@@ -1,3 +1,10 @@
+/*
+ * @Author: jianghong.wei
+ * @Date: 2019-12-13 11:06:16
+ * @Last Modified by:   jianghong.wei
+ * @Last Modified time: 2019-12-13 11:06:16
+ * 获取系统配置
+ */
 import * as fs from "fs";
 import * as path from "path";
 import * as _ from "lodash";

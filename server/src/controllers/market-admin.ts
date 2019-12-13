@@ -196,7 +196,7 @@ router.get(
 		response.json(res, result);
 	})
 );
-// 更新状态
+// 更新订单状态
 router.post(
 	'/order',
 	authAdmin,

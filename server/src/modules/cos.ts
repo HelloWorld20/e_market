@@ -1,5 +1,10 @@
-// const config = require('./config');
-// const COS = require('cos-nodejs-sdk-v5')
+/*
+ * @Author: jianghong.wei
+ * @Date: 2019-12-13 11:06:36
+ * @Last Modified by:   jianghong.wei
+ * @Last Modified time: 2019-12-13 11:06:36
+ * 腾讯云cos文件上传服务
+ */
 import * as config from './config'
 import * as COS from 'cos-nodejs-sdk-v5';
 

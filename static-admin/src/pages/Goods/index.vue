@@ -1,6 +1,6 @@
 <template>
 	<section class="goods">
-		<h1>商品管理</h1>
+		<h1 class="title">商品管理</h1>
 		<div class="goods-btns">
 			<el-button type="primary" @click="handleCreate">新增</el-button>
 			<el-button type="danger" @click="handleDeleteMulti">删除</el-button>

@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-05 22:04:02
+ * @Last Modified time: 2019-12-13 11:13:12
  * 商品管理
  */
 import { ServiceError } from '../modules';
@@ -51,7 +51,6 @@ export const getGoods = async (params: {
 		condition.push({ $match: { isRecommend: params.isRecommend } });
 	}
 	// 当前条件的总数
-	console.log(JSON.stringify(condition));
 	const totalPromise = db_goods.findAggregate([
 		...condition,
 		{ $group: { _id: null, count: { $sum: 1 } } }

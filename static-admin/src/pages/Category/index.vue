@@ -1,9 +1,10 @@
 <template>
 	<section class="cate">
-		<h1>分类管理</h1>
+		<h1 class="title">分类管理</h1>
 		<div class="cate-btns">
 			<el-button type="primary" @click="handleCreate">新增</el-button>
 		</div>
+		<el-divider></el-divider>
 		<el-table border style="width: 100%" :data="tableData">
 			<el-table-column label="分类名称" prop="name"></el-table-column>
 			<el-table-column label="优先级" prop="preority"></el-table-column>
@@ -27,7 +28,7 @@
 					>
 					<vue-del-pop
 						:id="scope.row.id"
-						title="确定要删除分类吗？"
+						title="确定要删除分类吗？删除分类可能会导致一部分商品无法上架"
 						:handleDelete="handleDelete.bind(scope.row.id)"
 					>
 						<el-button type="danger" size="small">删除</el-button>

@@ -2,11 +2,10 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-20 16:43:38
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-11-20 17:20:23
+ * @Last Modified time: 2019-12-13 11:13:32
  * 首页管理
  */
 
-import { ServiceError } from '../modules';
 import * as db_home from '../db/home';
 
 export async function getConfig() {

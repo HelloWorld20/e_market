@@ -12,7 +12,7 @@ const router = createRouter();
 
 router.post(
 	'/upload',
-	catchError(async (req, res, next) => {
+	catchError(async (req, res) => {
 		const result = await cosSrv.upload(req);
 		response.json(res, result);
 	})

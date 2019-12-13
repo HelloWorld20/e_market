@@ -1,7 +1,12 @@
 <template>
 	<section class="order" style="margin-bottom: 100px;">
-		<h1>订单管理</h1>
-		<el-form v-model="form">
+		<h1 class="title">订单管理</h1>
+		<el-form
+			v-model="form"
+			label-position="left"
+			inline
+			class="order-search-expand"
+		>
 			<el-form-item prop="status" label="订单状态:" label-width="150px">
 				<el-select v-model="form.status">
 					<el-option :key="-2" label="无" :value="-2">无</el-option>
@@ -125,6 +130,7 @@
 			style="width: 100%"
 			:data="tableData"
 			@row-click="handleTableClick"
+			:row-class-name="tableRowClassName"
 			ref="table"
 		>
 			<el-table-column width="100" type="expand">
@@ -153,7 +159,11 @@
 							<span>{{ props.row.desc }}</span>
 						</el-form-item>
 						<el-form-item label="订单总价格：">
-							<span>{{ props.row.orderPriseAll }}</span>
+							<span
+								><b style="color: #F56C6C"
+									>{{ props.row.orderPriseAll }}元</b
+								></span
+							>
 						</el-form-item>
 						<el-form-item label="订单状态">
 							<el-tag>{{
@@ -372,7 +382,7 @@ export default {
 		},
 		handleTableClick(row, column, event) {
 			if (column && column.label === '操作') return;
-			this.$refs['table'].toggleRowExpansion(row);
+			// this.$refs['table'].toggleRowExpansion(row);
 		},
 		handleUpdate(row) {
 			this.$confirm('操作会修改订单状态，确定修改？', '提示', {
@@ -441,6 +451,13 @@ export default {
 			if (!time) return '无';
 			return moment(Number(time)).format('YYYY-MM-DD HH:mm:ss');
 		},
+		tableRowClassName({ row, rowIndex }) {
+			if (row.status === 1) {
+				return 'success-row';
+			} else if (row.status === 2) {
+				return 'warning-row';
+			}
+		},
 		getImageLocation(url) {
 			if (_.isArray(url)) {
 				return url.map(v => {
@@ -453,17 +470,4 @@ export default {
 };
 </script>
 
-<style>
-.order-table-expand {
-	font-size: 0;
-}
-.order-table-expand label {
-	width: 120px;
-	color: #99a9bf;
-}
-.order-table-expand .el-form-item {
-	margin-right: 0;
-	margin-bottom: 0;
-	width: 50%;
-}
-</style>
+<style lang="less" src="./index.less"></style>

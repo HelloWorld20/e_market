@@ -32,7 +32,7 @@ export function json(res: any, data: any) {
 		'ok' in data && // 更新记录数
 		'nModified' in data // 成功更新的记录数
 	) {
-		// 是mongodb返回的参数
+        // 是mongodb返回的参数，则处理返回参数，删除掉_id\__v等敏感参数
 		if ((data as IMongoRes).ok) {
 			res.json({
 				msg: `更新成功`,
