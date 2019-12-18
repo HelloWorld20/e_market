@@ -47,16 +47,8 @@ export default {
 			data = data.filter(v => {
 				return !!v.lowestPrice;
 			});
-
 			let xAxisData = []; // 横向
 			let seriesData = [];
-			// {
-			// 	from: '', to: '',
-			// 	lowestPrice: [{
-			// 		20191204: 123,
-			// 		20191205: 321
-			// 	}]
-			// }
 			let allLineData = data;
 			let partLinesData = allLineData;
 			partLinesData.forEach(oneLineData => {
@@ -64,11 +56,9 @@ export default {
 
 				const data = Object.keys(priseDataForArrayDay).map(
 					arrayDayKey => {
-						console.log(arrayDayKey);
 						return priseDataForArrayDay[arrayDayKey];
 					}
 				);
-				console.log(data);
 				seriesData.push({
 					name: oneLineData.from + ' => ' + oneLineData.to,
 					type: 'line',
@@ -80,12 +70,7 @@ export default {
 
 			const oneLineData = partLinesData[0];
 			Object.keys(oneLineData.lowestPrice[0]).forEach(arrayDayKey => {
-				if (
-					parseInt(arrayDayKey) > 20191231 &&
-					parseInt(arrayDayKey) < 20200215
-				) {
-					xAxisData.push(arrayDayKey);
-				}
+				xAxisData.push(arrayDayKey);
 			});
 			// console.log('xAxisData', xAxisData);
 			// console.log('seriesData', seriesData);
@@ -105,36 +90,24 @@ export default {
 						'搜索引擎'
 					]
 				},
-				grid: {
-					left: '3%',
-					right: '4%',
-					bottom: '3%',
-					containLabel: true
-				},
-				toolbox: {
-					feature: {
-						saveAsImage: {}
+				dataZoom: [
+					{
+						id: 'dataZoomX',
+						type: 'slider',
+						xAxisIndex: [0],
+						filterMode: 'filter'
 					}
-				},
+				],
 				xAxis: {
 					type: 'category',
 					boundaryGap: false,
 					// data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-					// xAxis: xAxisData
 					data: xAxisData
 				},
 				yAxis: {
 					type: 'value'
 				},
 				series: seriesData
-				// series: [
-				// 	{
-				// 		name: '广州 =》 沈阳',
-				// 		type: 'line',
-				// 		stack: '价格',
-				// 		data: [120, 132, 101, 134, 90, 230, 210]
-				// 	}
-				// ]
 			};
 			return option;
 		}
