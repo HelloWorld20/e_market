@@ -74,4 +74,6 @@ export const getOrder = status =>
 			status
 		}
 	});
+
+export const getRecommend = () => $get(urls.recommend);
 export default urls;

@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-13 11:13:12
+ * @Last Modified time: 2019-12-23 22:24:37
  * 商品管理
  */
 import { ServiceError } from '../modules';
@@ -140,14 +140,14 @@ export const updateMultiRecommend = async (
 };
 
 // 随机获取推荐商品
-export const getRecommend = async (params: {
-	pageNo: number; // 页码
-	pageSize: number; // 页数
-}) => {
+export const getRecommend = async () => {
 	let condition: Array<any> = [
-		{ $sort: { id: 1 } }, // 顺序
-		{ $match: { status: 1, isRecommend: 1 } }, // 只选上架
-		{ $skip: params.pageNo * params.pageSize }, // 页码
-		{ $limit: params.pageSize } // 页数
-	];
+		// { $sort: { id: 1 } }, // 顺序
+		{ $match: { status: 1, isRecommend: true } }, // 只选上架
+		// { $skip: params.pageNo * params.pageSize }, // 页码
+		// { $limit: params.pageSize }, // 页数
+		{ $sample: { size: 10 } }    // 随机
+    ];
+    const result = await db_goods.findAggregate(condition);
+    return result;
 };

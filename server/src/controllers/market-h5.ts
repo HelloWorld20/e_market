@@ -47,4 +47,12 @@ router.get(
 	})
 );
 
+router.get(
+    '/recommend',
+    catchError(async (req, res) => {
+		const result = await goodsSrv.getRecommend();
+		response.json(res, result);
+	})
+)
+
 export default router;

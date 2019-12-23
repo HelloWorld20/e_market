@@ -21,39 +21,50 @@
 				{{ item.name }}
 			</div>
 		</div>
-		<div class="home-recommend">
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-			<div class="home-recommend-item"></div>
-		</div>
+		<van-grid :column-num="2" class="home-rec">
+			<van-grid-item v-for="(item, index) in recommendData" :key="index">
+				<div class="home-rec-item">
+					<div
+						class="home-rec-item-img"
+						:style="
+							`background-image: url(${getImages(item.images)})`
+						"
+					></div>
+					<div class="home-rec-item-name">{{ item.name }}</div>
+					<div class="home-rec-item-desc">{{ item.desc }}</div>
+					<div class="home-rec-item-control">
+						<div class="home-rec-item-control-pirce">
+							￥{{ item.prise }}
+						</div>
+						<van-button
+							round
+							type="primary"
+							icon="cart-o"
+						></van-button>
+					</div>
+				</div>
+			</van-grid-item>
+		</van-grid>
 	</div>
 </template>
 
 <script>
-import { Swipe, SwipeItem } from 'vant';
+import { Swipe, SwipeItem, Grid, GridItem } from 'vant';
 import { mapActions } from 'vuex';
+import { getRecommend } from '../../http/apis';
 export default {
 	data() {
 		return {
 			carousel: [],
-			cateData: []
+			cateData: [],
+			recommendData: []
 		};
 	},
 	components: {
 		[Swipe.name]: Swipe,
-		[SwipeItem.name]: SwipeItem
+		[SwipeItem.name]: SwipeItem,
+		[Grid.name]: Grid,
+		[GridItem.name]: GridItem
 	},
 	async created() {
 		this.getUserInfo();
@@ -63,9 +74,14 @@ export default {
 		});
 		const category = await this.getCategory();
 		this.cateData = category;
+		const recommendData = await getRecommend();
+		this.recommendData = recommendData;
 	},
 	methods: {
-		...mapActions(['getCategory', 'getUserInfo', 'getHomeInfo'])
+		...mapActions(['getCategory', 'getUserInfo', 'getHomeInfo']),
+		getImages(imageArr) {
+			return `${window.location.protocol}//${imageArr[0]}`;
+		}
 	}
 };
 </script>
