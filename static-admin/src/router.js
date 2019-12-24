@@ -7,6 +7,7 @@ import Goods from '@/pages/Goods';
 import HomeManage from '@/pages/HomeManage';
 import Order from '@/pages/Order';
 import Crawler from '@/pages/Crawler';
+import HousePrise from '@/pages/HousePrise';
 
 Vue.use(Router);
 const router = new Router({
@@ -45,6 +46,10 @@ const router = new Router({
 			path: '/Crawler',
 			name: 'Crawler',
 			component: Crawler
+		}, {
+			path: '/HousePrise',
+			name: 'HousePrise',
+			component: HousePrise
 		},
 		{
 			path: '*',
