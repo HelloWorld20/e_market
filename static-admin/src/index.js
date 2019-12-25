@@ -2,7 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import store from './store';
 import router from './router';
-import { Loading, InputNumber, Button, Input, Select, Option, Message, MessageBox, Divider, Checkbox, Link, Tag } from 'element-ui';
+import { Loading, InputNumber, Button, Input, Select, Option, Divider, Checkbox, Link, Tag, Message } from 'element-ui';
 
 import 'element-ui/lib/theme-chalk/index.css';
 import '@/styles/app.less';
@@ -22,11 +22,6 @@ Vue.component(Tag.name, Tag);
 Vue.prototype.$message = function(opts) {
 	Message(opts);
 };
-
-Vue.prototype.$confirm = function(opts) {
-	return MessageBox(opts);
-};
-
 
 window.Vue = Vue;
 

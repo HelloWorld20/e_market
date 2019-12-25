@@ -10,12 +10,15 @@
 			<el-form-item prop="status" label="订单状态:" label-width="150px">
 				<el-select v-model="form.status">
 					<el-option :key="-2" label="无" :value="-2">无</el-option>
-					<el-option
+					<el-option :key="123" label="需要操作" :value="123"
+						>需要操作</el-option
+					>
+					<!-- <el-option
 						:key="-1"
 						:label="constant.status['-1']"
 						:value="0"
 						>关闭</el-option
-					>
+					> -->
 					<el-option :key="0" :label="constant.status['0']" :value="0"
 						>未支付</el-option
 					>
@@ -295,7 +298,8 @@ import {
 	FormItem,
 	Input,
 	InputNumber,
-	DatePicker
+	DatePicker,
+	MessageBox
 } from 'element-ui';
 import { getOrder, updateOrder } from '../../http/apis';
 import moment from 'moment';
@@ -381,22 +385,24 @@ export default {
 			this.updateTable();
 		},
 		handleTableClick(row, column, event) {
-			if (column && column.label === '操作') return;
+			// if (column && column.label === '操作') return;
 			// this.$refs['table'].toggleRowExpansion(row);
 		},
 		handleUpdate(row) {
-			this.$confirm('操作会修改订单状态，确定修改？', '提示', {
+			MessageBox.confirm('操作会修改订单状态，确定修改？', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning',
 				center: true
-			}).then(async () => {
+			}).then(async() => {
 				// 如果是接单和派送，则可以修改配送员手机号
 				if (row.status === 2 || row.status === 3) {
-					this.$prompt('请输入送货员手机号', '提示', {
+					MessageBox.prompt('请输入送货员手机号', '提示', {
 						confirmButtonText: '确定',
-						cancelButtonText: '取消'
-					}).then(async ({ phone }) => {
+						cancelButtonText: '取消',
+						inputPlaceholder: '非必填'
+					}).then(async({ value: phone }) => {
+						console.log('prompt', phone);
 						await updateOrder(row.orderId, phone);
 						await this.updateTable();
 						this.$message({

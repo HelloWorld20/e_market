@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 16:16:19
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-05 14:42:35
+ * @Last Modified time: 2019-12-25 18:53:04
  * 订单服务
  */
 
@@ -42,7 +42,7 @@ export const getOrderById = (req: Request, id: Number) => {
 export const getOrderCondition = async (params: {
 	pageNo: number;
 	pageSize: number;
-	status?: 0 | 1 | 2 | 3 | 4 | -1; // 订单状态 0：未支付；1：已支付；2：商家接单；3：正在配送；4：配送完成；-1：关闭
+	status?: 0 | 1 | 2 | 3 | 4 | -1 | 123; // 订单状态 0：未支付；1：已支付；2：商家接单；3：正在配送；4：配送完成；-1：关闭；123：可操作
 	// orderId?: number;
 	timeKey?: // 多种时间查询，只能选一个
 	| 'createTime'
@@ -65,6 +65,9 @@ export const getOrderCondition = async (params: {
 	// 订单状态查询
 	if (params.status && [-1, 0, 1, 2, 3, 4].includes(Number(params.status))) {
 		condition.push({ $match: { status: Number(params.status) } });
+	}
+	if (Number(params.status) === 123) {
+		condition.push({ $match: { $or: [{ status: 1 }, { status: 2 }, { status: 3 }] } });
 	}
 	// 用户名查询
 	if (params.nickName) {
@@ -95,7 +98,7 @@ export const getOrderCondition = async (params: {
 		let matchCondition: any = {};
 		matchCondition[timeKey] = { $lte: params.startTime };
 		condition.push({ $match: matchCondition });
-    }
+	}
 
 	// 当前条件的总数
 	const totalPromise = db_order.findAggregate([

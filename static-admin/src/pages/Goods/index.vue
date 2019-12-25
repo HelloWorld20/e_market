@@ -179,7 +179,8 @@ import {
 	Form,
 	FormItem,
 	Input,
-	InputNumber
+	InputNumber,
+	MessageBox
 } from 'element-ui';
 import {
 	getGoods,
@@ -320,7 +321,7 @@ export default {
 				this.$message({ message: '请勾选商品' });
 				return;
 			}
-			this.$confirm('此操作将永久删除商品, 是否继续?', '提示', {
+			MessageBox.confirm('此操作将永久删除商品, 是否继续?', '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning'
