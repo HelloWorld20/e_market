@@ -3,7 +3,8 @@ import * as mongoose from 'mongoose';
 
 const model = {
 	name: String,
-	id: String,
+    id: String,
+    images: [],  // 商品图片
 	createTime: String,
 	updateTime: String,
 	preority: Number

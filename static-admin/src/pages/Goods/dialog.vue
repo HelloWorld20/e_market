@@ -242,7 +242,8 @@ export default {
 		}
 	},
 	beforeDestroyed() {
-		this.$off('setDialogValue', this.setDialogValue);
+		this.$off('setValue', this.setValue);
+		this.$off('clearValue', this.clearValue);
 	}
 };
 </script>

@@ -18,6 +18,15 @@
 				prop="updateTime"
 				:formatter="timeFormat"
 			></el-table-column>
+			<el-table-column label="图片" prop="images" width="120">
+				<template slot-scope="scope">
+					<el-image
+						style="width: 100px; height: 100px"
+						:src="getImageLocation(scope.row.images[0])"
+						:preview-src-list="getImageLocation(scope.row.images)"
+					/>
+				</template>
+			</el-table-column>
 			<el-table-column label="操作">
 				<template slot-scope="scope">
 					<el-button
@@ -46,12 +55,13 @@
 </template>
 
 <script>
-import { Table, TableColumn, Popover } from 'element-ui';
+import { Table, TableColumn, Popover, Image } from 'element-ui';
 import { mapActions } from 'vuex';
 import VueDialog from './dialog';
 import VueDelPop from '../../components/delPop';
 import moment from 'moment';
 import apis from '../../http/apis';
+import * as _ from 'lodash';
 export default {
 	data() {
 		return {
@@ -63,6 +73,7 @@ export default {
 		[Table.name]: Table,
 		[TableColumn.name]: TableColumn,
 		[Popover.name]: Popover,
+		[Image.name]: Image,
 		VueDialog,
 		VueDelPop
 	},
@@ -76,10 +87,7 @@ export default {
 		...mapActions(['getCategory']),
 		handleCreate() {
 			this.dialogVisible = true;
-			this.$refs.dialog.$emit('setValue', {
-				name: '',
-				preority: 0
-			});
+			this.$refs.dialog.$emit('clearValue');
 		},
 		handleEdit(row) {
 			this.$refs.dialog.$emit('setValue', { ...row });
@@ -103,7 +111,14 @@ export default {
 			this.tableData = res;
 			this.$message({ message: '修改成功', type: 'success' });
 		},
-
+		getImageLocation(url) {
+			if (_.isArray(url)) {
+				return url.map(v => {
+					return `${location.protocol}//${v}`;
+				});
+			}
+			return `${location.protocol}//${url}`;
+		},
 		timeFormat(row, el) {
 			if (!row[el.property]) return '';
 			return moment(Number(row[el.property])).format(

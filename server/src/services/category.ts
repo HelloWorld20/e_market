@@ -11,7 +11,8 @@ export async function getCategory() {
 export async function addOrUpdate(opts: {
 	name: string;
 	id?: string;
-	preority: number;
+    preority: number;
+    images?: Array<string>;
 }) {
 	let value: any = {
 		updateTime: new Date().getTime(),

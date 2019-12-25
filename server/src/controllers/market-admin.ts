@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-09 23:18:08
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-05 14:54:34
+ * @Last Modified time: 2019-12-25 14:20:11
  * 业务相关路由定义
  */
 
@@ -29,8 +29,13 @@ router.post(
 	'/category',
 	authAdmin,
 	catchError(async (req, res) => {
-		const { name, id, preority } = req.body;
-		const result = await cateSrv.addOrUpdate({ name, id, preority });
+		const { name, id, preority, images } = req.body;
+		const result = await cateSrv.addOrUpdate({
+			name,
+			id,
+			preority,
+			images
+		});
 		response.json(res, result);
 	})
 );
