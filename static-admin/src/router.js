@@ -8,6 +8,7 @@ import HomeManage from '@/pages/HomeManage';
 import Order from '@/pages/Order';
 import Crawler from '@/pages/Crawler';
 import HousePrise from '@/pages/HousePrise';
+import UserManage from '@/pages/UserManage';
 
 Vue.use(Router);
 const router = new Router({
@@ -50,6 +51,10 @@ const router = new Router({
 			path: '/HousePrise',
 			name: 'HousePrise',
 			component: HousePrise
+		}, {
+			path: '/UserManage',
+			name: 'UserManage',
+			component: UserManage
 		},
 		{
 			path: '*',
