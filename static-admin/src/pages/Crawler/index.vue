@@ -18,7 +18,7 @@ import echarts from 'echarts';
 import { Option, Select } from 'element-ui';
 import { getCrawlerLowestPrise } from '../../http/apis';
 let myChart = null;
-import flydata from './data';
+// import flydata from './data';
 export default {
 	data() {
 		return {
@@ -44,8 +44,8 @@ export default {
 			myChart.setOption(option);
 		},
 		getOption(index) {
-			// let data = this.rawData[index].data;
-			let data = flydata;
+			let data = this.rawData[index].data;
+			// let data = flydata;
 			data = data.filter(v => {
 				return !!v.lowestPrice;
 			});
