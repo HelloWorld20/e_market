@@ -58,6 +58,7 @@ export default {
 			return state.homeInfo;
 		} else {
 			return getHome().then(res => {
+				console.log('getHomeInfo', res);
 				commit('updateHomeInfo', res);
 				return res;
 			});

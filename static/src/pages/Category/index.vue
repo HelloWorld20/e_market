@@ -18,9 +18,11 @@
 				:prise="item.prise"
 			>
 				<div slot="footer">
-					<van-button type="primary" @click="add2cart(item.id)"
-						>加入购物车</van-button
-					>
+					<van-button
+						type="primary"
+						icon="cart-o"
+						@click="add2cart(item.id)"
+					></van-button>
 				</div>
 			</van-card>
 		</div>
@@ -45,13 +47,18 @@ export default {
 		[Card.name]: Card
 	},
 	async mounted() {
+		const id = this.$route.query.id;
 		const menuData = await this.getCategory();
-		console.log(menuData);
-		if (menuData.length > 0) {
-			const goodsData = await this.getGoods(menuData[0].id);
-
-			this.menuData = menuData;
+		this.menuData = menuData;
+		if (id) {
+			this.activeKey = menuData.findIndex(v => id === v.id);
+			const goodsData = await this.getGoods(id);
 			this.goodsData = goodsData.data;
+		} else {
+			if (menuData.length > 0) {
+				const goodsData = await this.getGoods(menuData[0].id);
+				this.goodsData = goodsData.data;
+			}
 		}
 	},
 	methods: {

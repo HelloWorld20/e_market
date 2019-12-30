@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 10:38:12
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-02 16:44:29
+ * @Last Modified time: 2019-12-29 17:27:22
  * h5端市场controller
  */
 
@@ -42,8 +42,8 @@ router.get(
 router.get(
 	'/home',
 	catchError(async (req, res) => {
-		const result = await homeSrv.getConfig();
-		response.json(res, result);
+        const result = await homeSrv.getConfig();
+		response.json(res, result[0]);
 	})
 );
 
