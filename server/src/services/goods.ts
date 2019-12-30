@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-13 19:04:24
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-23 22:24:37
+ * @Last Modified time: 2019-12-30 19:25:26
  * 商品管理
  */
 import { ServiceError } from '../modules';
@@ -146,8 +146,22 @@ export const getRecommend = async () => {
 		{ $match: { status: 1, isRecommend: true } }, // 只选上架
 		// { $skip: params.pageNo * params.pageSize }, // 页码
 		// { $limit: params.pageSize }, // 页数
-		{ $sample: { size: 10 } }    // 随机
-    ];
-    const result = await db_goods.findAggregate(condition);
-    return result;
+		{ $sample: { size: 10 } } // 随机
+	];
+	const result = await db_goods.findAggregate(condition);
+	return result;
+};
+
+export const search = async (name: string) => {
+	let condition: Array<any> = [
+		{ $sort: { createTime: 1 } }, // 顺序
+		{ $match: { status: 1 } } // 只选上架
+	];
+	// 名字查询
+	if (name) {
+		condition.push({ $match: { name: new RegExp(name) } });
+	}
+
+	const list = await db_goods.findAggregate(condition);
+	return { list };
 };

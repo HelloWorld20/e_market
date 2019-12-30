@@ -1,0 +1,45 @@
+.background-image {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.search {
+	&-res {
+		height: 5rem;
+		display: flex;
+		flex-wrap: wrap;
+
+		&-item {
+			position: relative;
+			width: 100%;
+			height: 2.5rem;
+			box-sizing: border-box;
+
+			&-img {
+				width: 100%;
+				height: 60%;
+				.background-image;
+			}
+			&-name {
+				font-size: 0.2rem;
+			}
+			&-desc {
+				font-size: 0.13rem;
+			}
+
+			&-control {
+				position: absolute;
+				bottom: 0;
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				color: #f37078;
+
+				&-prise {
+					flex: 1;
+				}
+			}
+		}
+	}
+}

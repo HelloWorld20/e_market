@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 10:38:12
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-29 17:27:22
+ * @Last Modified time: 2019-12-30 19:19:09
  * h5端市场controller
  */
 
@@ -42,17 +42,26 @@ router.get(
 router.get(
 	'/home',
 	catchError(async (req, res) => {
-        const result = await homeSrv.getConfig();
+		const result = await homeSrv.getConfig();
 		response.json(res, result[0]);
 	})
 );
 
 router.get(
-    '/recommend',
-    catchError(async (req, res) => {
+	'/recommend',
+	catchError(async (req, res) => {
 		const result = await goodsSrv.getRecommend();
 		response.json(res, result);
 	})
-)
+);
+
+router.get(
+	'/search',
+	catchError(async (req, res) => {
+		const { name } = req.query;
+		const result = await goodsSrv.search(name);
+		response.json(res, result);
+	})
+);
 
 export default router;

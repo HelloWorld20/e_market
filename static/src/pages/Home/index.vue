@@ -1,5 +1,13 @@
 <template>
 	<div class="home">
+		<van-search
+			placeholder="请输入搜索关键词"
+			v-model="searchVal"
+			show-action
+			shape="round"
+			@search="onSearch"
+			@cancel="onCancel"
+		/>
 		<div class="home-carousel">
 			<van-swipe :autoplay="4000" style="height: 100%">
 				<van-swipe-item
@@ -53,12 +61,13 @@
 </template>
 
 <script>
-import { Swipe, SwipeItem, Grid, GridItem } from 'vant';
+import { Swipe, SwipeItem, Grid, GridItem, Search } from 'vant';
 import { mapActions } from 'vuex';
 import { getRecommend, addOrUpdateCart } from '../../http/apis';
 export default {
 	data() {
 		return {
+			searchVal: '',
 			carousel: [],
 			cateData: [],
 			recommendData: []
@@ -68,7 +77,8 @@ export default {
 		[Swipe.name]: Swipe,
 		[SwipeItem.name]: SwipeItem,
 		[Grid.name]: Grid,
-		[GridItem.name]: GridItem
+		[GridItem.name]: GridItem,
+		[Search.name]: Search
 	},
 	async created() {
 		this.getUserInfo();
@@ -88,13 +98,23 @@ export default {
 			this.$toast('添加购物车成功');
 		},
 		handleClickCate(item) {
-			console.log(item.id);
 			this.$router.push({
 				path: '/Category',
 				query: {
 					id: item.id
 				}
 			});
+		},
+		onSearch(str) {
+			this.$router.replace({
+				path: '/Search',
+				query: {
+					name: str
+				}
+			});
+		},
+		onCancel() {
+			this.searchVal = '';
 		},
 		getImages(imageArr) {
 			return `${window.location.protocol}//${imageArr[0]}`;
