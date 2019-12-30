@@ -10,6 +10,7 @@ interface UserInfo {
 	sex: number;
 	unionid: string;
 	userId: number;
+	state: -1 | 1; // 用户状态-1：封禁；1：正常
 	cart: Array<{
 		id: string; // 商品id
 		name: string; // 商品名称

@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-09 23:18:08
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-25 14:20:11
+ * @Last Modified time: 2019-12-30 14:05:58
  * 业务相关路由定义
  */
 
@@ -12,6 +12,7 @@ import * as cateSrv from '../services/category';
 import * as goodsSrv from '../services/goods';
 import * as homeSrv from '../services/home-manage';
 import * as orderSrv from '../services/order';
+import * as userSrv from '../services/user-admin';
 const router = createRouter();
 
 // 获取所有分类
@@ -206,9 +207,31 @@ router.post(
 	'/order',
 	authAdmin,
 	catchError(async (req, res) => {
-		let { orderId } = req.query;
-		let { phone } = req.body;
+		const { orderId } = req.query;
+		const { phone } = req.body;
 		const result = await orderSrv.updateOrder(req, orderId, Number(phone));
+		response.json(res, result);
+	})
+);
+// 获取用户列表
+router.get(
+	'/user',
+	authAdmin,
+	catchError(async (req, res) => {
+		let { pageNo, pageSize, state, name } = req.query;
+		pageSize = pageSize || 10;
+		const result = await userSrv.getUser({ pageNo, pageSize, state, name });
+		response.json(res, result);
+	})
+);
+// 更新用户状态
+router.post(
+	'/user',
+	authAdmin,
+	catchError(async (req, res) => {
+		const { openid } = req.query;
+		const { state } = req.body;
+		const result = await userSrv.setUserState(openid, state);
 		response.json(res, result);
 	})
 );

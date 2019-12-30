@@ -13,7 +13,7 @@
 		</div>
 		<el-divider></el-divider>
 
-		<el-form :modal="form" ref="form">
+		<el-form :modal="form" ref="form" class="order-search-expand">
 			<el-form-item prop="name" label="商品名称:" label-width="150px">
 				<el-input
 					v-model="form.name"
@@ -207,7 +207,7 @@ export default {
 				isRecommend: 0
 			},
 			dialogVisible: false,
-			currentPage: -1,
+			pageNo: -1,
 			totalPage: 1,
 			selectedRow: []
 		};
@@ -232,7 +232,7 @@ export default {
 	methods: {
 		async updateTable() {
 			const goodsList = await getGoods({
-				pageNo: this.currentPage >= 0 ? this.currentPage : 0,
+				pageNo: this.pageNo >= 0 ? this.pageNo : 0,
 				name: this.form.name ? this.form.name : undefined,
 				maxPrise:
 					this.form.maxPrise > 0 ? this.form.maxPrise : undefined,
@@ -248,7 +248,7 @@ export default {
 						: this.form.isRecommend
 			});
 			console.log('params', {
-				pageNo: this.currentPage,
+				pageNo: this.pageNo,
 				name: this.form.name,
 				maxPrise: this.form.maxPrise,
 				minPrise: this.form.minPrise,
@@ -265,7 +265,7 @@ export default {
 			this.totalPage = goodsList.total;
 		},
 		async handleSearch() {
-			this.currentPage = 0;
+			this.pageNo = 0;
 			this.updateTable();
 		},
 		async handleReset() {
@@ -275,8 +275,8 @@ export default {
 				minPrise: 0,
 				maxPrise: 0
 			});
-			this.currentPage = 0;
-			const goodsList = await getGoods({ pageNo: this.currentPage });
+			this.pageNo = 0;
+			const goodsList = await getGoods({ pageNo: this.pageNo });
 			this.tableData = goodsList.list;
 			this.totalPage = goodsList.total;
 		},
@@ -349,14 +349,12 @@ export default {
 			this.dialogVisible = false;
 		},
 		async pageChange(page) {
-			this.currentPage = page - 1;
+			this.pageNo = page - 1;
 			this.updateTable();
 		},
 		timeFormat(row, el) {
 			if (!row[el.property]) return '';
-			return moment(Number(row[el.property])).format(
-				'MM-DD HH:mm:ss'
-			);
+			return moment(Number(row[el.property])).format('MM-DD HH:mm:ss');
 		},
 		getImageLocation(url) {
 			if (_.isArray(url)) {

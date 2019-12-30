@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 17:32:30
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-25 19:12:12
+ * @Last Modified time: 2019-12-30 14:04:03
  * H5个人信息 数据库控制
  */
 
@@ -22,7 +22,7 @@ const model = {
 	sex: Number,
 	unionid: Number,
     userId: Number,
-    status: Number, // 用户状态。1：正常。-1：封禁
+    state: Number, // 用户状态。1：正常。-1：封禁
 	// 购物车
 	cart: [
 		{

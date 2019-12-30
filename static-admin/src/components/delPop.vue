@@ -1,10 +1,10 @@
 <template>
 	<!-- v-model="visible" -->
 	<el-popover placement="top" v-model="visible">
-		<p>{{title}}</p>
+		<p>{{ title }}</p>
 		<div style="text-align: right; margin: 0">
 			<el-button type="danger" size="mini" @click="handleDel"
-				>删除</el-button
+				>确定</el-button
 			>
 		</div>
 		<slot slot="reference"></slot>
@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { Popover } from "element-ui";
+import { Popover } from 'element-ui';
 export default {
 	data() {
 		return {
@@ -24,7 +24,7 @@ export default {
 			require: true
 		},
 		title: {
-			require: true,
+			require: true
 		},
 		handleDelete: {
 			type: Function,

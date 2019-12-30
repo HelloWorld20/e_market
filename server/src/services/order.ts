@@ -2,7 +2,7 @@
  * @Author: jianghong.wei
  * @Date: 2019-11-22 16:16:19
  * @Last Modified by: jianghong.wei
- * @Last Modified time: 2019-12-25 18:53:04
+ * @Last Modified time: 2019-12-30 15:29:44
  * 订单服务
  */
 
@@ -67,7 +67,9 @@ export const getOrderCondition = async (params: {
 		condition.push({ $match: { status: Number(params.status) } });
 	}
 	if (Number(params.status) === 123) {
-		condition.push({ $match: { $or: [{ status: 1 }, { status: 2 }, { status: 3 }] } });
+		condition.push({
+			$match: { $or: [{ status: 1 }, { status: 2 }, { status: 3 }] }
+		});
 	}
 	// 用户名查询
 	if (params.nickName) {
@@ -126,6 +128,9 @@ export const createOrder = async (
 	// 用户信息里获取购物车信息
 	const openid: string = req.session && req.session.openid;
 	const userInfo = await userSrv.getUserInfo(req);
+	if (userInfo.state === -1) {
+		throw new ServiceError('403', '用户被禁，请联系管理员');
+	}
 	const cartArr = userInfo.cart;
 	if (!addrId) {
 		throw new ServiceError('400', '请选择送货地址');

@@ -1,5 +1,5 @@
 <template>
-	<section class="order" style="margin-bottom: 100px;">
+	<section class="order">
 		<h1 class="title">订单管理</h1>
 		<el-form
 			v-model="form"
@@ -13,12 +13,6 @@
 					<el-option :key="123" label="需要操作" :value="123"
 						>需要操作</el-option
 					>
-					<!-- <el-option
-						:key="-1"
-						:label="constant.status['-1']"
-						:value="0"
-						>关闭</el-option
-					> -->
 					<el-option :key="0" :label="constant.status['0']" :value="0"
 						>未支付</el-option
 					>

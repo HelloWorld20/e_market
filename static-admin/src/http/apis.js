@@ -13,6 +13,7 @@ let urls = {
 	home: '/api/admin/market/home', // 首页相关接口
 	recommend: '/api/admin/market/recommend',
 	order: '/api/admin/market/order',
+	user: '/api/admin/market/user',
 	crawlerLowestPrise: '/api/crawler/lowestPrise'
 };
 
@@ -92,4 +93,10 @@ export const delRecommend = ids => {
 // params.deleverPhone
 export const getOrder = params => $get(urls.order, { params });
 export const updateOrder = (orderId, phone) => $post(urls.order, { params: { orderId }, data: { phone } });
+
+export const getUser = params => $get(urls.user, { params });
+export const setUserState = (openid, state) => $post(urls.user, {
+	params: { openid },
+	data: { state }
+});
 export default urls;
