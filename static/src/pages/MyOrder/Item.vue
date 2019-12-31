@@ -43,4 +43,4 @@ export default {
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped src="./item.less"></style>

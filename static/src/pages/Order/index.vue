@@ -116,7 +116,6 @@ export default {
 			let addrHtml = null;
 			if (wrapper.childElementCount >= 3) {
 				addrHtml = wrapper.children[2];
-				console.log(wrapper, wrapper.children);
 				addrHtml.innerHTML = `地址： ${addr}`;
 			} else {
 				addrHtml = document.createElement('div');
