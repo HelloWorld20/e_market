@@ -33,6 +33,9 @@
 				<div class="home-category-item-name">{{ item.name }}</div>
 			</van-grid-item>
 		</van-grid>
+
+		<van-divider>推荐商品</van-divider>
+
 		<van-grid :column-num="2" class="home-rec">
 			<van-grid-item v-for="(item, index) in recommendData" :key="index">
 				<div class="home-rec-item">

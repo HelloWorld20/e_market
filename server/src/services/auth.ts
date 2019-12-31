@@ -14,6 +14,7 @@ import { Request } from 'express';
 const sha1 = require('sha1');
 
 const WECHAT_VALID_TOCKEN = config.get('wechat.valid_tocken');
+const ENABLE_REGIST = config.get('enableRegist');
 /**
  * 接入微信公众平台接口
  * @param signature
@@ -31,6 +32,9 @@ export async function wechatServerValid(
 }
 
 export async function register(username: string, password: string) {
+	if (!ENABLE_REGIST) {
+		throw new ServiceError('403', '已关闭注册');
+	}
 	if (username.trim().length <= 0 || password.trim().length <= 0) {
 		throw new ServiceError('400', '请输入用户名或密码');
 	}

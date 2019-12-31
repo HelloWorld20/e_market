@@ -77,18 +77,6 @@
 		>
 			<el-table-column type="selection" width="55"> </el-table-column>
 			<el-table-column
-				label="创建时间"
-				prop="createTime"
-				:formatter="timeFormat"
-				width="140"
-			></el-table-column>
-			<el-table-column
-				label="更新时间"
-				prop="updateTime"
-				:formatter="timeFormat"
-				width="140"
-			></el-table-column>
-			<el-table-column
 				label="名称"
 				prop="name"
 				width="100"
@@ -141,6 +129,18 @@
 					<span>{{ scope.row.isRecommend ? '是' : '否' }}</span>
 				</template>
 			</el-table-column>
+			<el-table-column
+				label="创建时间"
+				prop="createTime"
+				:formatter="timeFormat"
+				width="140"
+			></el-table-column>
+			<el-table-column
+				label="更新时间"
+				prop="updateTime"
+				:formatter="timeFormat"
+				width="140"
+			></el-table-column>
 			<el-table-column label="操作" fixed="right" width="150">
 				<template slot-scope="scope">
 					<el-button

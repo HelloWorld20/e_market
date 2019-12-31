@@ -19,20 +19,20 @@
 </template>
 <script>
 import {Form, FormItem} from 'element-ui';
-import { register, login } from '../../http/apis'
+import { register, login } from '../../http/apis';
 export default {
 	data() {
 		return {
 			form: {
-				username: 'username',
-				password: 'password'
+				username: '',
+				password: ''
 			}
 		};
 	},
 	methods: {
 		async handleLogin(e) {
 			await login(e.username, e.password);
-			this.$router.replace('/Category')
+			this.$router.replace('/Category');
 		},
 		handleRegist(e) {
 			register(e.username, e.password);

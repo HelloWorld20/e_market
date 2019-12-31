@@ -21,9 +21,9 @@
 					<el-menu-item index="1-3" data-id="HomeManage"
 						>首页管理</el-menu-item
 					>
-					<el-menu-item index="1-4" data-id="Recommend"
+					<!-- <el-menu-item index="1-4" data-id="Recommend"
 						>推荐商品管理</el-menu-item
-					>
+					> -->
 				</el-submenu>
 				<el-menu-item index="2">
 					<i class="el-icon-menu"></i>
