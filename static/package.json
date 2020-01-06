@@ -43,6 +43,7 @@
     "webpack-dev-server": "^3.3.1"
   },
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
     "@vue/eslint-config-prettier": "^6.0.0",
     "axios": "^0.18.0",
     "less-loader": "^5.0.0",
