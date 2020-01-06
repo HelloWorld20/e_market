@@ -8,7 +8,21 @@
 				{{ getStatus(data.status) }}
 			</div>
 		</div>
-		<div class="myorder-item-img"></div>
+		<div class="myorder-item-goods">
+			<div
+				class="myorder-item-goods-img"
+				v-for="item in data.goods"
+				:key="item.goodsId"
+			>
+				<van-image
+					style="width: .8rem; height: .8rem;"
+					:src="getImages(item.goodsImage)"
+				>
+					<template v-slot:error>加载失败</template>
+				</van-image>
+				<div style="font-size: .12rem; text-align: center; line-height: .1rem">{{ item.goodsName }}</div>
+			</div>
+		</div>
 		<div class="myorder-item-info">
 			共{{ data.goods.length }}份商品&nbsp;&nbsp;实付￥{{
 				data.orderPriseAll
@@ -19,12 +33,19 @@
 
 <script>
 import moment from 'moment';
+import { Image } from 'vant';
 export default {
 	props: {
 		data: {
 			type: Object,
 			require: true
 		}
+	},
+	components: {
+		[Image.name]: Image
+	},
+	mounted() {
+		console.log(this.data);
 	},
 	methods: {
 		dateFormat(timestamp) {
@@ -38,6 +59,9 @@ export default {
 				all: '所有'
 			};
 			return map[status];
+		},
+		getImages(imageArr) {
+			return `${window.location.protocol}//${imageArr[0]}`;
 		}
 	}
 };
